@@ -1976,8 +1976,9 @@ function renderStocks(){
 }
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  // Désactive tous les anciens service workers pour forcer le rechargement
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    regs.forEach(reg => reg.unregister());
   });
 }
 
