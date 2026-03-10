@@ -1414,8 +1414,7 @@ function exportExcel(){
     const burgerNames = BURGERS.map(b => b.name);
     const counts = {};
     burgerNames.forEach(n => counts[n] = 0);
-    counts['Steak+Frites'] = 0;
-    let totalBurgers = 0, totalFrites = 0;
+    let totalBurgers = 0, totalFrites = 0, totalDouble = 0;
 
     for(const order of paidOrders){
       for(const item of order.items){
@@ -1423,8 +1422,9 @@ function exportExcel(){
           counts[item.burger.name]++;
           totalBurgers++;
           if(item.frite) totalFrites++;
+          if((item.supplements||[]).some(sup => sup.id === 'double' || sup.name === 'Double steak & fromage')) totalDouble++;
         } else if(item.type === 'steakfrites'){
-          counts['Steak+Frites']++;
+          counts['Le Steak Haché']++;
           totalBurgers++;
           totalFrites++;
         } else if(item.type === 'fries'){
@@ -1435,9 +1435,10 @@ function exportExcel(){
     const statsRow = {
       date: today,
       counts,
-      burgerNames: [...burgerNames, 'Steak+Frites'],
+      burgerNames,
       total_burgers: totalBurgers,
       total_frites: totalFrites,
+      total_double: totalDouble,
       ca_ttc: fmtNum(state.dailyRevenue),
       ca_ht:  fmtNum(state.dailyRevenue / 1.10),
       tva:    fmtNum(state.dailyRevenue - state.dailyRevenue / 1.10)
