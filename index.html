@@ -1444,6 +1444,8 @@ function exportExcel(){
       tva:    fmtNum(state.dailyRevenue - state.dailyRevenue / 1.10)
     };
 
+    alert('DEBUG: total_double=' + totalDouble + ' | ex premier supplément: ' + JSON.stringify(paidOrders[0]?.items?.find(i=>i.type==='burger')?.supplements));
+
     fetch(url, {
       method: 'POST',
       mode: 'no-cors',
