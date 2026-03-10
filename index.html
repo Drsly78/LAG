@@ -550,7 +550,8 @@ const BURGERS = [
   { id:"americain",  name:"L'Américain",   price:12,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
   { id:"poulet",     name:"Le Poulet",     price:12,  cat:"Burger", ing:["bun","poulet","cheddar"] },
   { id:"winter",     name:"Le Winter",     price:12,  cat:"Burger", ing:["bun","boeuf","raclette"] },
-  { id:"hache",      name:"Le Steak Haché", price:5,   cat:"Burger", ing:["boeuf"] }
+  { id:"cheese",     name:"Le Cheese",     price:11,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
+  { id:"hache",      name:"Le Steak Haché", price:5,  cat:"Burger", ing:["boeuf"] }
 ];
 
 // Garnitures retirables par burger — groupées par catégorie
@@ -594,6 +595,11 @@ const BURGER_CUSTOMS = {
     fromage:   ["Raclette"],
     sauces:    [],
     garnitures:["Oignons rouges","Bacon","Mesclun"]
+  },
+  cheese: {
+    fromage:   ["Cheddar"],
+    sauces:    ["Sauce burger"],
+    garnitures:["Oignons rouges","Cornichons","Tomate","Mesclun"]
   }
 };
 
@@ -985,6 +991,46 @@ function toggleOrderLoyalty(id){
   saveState();
   render();
 }
+function playCashSound(){
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const t = ctx.currentTime;
+
+    // Ding aigu
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.connect(gain1); gain1.connect(ctx.destination);
+    osc1.frequency.setValueAtTime(1200, t);
+    osc1.frequency.exponentialRampToValueAtTime(900, t + 0.08);
+    gain1.gain.setValueAtTime(0.4, t);
+    gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+    osc1.start(t); osc1.stop(t + 0.18);
+
+    // Ding grave décalé
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.connect(gain2); gain2.connect(ctx.destination);
+    osc2.frequency.setValueAtTime(800, t + 0.1);
+    osc2.frequency.exponentialRampToValueAtTime(600, t + 0.22);
+    gain2.gain.setValueAtTime(0.35, t + 0.1);
+    gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+    osc2.start(t + 0.1); osc2.stop(t + 0.35);
+
+    // Bruit mécanique (tiroir caisse)
+    const bufSize = ctx.sampleRate * 0.12;
+    const buf = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    for(let i = 0; i < bufSize; i++) data[i] = (Math.random()*2-1) * (1 - i/bufSize) * 0.18;
+    const noise = ctx.createBufferSource();
+    noise.buffer = buf;
+    const noiseGain = ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.25, t + 0.05);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.17);
+    noise.connect(noiseGain); noiseGain.connect(ctx.destination);
+    noise.start(t + 0.05);
+  } catch(e) {}
+}
+
 function payOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
@@ -993,6 +1039,7 @@ function payOrder(id){
   state.dailyRevenue += order.total;
   saveState();
   syncOrderToSheets(order);
+  playCashSound();
   render();
 }
 function cancelOrder(id){
