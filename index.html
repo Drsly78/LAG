@@ -1407,25 +1407,29 @@ function exportExcel(){
       };
     });
 
-    // Onglet unique : synthèse journalière — uniquement commandes réglées
-    const today = orders[0]?.date || new Date().toLocaleDateString('fr-FR');
-    const paidOrders = orders.filter(o => o.status === 'paye');
+    // Synthèse journalière — uniquement commandes réglées (= ce qui est dans le CA)
+    const today = new Date().toLocaleDateString('fr-FR');
+    const paidOrders = state.orders.filter(o => o.status === 'paye');
+
     const burgerNames = BURGERS.map(b => b.name);
     const counts = {};
     burgerNames.forEach(n => counts[n] = 0);
     counts['Steak+Frites'] = 0;
-    let totalBurgers = 0, totalFrites = 0, totalBoissons = 0;
+    let totalBurgers = 0, totalFrites = 0;
+
     for(const order of paidOrders){
       for(const item of order.items){
         if(item.type === 'burger'){
           counts[item.burger.name]++;
           totalBurgers++;
           if(item.frite) totalFrites++;
-          if(item.drink) totalBoissons++;
+        } else if(item.type === 'steakfrites'){
+          counts['Steak+Frites']++;
+          totalBurgers++;
+          totalFrites++;
+        } else if(item.type === 'fries'){
+          totalFrites++;
         }
-        if(item.type === 'steakfrites'){ counts['Steak+Frites']++; totalBurgers++; totalFrites++; }
-        if(item.type === 'fries') totalFrites++;
-        if(item.type === 'drink') totalBoissons++;
       }
     }
     const statsRow = {
@@ -1434,7 +1438,6 @@ function exportExcel(){
       burgerNames: [...burgerNames, 'Steak+Frites'],
       total_burgers: totalBurgers,
       total_frites: totalFrites,
-      total_boissons: totalBoissons,
       ca_ttc: fmtNum(state.dailyRevenue),
       ca_ht:  fmtNum(state.dailyRevenue / 1.10),
       tva:    fmtNum(state.dailyRevenue - state.dailyRevenue / 1.10)
