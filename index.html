@@ -890,7 +890,13 @@ function addBurgerItem(){
   state.editingItemKey = null;
   state.step = "burger";
   render();
-  requestAnimationFrame(() => { document.getElementById("content").scrollTop = 0; });
+  const scrollTop = () => {
+    const c = document.getElementById("content");
+    if(c) c.scrollTop = 0;
+    window.scrollTo(0, 0);
+  };
+  requestAnimationFrame(() => requestAnimationFrame(scrollTop));
+  setTimeout(scrollTop, 50);
 }
 function addSoloFries(id){
   const fries = SOLO_FRIES.find(x => x.id === id);
@@ -960,7 +966,13 @@ function confirmOrder(slot){
   state.step = "burger";
   saveState();
   switchTab("caisse");
-  requestAnimationFrame(() => { document.getElementById("content").scrollTop = 0; });
+  const scrollTop = () => {
+    const c = document.getElementById("content");
+    if(c) c.scrollTop = 0;
+    window.scrollTo(0, 0);
+  };
+  requestAnimationFrame(() => requestAnimationFrame(scrollTop));
+  setTimeout(scrollTop, 50);
 }
 function toggleOrderLoyalty(id){
   const order = state.orders.find(o => o.id === id);
@@ -1362,10 +1374,10 @@ function exportExcel(){
   const url = getSheetsUrl();
 
   if(url){
-    // Export vers Google Sheets : envoi de toutes les commandes
     const orders = state.orders.filter(o => o.status !== 'annule');
     if(orders.length === 0){ alert("Aucune commande à exporter."); return; }
 
+    // Onglet 1 : détail des commandes
     const rows = orders.map(order => {
       const items = order.items.map(i => {
         if(i.type === 'steakfrites') return 'Steak+Frites';
@@ -1395,14 +1407,46 @@ function exportExcel(){
       };
     });
 
+    // Onglet unique : synthèse journalière
+    const today = orders[0]?.date || new Date().toLocaleDateString('fr-FR');
+    const burgerNames = BURGERS.map(b => b.name);
+    const counts = {};
+    burgerNames.forEach(n => counts[n] = 0);
+    counts['Steak+Frites'] = 0;
+    let totalBurgers = 0, totalFrites = 0, totalBoissons = 0;
+    for(const order of orders){
+      for(const item of order.items){
+        if(item.type === 'burger'){
+          counts[item.burger.name]++;
+          totalBurgers++;
+          if(item.frite) totalFrites++;
+          if(item.drink) totalBoissons++;
+        }
+        if(item.type === 'steakfrites'){ counts['Steak+Frites']++; totalBurgers++; totalFrites++; }
+        if(item.type === 'fries') totalFrites++;
+        if(item.type === 'drink') totalBoissons++;
+      }
+    }
+    const statsRow = {
+      date: today,
+      counts,
+      burgerNames: [...burgerNames, 'Steak+Frites'],
+      total_burgers: totalBurgers,
+      total_frites: totalFrites,
+      total_boissons: totalBoissons,
+      ca_ttc: fmtNum(state.dailyRevenue),
+      ca_ht:  fmtNum(state.dailyRevenue / 1.10),
+      tva:    fmtNum(state.dailyRevenue - state.dailyRevenue / 1.10)
+    };
+
     fetch(url, {
       method: 'POST',
       mode: 'no-cors',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({bulk: true, rows})
+      body: JSON.stringify({stats: statsRow})
     }).catch(() => {});
 
-    alert(`✓ ${rows.length} commande${rows.length>1?'s':''} envoyée${rows.length>1?'s':''} vers Google Sheets.`);
+    alert(`✓ Synthèse du ${today} envoyée vers Google Sheets.`);
     return;
   }
 
