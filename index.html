@@ -73,14 +73,16 @@ backdrop-filter:blur(10px);
 border-bottom:1px solid var(–line);
 }
 .tab-btn{
-flex:1;border:none;cursor:pointer;padding:13px 6px;
-border-radius:14px;font-size:13px;color:var(–text);
+flex:1;border:none;cursor:pointer;padding:10px 4px;
+border-radius:14px;font-size:11px;color:var(–text);
 background:linear-gradient(180deg,var(–panel),var(–panel-2));
 border:1px solid var(–line);
 transition:.18s ease;
 text-align:center;
 font-weight:bold;
+display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.2;
 }
+.tab-btn .tab-icon{font-size:18px;line-height:1}
 .tab-btn.active{
 color:#ffffff;
 background:linear-gradient(180deg,var(–gold-2),var(–gold));
