@@ -1407,14 +1407,15 @@ function exportExcel(){
       };
     });
 
-    // Onglet unique : synthèse journalière
+    // Onglet unique : synthèse journalière — uniquement commandes réglées
     const today = orders[0]?.date || new Date().toLocaleDateString('fr-FR');
+    const paidOrders = orders.filter(o => o.status === 'paye');
     const burgerNames = BURGERS.map(b => b.name);
     const counts = {};
     burgerNames.forEach(n => counts[n] = 0);
     counts['Steak+Frites'] = 0;
     let totalBurgers = 0, totalFrites = 0, totalBoissons = 0;
-    for(const order of orders){
+    for(const order of paidOrders){
       for(const item of order.items){
         if(item.type === 'burger'){
           counts[item.burger.name]++;
