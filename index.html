@@ -276,7 +276,7 @@ background:linear-gradient(180deg,var(–gold-2),var(–gold));color:white;
 border-radius:12px;padding:5px 12px;font-weight:bold;font-size:18px;
 }
 .order-total{font-size:22px;font-weight:bold;color:var(–green)}
-.order-actions{display:flex;gap:8px;margin-top:12px}
+.order-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .history-label{font-size:13px;color:var(–text-soft);letter-spacing:2px;margin:22px 0 10px}
 .history-item{
 display:flex;justify-content:space-between;align-items:center;gap:10px;
@@ -469,10 +469,10 @@ box-shadow:0 4px 16px rgba(31,157,97,.3);
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('caisse')" id="tab-caisse">🧾 Caisse</button>
-    <button class="tab-btn" onclick="switchTab('encours')" id="tab-encours">⏳ En cours</button>
-    <button class="tab-btn" onclick="switchTab('historique')" id="tab-historique">📋 Historique</button>
-    <button class="tab-btn" onclick="switchTab('stocks')" id="tab-stocks">📦 Stocks</button>
+    <button class="tab-btn active" onclick="switchTab('caisse')" id="tab-caisse"><span class="tab-icon">🧾</span><span>Caisse</span></button>
+    <button class="tab-btn" onclick="switchTab('encours')" id="tab-encours"><span class="tab-icon">⏳</span><span>En cours</span></button>
+    <button class="tab-btn" onclick="switchTab('historique')" id="tab-historique"><span class="tab-icon">📋</span><span>Historique</span></button>
+    <button class="tab-btn" onclick="switchTab('stocks')" id="tab-stocks"><span class="tab-icon">📦</span><span>Stocks</span></button>
   </div>
 
   <div class="content" id="content"></div>
@@ -1521,7 +1521,12 @@ function exportExcel(){
 function render(){
   document.getElementById("header-ca").textContent = fmt(state.dailyRevenue);
   const encours = state.orders.filter(o => o.status === "encours");
-  document.getElementById("tab-encours").textContent = encours.length ? `⏳ En cours (${encours.length})` : "⏳ En cours";
+  const encoursTab = document.getElementById("tab-encours");
+  if(encours.length){
+    encoursTab.innerHTML = `<span class="tab-icon">⏳</span><span>En cours (${encours.length})</span>`;
+  } else {
+    encoursTab.innerHTML = `<span class="tab-icon">⏳</span><span>En cours</span>`;
+  }
 
   const content = document.getElementById("content");
   if(state.tab === "caisse"){
