@@ -44,8 +44,12 @@
   .app{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
+    /* descend jusqu'au bord physique de l'écran, sous la barre de gestes */
+    height:100%;
+    padding-bottom:env(safe-area-inset-bottom);
     max-width:640px;margin:0 auto;
     display:flex;flex-direction:column;overflow:hidden;
+    background:linear-gradient(180deg,#0c0e13 0%, #0a0c10 100%);
   }
 
   /* HEADER */
@@ -106,7 +110,7 @@
     box-shadow:0 8px 22px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.35);
   }
   .tab-btn.active .tab-icon{transform:scale(1.08)}
-  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:24px}
   .pad{padding:16px}
   .section-title{
     font-size:11px;font-weight:bold;letter-spacing:2.4px;
