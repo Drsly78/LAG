@@ -721,6 +721,15 @@ const BURGERS = [
 
 const MOMENT_BURGER_IDS = BURGERS.filter(b => b.group === "moment").map(b => b.id);
 
+// CATALOGUE FIGÉ POUR L'EXPORT — ordre immuable de TOUS les burgers possibles.
+// Ne JAMAIS réordonner ni retirer une entrée : l'export et la feuille Suivi en dépendent.
+// Ajouter un nouveau burger = l'ajouter À LA FIN de cette liste (+ une colonne en fin de Suivi).
+const EXPORT_BURGER_ORDER = [
+  "L'Original","Le BBQ","Le Dragon","Le Montagnard","Le Myko","L'Américain",
+  "Le Poulet","Le Cheese","Le Steak Haché",
+  "Le Bleu","Le Winter","Le Summer","Le Roq","Le Normand","Le Noël"
+];
+
 // Ingrédients propres à un burger : visibles en stock seulement si le burger est actif
 const INGREDIENT_BURGER_LINK = {
   raclette:   "winter",
@@ -884,7 +893,15 @@ const STORAGE_KEYS = {
 };
 
 // ---- GOOGLE SHEETS SYNC ----
-const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE/exec"; // URL Apps Script par défaut
+const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz2zsMnTIl3BJD293Z5KifGL39tezZuObHLAQv3CTIzG2w5M9rbQnXk27EWyusdPffZ/exec"; // URL Apps Script par défaut
+// Migration : si une ancienne URL est stockée sur l'appareil, on la remplace par la nouvelle
+(function migrateSheetsUrl(){
+  try{
+    const OLD = "AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE";
+    const stored = localStorage.getItem(STORAGE_KEYS.sheetsUrl) || "";
+    if(stored.includes(OLD)) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL);
+  }catch(e){}
+})();
 function getSheetsUrl(){ return localStorage.getItem(STORAGE_KEYS.sheetsUrl) || DEFAULT_SHEETS_URL; }
 function setSheetsUrl(url){ localStorage.setItem(STORAGE_KEYS.sheetsUrl, url.trim()); }
 
@@ -2280,7 +2297,7 @@ function exportExcel(){
     const today = new Date().toLocaleDateString('fr-FR');
     const paidOrders = state.orders.filter(o => o.status === 'paye');
 
-    const burgerNames = BURGERS.map(b => b.name);
+    const burgerNames = EXPORT_BURGER_ORDER;
     const counts = {};
     burgerNames.forEach(n => counts[n] = 0);
     let totalBurgers = 0, totalFrites = 0, totalDouble = 0;
@@ -2288,7 +2305,7 @@ function exportExcel(){
     for(const order of paidOrders){
       for(const item of order.items){
         if(item.type === 'burger'){
-          counts[item.burger.name]++;
+          if(item.burger.name in counts) counts[item.burger.name]++;
           totalBurgers++;
           if(item.frite) totalFrites++;
           if((item.supplements||[]).some(sup => sup.id === 'double' || sup.name === 'Double steak & fromage')) totalDouble++;
