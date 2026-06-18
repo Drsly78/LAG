@@ -893,13 +893,16 @@ const STORAGE_KEYS = {
 };
 
 // ---- GOOGLE SHEETS SYNC ----
-const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz2zsMnTIl3BJD293Z5KifGL39tezZuObHLAQv3CTIzG2w5M9rbQnXk27EWyusdPffZ/exec"; // URL Apps Script par défaut
+const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwHQV1Q2Svv3zBZ6IXyARVD4SIXxpqfDOaiNxGdo0a52LN5yWBOv5u_dDyd3PSlL1h4/exec"; // URL Apps Script par défaut
 // Migration : si une ancienne URL est stockée sur l'appareil, on la remplace par la nouvelle
 (function migrateSheetsUrl(){
   try{
-    const OLD = "AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE";
+    const OLD_IDS = [
+      "AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE",
+      "AKfycbz2zsMnTIl3BJD293Z5KifGL39tezZuObHLAQv3CTIzG2w5M9rbQnXk27EWyusdPffZ"
+    ];
     const stored = localStorage.getItem(STORAGE_KEYS.sheetsUrl) || "";
-    if(stored.includes(OLD)) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL);
+    if(OLD_IDS.some(id => stored.includes(id))) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL);
   }catch(e){}
 })();
 function getSheetsUrl(){ return localStorage.getItem(STORAGE_KEYS.sheetsUrl) || DEFAULT_SHEETS_URL; }
