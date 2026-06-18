@@ -41,7 +41,12 @@
     background-attachment:fixed;
   }
   button,input{font-family:var(--font)}
-  .app{max-width:640px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden}
+  .app{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    max-width:640px;margin:0 auto;
+    display:flex;flex-direction:column;overflow:hidden;
+  }
 
   /* HEADER */
   .header{
