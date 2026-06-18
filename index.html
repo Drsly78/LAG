@@ -4,45 +4,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="L'Arrêt Gourmand">
-<meta name="theme-color" content="#fff7ee">
+<meta name="theme-color" content="#0c0e13">
 <link rel="manifest" href="manifest.json">
-<title>🍔 L'Arrêt Gourmand</title>
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<title>🍔 L'Arrêt Gourmand v2</title>
 <style>
   :root{
-    --bg:#fffaf4;
-    --bg-soft:#fff4e7;
-    --panel:#ffffff;
-    --panel-2:#fff8ef;
-    --line:#f1d7b7;
-    --gold:#d77a11;
-    --gold-2:#f3a43a;
-    --text:#111111;
-    --text-soft:#3d3d3d;
-    --green:#1f9d61;
-    --red:#d94f4f;
-    --orange:#e58b21;
-    --shadow:0 10px 26px rgba(168,108,36,.10);
+    --bg:#0c0e13;
+    --bg-soft:#13161e;
+    --panel:#191d27;
+    --panel-2:#20242f;
+    --line:#2c313d;
+    --line-soft:#232732;
+    --gold:#f3a43a;
+    --gold-2:#ffc56b;
+    --text:#f4f6fa;
+    --text-soft:#9aa3b2;
+    --green:#34d399;
+    --red:#f87171;
+    --orange:#fb9b3a;
+    --shadow:0 14px 40px rgba(0,0,0,.45);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
+  html,body{height:100%;overflow:hidden;overscroll-behavior:none}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
-    min-height:100vh;
-    font-family:Georgia,serif;
+    font-family:var(--font);
     color:var(--text);
     background:
-      radial-gradient(circle at top left, rgba(243,164,58,.14), transparent 24%),
-      linear-gradient(180deg,#fffdf9 0%, #fff6ec 100%);
+      radial-gradient(circle at top left, rgba(243,164,58,.10), transparent 32%),
+      radial-gradient(circle at bottom right, rgba(52,211,153,.05), transparent 36%),
+      linear-gradient(180deg,#0c0e13 0%, #0a0c10 100%);
+    background-attachment:fixed;
   }
-  button,input{font-family:Georgia,serif}
-  .app{max-width:640px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+  button,input{font-family:var(--font)}
+  .app{max-width:640px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden}
 
   /* HEADER */
   .header{
-    position:sticky;top:0;z-index:100;
+    flex-shrink:0;z-index:100;
     padding:max(14px, env(safe-area-inset-top)) 16px 14px;
     display:flex;align-items:center;justify-content:space-between;gap:16px;
-    background:rgba(255,250,244,.94);
+    background:rgba(12,14,19,.85);
     backdrop-filter:blur(16px);
     border-bottom:1px solid var(--line);
     box-shadow:var(--shadow);
@@ -50,14 +56,18 @@
   .header-center{flex:1;text-align:center}
   .header-title{font-size:24px;font-weight:bold;letter-spacing:1px;color:var(--gold)}
   .header-right{
+    position:relative;overflow:hidden;
     background:linear-gradient(180deg,var(--panel),var(--panel-2));
     border:1px solid var(--line);
     border-radius:16px;
-    padding:10px 12px;
+    padding:10px 14px;
     min-width:132px;
     cursor:pointer;
-    transition:.15s ease;
+    transition:transform .12s ease, border-color .18s ease, box-shadow .18s ease;
+    box-shadow:0 4px 14px rgba(0,0,0,.30);
   }
+  .header-right::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(52,211,153,.4),transparent)}
+  .header-right:hover{border-color:rgba(52,211,153,.35);box-shadow:0 6px 18px rgba(0,0,0,.38)}
   .header-right:active{transform:scale(.97)}
   .header-ca-label{font-size:10px;color:var(--text-soft);text-align:right;letter-spacing:1.6px}
   .header-ca-amount{font-size:22px;font-weight:bold;color:var(--green);text-align:right;margin-top:2px}
@@ -65,51 +75,73 @@
 
   /* TABS */
   .tabs{
-    position:sticky;top:78px;z-index:99;
+    flex-shrink:0;z-index:99;
     display:flex;gap:8px;padding:10px 12px;
-    background:rgba(255,247,238,.95);
+    background:rgba(12,14,19,.82);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
   .tab-btn{
-    flex:1;border:none;cursor:pointer;padding:10px 4px;
-    border-radius:14px;font-size:11px;color:var(--text);
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    flex:1;cursor:pointer;padding:11px 4px;
+    border-radius:14px;font-size:11px;color:var(--text-soft);
+    background:rgba(255,255,255,.03);
     border:1px solid var(--line);
-    transition:.18s ease;
+    transition:transform .12s ease, background .18s ease, color .18s ease, box-shadow .18s ease, border-color .18s ease;
     text-align:center;
-    font-weight:bold;
+    font-weight:700;
     display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.2;
   }
-  .tab-btn .tab-icon{font-size:18px;line-height:1}
+  .tab-btn:hover{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-soft)}
+  .tab-btn:active{transform:scale(.96)}
+  .tab-btn .tab-icon{font-size:18px;line-height:1;transition:transform .18s ease}
   .tab-btn.active{
-    color:#ffffff;
+    color:#1a1206;
     background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    box-shadow:0 10px 20px rgba(215,122,17,.18);
+    border-color:rgba(243,164,58,.6);
+    box-shadow:0 8px 22px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.35);
   }
-  .content{flex:1;overflow-y:auto;padding-bottom:24px}
+  .tab-btn.active .tab-icon{transform:scale(1.08)}
+  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:24px}
   .pad{padding:16px}
   .section-title{
     font-size:11px;font-weight:bold;letter-spacing:2.4px;
     color:var(--text-soft);text-transform:uppercase;margin:16px 0 10px;
     padding-bottom:6px;border-bottom:1px solid var(--line);
   }
-  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media(max-width:360px){
+    .grid-2{grid-template-columns:1fr 1fr}
+    .grid-4{grid-template-columns:1fr 1fr}
+  }
+  @media(min-width:600px){
+    .grid-2{grid-template-columns:repeat(4,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+  }
+  @media(min-width:900px){
+    .grid-2{grid-template-columns:repeat(5,1fr)}
+  }
   .burger-card,.option-card,.mini-card{
-    width:100%;cursor:pointer;position:relative;
+    width:100%;cursor:pointer;position:relative;overflow:hidden;
     background:linear-gradient(180deg,var(--panel),var(--panel-2));
     border:1px solid var(--line);
-    border-radius:18px;
+    border-radius:16px;
     box-shadow:var(--shadow);
-    transition:.18s ease;
+    transition:transform .14s cubic-bezier(.2,.8,.2,1), border-color .18s ease, box-shadow .18s ease;
     text-align:center;
   }
-  .burger-card{padding:18px 12px;min-height:94px}
-  .option-card{padding:12px}
-  .mini-card{padding:16px 12px}
+  .burger-card::before,.option-card::before,.mini-card::before{
+    content:"";position:absolute;inset:0 0 auto 0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);
+  }
+  .burger-card:hover,.mini-card:hover{border-color:rgba(243,164,58,.45);box-shadow:0 12px 28px rgba(0,0,0,.40), 0 0 0 1px rgba(243,164,58,.12)}
+  .option-card:hover{border-color:rgba(243,164,58,.40)}
+  .burger-card{padding:12px 8px;min-height:70px}
+  .option-card{padding:10px 6px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .mini-card{padding:12px 8px;min-height:70px}
   .combo-card{
     width:100%;cursor:pointer;position:relative;
-    background:linear-gradient(135deg,#fff8e1,#fff0cc);
+    background:linear-gradient(135deg,#241a0c,#1c1408);
     border:2px solid #e8c46a;
     border-radius:18px;
     box-shadow:var(--shadow);
@@ -123,26 +155,27 @@
   .combo-card-inner{flex:1;text-align:left}
   .combo-card-badge{
     background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    color:white;border-radius:12px;padding:5px 12px;
+    color:#1a1206;border-radius:12px;padding:5px 12px;
     font-size:12px;font-weight:bold;letter-spacing:1px;white-space:nowrap;
   }
-  .burger-card:active,.option-card:active,.mini-card:active,.combo-card:active,.btn:active,.remove-btn:active,.stock-step:active,.stock-save:active{transform:scale(.98)}
+  .burger-card:active,.option-card:active,.mini-card:active,.combo-card:active{transform:translateY(1px) scale(.97)}
+  .remove-btn:active{transform:scale(.90)}
   .burger-card.unavailable,.option-card.unavailable,.mini-card.unavailable{
-    opacity:.45;cursor:not-allowed;background:#f6efe7;border-color:#eadbc8;
+    opacity:.40;cursor:not-allowed;background:var(--bg-soft);border-color:var(--line-soft);
   }
   .burger-card-name,.mini-name{font-size:15px;font-weight:bold;color:var(--text);line-height:1.2;text-align:center}
   .burger-card-price,.mini-price{margin-top:6px;font-size:14px;font-weight:bold;color:var(--gold);text-align:center}
   .mini-sub{font-size:12px;color:var(--text-soft);margin-top:4px;text-align:center}
   .epuise-badge{
     position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:1px;
-    padding:3px 6px;border-radius:999px;background:#fce0e0;color:var(--red);
+    padding:3px 6px;border-radius:999px;background:rgba(248,113,113,.15);color:var(--red);
   }
 
   /* CUISSON COLORS */
-  .cuisson-bleu{background:linear-gradient(180deg,#dde8ff,#c0d0f0)!important;border-color:#7ea0e0!important}
-  .cuisson-saignant{background:linear-gradient(180deg,#d8f5e8,#b8e8d0)!important;border-color:#5cbb8a!important}
-  .cuisson-apoint{background:linear-gradient(180deg,#fff0d8,#ffe0b0)!important;border-color:#e8a040!important}
-  .cuisson-biencuit{background:linear-gradient(180deg,#ffe0d8,#ffc8b8)!important;border-color:#e05030!important}
+  .cuisson-bleu{background:linear-gradient(180deg,#16213a,#101830)!important;border-color:rgba(126,160,224,.50)!important}
+  .cuisson-saignant{background:linear-gradient(180deg,#0f2a1f,#0b2018)!important;border-color:rgba(52,211,153,.45)!important}
+  .cuisson-apoint{background:linear-gradient(180deg,#3a2a12,#2c2010)!important;border-color:rgba(243,164,58,.55)!important}
+  .cuisson-biencuit{background:linear-gradient(180deg,#3a1a12,#2c140c)!important;border-color:rgba(248,113,113,.55)!important}
   .cuisson-bleu.selected{background:linear-gradient(180deg,#4a70d0,#2a50b0)!important;color:white!important}
   .cuisson-saignant.selected{background:linear-gradient(180deg,#2db870,#1a9058)!important;color:white!important}
   .cuisson-apoint.selected{background:linear-gradient(180deg,#e89030,#c06010)!important;color:white!important}
@@ -164,7 +197,7 @@
     box-shadow:var(--shadow);
   }
   .ticket,.order-card,.recap,.stock-card,.summary-card,.history-card{padding:16px}
-  .ticket{margin-top:16px;border-color:#ecc791}
+  .ticket{margin-top:16px;border-color:rgba(243,164,58,.40)}
   .ticket-title{font-size:13px;font-weight:bold;color:var(--text);letter-spacing:1.3px;margin-bottom:10px}
   .ticket-item,.order-item,.history-order-row{
     display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
@@ -175,75 +208,82 @@
   .ticket-item-sub,.order-item-sub,.history-order-sub{font-size:12px;color:var(--text-soft);margin-top:2px}
   .ticket-item-price,.history-order-total{font-size:15px;color:var(--gold);font-weight:bold;min-width:60px;text-align:right}
   .ticket-item-edit{
-    border:none;background:#fff0d8;color:var(--gold);
+    border:none;background:rgba(243,164,58,.14);color:var(--gold);
     border-radius:10px;padding:4px 10px;font-size:11px;
     cursor:pointer;white-space:nowrap;margin-top:4px;
-    border:1px solid #ecc791;
+    border:1px solid rgba(243,164,58,.40);
   }
   .remove-btn{
     border:none;width:30px;height:30px;border-radius:10px;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
-    background:#fce8e8;color:var(--red);font-size:18px;
+    background:rgba(248,113,113,.15);color:var(--red);font-size:18px;
   }
   .ticket-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px}
   .ticket-count{font-size:13px;color:var(--text-soft)}
   .ticket-total{font-size:26px;font-weight:bold;color:var(--green);margin-top:2px}
   /* ── BOUTONS D'ACTION ── */
   .btn{
-    border:none;cursor:pointer;
-    border-radius:16px;
-    padding:14px 20px;
-    font-size:14px;font-weight:bold;
-    font-family:Georgia,serif;
-    letter-spacing:.3px;
-    transition:.15s ease;
-    box-shadow:0 3px 10px rgba(0,0,0,.12);
+    position:relative;
+    border:1px solid transparent;cursor:pointer;
+    border-radius:14px;
+    padding:15px 20px;
+    font-size:14px;font-weight:700;
+    font-family:var(--font);
+    letter-spacing:.2px;
+    transition:transform .12s cubic-bezier(.2,.8,.2,1), box-shadow .18s ease, filter .18s ease, background .18s ease;
+    box-shadow:0 2px 8px rgba(0,0,0,.30);
   }
-  .btn-green{
-    background:linear-gradient(180deg,#3ecf80,#1f9d61);
-    color:white;
-    box-shadow:0 4px 16px rgba(31,157,97,.28);
+  .btn:active{transform:translateY(1px) scale(.985)}
+  .btn-green,.btn-pay,.btn-primary,.btn-export{position:relative;overflow:hidden}
+  .btn-green::before,.btn-pay::before,.btn-primary::before,.btn-export::before{
+    content:"";position:absolute;inset:0 0 auto 0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
   }
-  .btn-pay{
-    flex:2;
-    background:linear-gradient(180deg,#3ecf80,#1f9d61);
-    color:white;
-    box-shadow:0 4px 16px rgba(31,157,97,.28);
+  .btn-green,.btn-pay{
+    background:linear-gradient(180deg,#34d399,#0f9d63);
+    color:#04241a;
+    border-color:rgba(52,211,153,.5);
+    box-shadow:0 6px 20px rgba(16,157,99,.35), inset 0 1px 0 rgba(255,255,255,.18);
+    text-shadow:0 1px 0 rgba(255,255,255,.18);
   }
-  .btn-primary{
+  .btn-green:hover,.btn-pay:hover{filter:brightness(1.06);box-shadow:0 8px 26px rgba(16,157,99,.45), inset 0 1px 0 rgba(255,255,255,.22)}
+  .btn-green:active,.btn-pay:active{box-shadow:0 2px 10px rgba(16,157,99,.30), inset 0 1px 0 rgba(255,255,255,.12)}
+  .btn-pay{flex:2}
+  .btn-primary,.btn-export{
     width:100%;
-    background:linear-gradient(180deg,#5ba8f5,#2c6fba);
-    color:white;
-    box-shadow:0 4px 16px rgba(44,111,186,.28);
+    background:linear-gradient(180deg,#4d9bf0,#2566ad);
+    color:#fff;
+    border-color:rgba(77,155,240,.5);
+    box-shadow:0 6px 20px rgba(37,102,173,.38), inset 0 1px 0 rgba(255,255,255,.16);
   }
+  .btn-primary:hover,.btn-export:hover{filter:brightness(1.06);box-shadow:0 8px 26px rgba(37,102,173,.48), inset 0 1px 0 rgba(255,255,255,.2)}
+  .btn-primary:active,.btn-export:active{box-shadow:0 2px 10px rgba(37,102,173,.30), inset 0 1px 0 rgba(255,255,255,.1)}
+  .btn-export{margin-top:10px}
   .btn-cancel{
     flex:1;
-    background:linear-gradient(180deg,#fff5f5,#fce8e8);
+    background:rgba(248,113,113,.10);
     color:var(--red);
-    border:1px solid #f1c7c7;
+    border:1px solid rgba(248,113,113,.32);
     box-shadow:none;
   }
+  .btn-cancel:hover{background:rgba(248,113,113,.16);border-color:rgba(248,113,113,.5)}
   .btn-back{
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    background:rgba(255,255,255,.04);
     color:var(--text-soft);
     border:1px solid var(--line);
     box-shadow:none;
-    padding:10px 16px;
+    padding:11px 16px;
     font-size:13px;
   }
+  .btn-back:hover{background:rgba(255,255,255,.08);color:var(--text)}
   .btn-reset{
     width:100%;margin-top:14px;
     background:transparent;
     color:var(--red);
-    border:2px solid #efc3c3;
+    border:1px solid rgba(248,113,113,.32);
     box-shadow:none;
   }
-  .btn-export{
-    width:100%;margin-top:10px;
-    background:linear-gradient(180deg,#5ba8f5,#2c6fba);
-    color:white;
-    box-shadow:0 4px 16px rgba(44,111,186,.25);
-  }
+  .btn-reset:hover{background:rgba(248,113,113,.10);border-color:rgba(248,113,113,.5)}
   /* Police montants */
   .ticket-total,.order-total,.recap-total span:last-child,
   .ticket-item-price,.history-order-total,.ca-total-value,
@@ -254,10 +294,10 @@
   .options-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
   .options-title{font-size:17px;font-weight:bold;color:var(--text)}
   .option-card.selected{
-    background:linear-gradient(180deg,#fff1dc,#ffe6be);
-    border-color:#efc587;
+    background:linear-gradient(180deg,#2c2010,#241a0c);
+    border-color:rgba(243,164,58,.55);
   }
-  .option-card-label{font-size:13px;color:var(--text);text-align:center}
+  .option-card-label{font-size:12px;color:var(--text);text-align:center}
   .option-card.selected .option-card-label{font-weight:bold}
   .option-card-price{margin-top:4px;font-size:13px;color:var(--text-soft);text-align:center}
   .option-card.selected .option-card-price{color:var(--gold)}
@@ -273,7 +313,7 @@
   }
   .order-header,.history-order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
   .order-num,.history-order-num{
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:white;
+    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;
     border-radius:12px;padding:5px 12px;font-weight:bold;font-size:18px;
   }
   .order-total{font-size:22px;font-weight:bold;color:var(--green)}
@@ -281,18 +321,18 @@
   .history-label{font-size:13px;color:var(--text-soft);letter-spacing:2px;margin:22px 0 10px}
   .history-item{
     display:flex;justify-content:space-between;align-items:center;gap:10px;
-    background:#fffdf9;border:1px solid var(--line);
+    background:var(--panel);border:1px solid var(--line);
     border-radius:16px;padding:12px;margin-bottom:8px;opacity:.95;
   }
-  .history-num{background:#fff0d8;color:var(--text);border-radius:10px;padding:4px 10px;font-size:14px;font-weight:bold}
+  .history-num{background:rgba(243,164,58,.14);color:var(--text);border-radius:10px;padding:4px 10px;font-size:14px;font-weight:bold}
   .history-count{font-size:13px;color:var(--text-soft)}
   .history-total{color:var(--green);font-size:16px;font-weight:bold}
   .summary-card{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
   .summary-label{color:var(--text);font-size:13px}
   .summary-value{color:var(--green);font-size:24px;font-weight:bold}
   .alert-box{
-    background:#fff3e6;
-    border:1px solid #f2d4aa;
+    background:rgba(243,164,58,.08);
+    border:1px solid rgba(243,164,58,.28);
     border-radius:18px;padding:14px;margin-bottom:16px;
   }
   .alert-out{color:var(--red);font-size:13px;font-weight:bold}
@@ -307,22 +347,28 @@
   .stock-name.out{color:var(--red)}
   .stock-inline{display:flex;align-items:center;gap:8px}
   .stock-step,.stock-save{
-    border:none;cursor:pointer;border-radius:12px;
-    width:38px;height:38px;font-size:20px;font-weight:bold;
+    cursor:pointer;border-radius:12px;
+    width:38px;height:38px;font-size:20px;font-weight:700;
+    transition:transform .12s ease, background .15s ease, box-shadow .15s ease;
   }
-  .stock-step{background:#fff0db;color:var(--text)}
+  .stock-step:active,.stock-save:active{transform:scale(.92)}
+  .stock-step{background:rgba(243,164,58,.12);color:var(--gold);border:1px solid rgba(243,164,58,.30)}
+  .stock-step:hover{background:rgba(243,164,58,.20)}
   .stock-save{
-    width:auto;padding:0 12px;background:linear-gradient(180deg,var(--gold-2),var(--gold));color:white;font-size:12px;
+    width:auto;padding:0 14px;background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;font-size:12px;border:1px solid rgba(243,164,58,.5);
+    box-shadow:0 4px 14px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.25);
   }
   .edit-input{
     width:74px;height:38px;border-radius:12px;border:1px solid var(--line);
-    background:white;color:var(--text);text-align:center;font-size:16px;
+    background:var(--bg-soft);color:var(--text);text-align:center;font-size:16px;font-weight:700;
+    transition:border-color .15s ease, box-shadow .15s ease;outline:none;
   }
+  .edit-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,164,58,.22)}
 
   /* MODALS */
   .modal-overlay{
     position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;
-    background:rgba(110,80,40,.22);
+    background:rgba(0,0,0,.62);backdrop-filter:blur(4px);
   }
   .modal{
     width:100%;max-width:340px;text-align:center;
@@ -338,8 +384,8 @@
   .modal-cancel,.modal-confirm{
     flex:1;border:none;border-radius:14px;padding:12px;cursor:pointer;font-weight:bold;
   }
-  .modal-cancel{background:#f7ecdf;color:var(--text)}
-  .modal-confirm{background:linear-gradient(180deg,#f17f7f,#d94f4f);color:white}
+  .modal-cancel{background:var(--bg-soft);color:var(--text);border:1px solid var(--line)}
+  .modal-confirm{background:linear-gradient(180deg,#fb7185,#e0484c);color:#2a0808;font-weight:700;border:1px solid rgba(248,113,113,.5);box-shadow:0 4px 16px rgba(224,72,76,.34), inset 0 1px 0 rgba(255,255,255,.2)}
 
   /* CA DETAIL MODAL */
   .ca-detail-row{
@@ -348,8 +394,8 @@
   }
   .ca-detail-row:last-child{border-bottom:none}
   .ca-detail-num{
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:white;
-    border-radius:10px;padding:4px 12px;font-weight:bold;font-size:14px;white-space:nowrap;font-family:Georgia,serif;letter-spacing:.3px;
+    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;
+    border-radius:10px;padding:4px 12px;font-weight:bold;font-size:14px;white-space:nowrap;font-family:var(--font);letter-spacing:.3px;
   }
   .ca-detail-items{flex:1;margin-left:8px}
   .ca-detail-item{font-size:12px;color:var(--text-soft);margin-top:2px}
@@ -357,8 +403,8 @@
   .ca-total-bar{
     display:flex;justify-content:space-between;align-items:center;
     margin-top:14px;padding:14px;
-    background:linear-gradient(135deg,#f0faf5,#dff5e8);
-    border-radius:16px;border:1px solid #b0e0c0;
+    background:linear-gradient(135deg,rgba(52,211,153,.14),rgba(52,211,153,.06));
+    border-radius:16px;border:1px solid rgba(52,211,153,.30);
   }
   .ca-total-label{font-size:13px;font-weight:bold;letter-spacing:1.5px;color:var(--text)}
   .ca-total-value{font-size:24px;font-weight:bold;color:var(--green)}
@@ -366,36 +412,57 @@
     display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;
   }
   .ca-stat{
-    background:#fffdf9;border:1px solid var(--line);border-radius:12px;
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
     padding:12px 8px;text-align:center;
   }
-  .ca-stat-val{font-size:24px;font-weight:bold;color:var(--gold);font-family:Georgia,serif}
+  .ca-stat-val{font-size:24px;font-weight:bold;color:var(--gold);font-family:var(--font)}
   .ca-stat-label{font-size:10px;color:var(--text-soft);letter-spacing:1.2px;margin-top:4px;font-weight:bold;text-transform:uppercase}
   .ca-btn-row{display:flex;gap:10px;margin-top:14px}
   .ca-btn-row button{flex:1;margin-top:0!important;width:auto!important}
 
   /* REMOVAL BUTTONS */
   .removal-btn{
-    width:100%;border:none;cursor:pointer;border-radius:12px;padding:9px 8px;
-    text-align:center;font-size:12px;transition:.15s ease;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
+    width:100%;cursor:pointer;border-radius:12px;padding:10px 8px;
+    text-align:center;font-size:12px;transition:transform .12s ease, background .15s ease, border-color .15s ease;
+    background:rgba(255,255,255,.03);
     border:1px solid var(--line);color:var(--text);
   }
+  .removal-btn:hover{background:rgba(255,255,255,.06);border-color:var(--line-soft)}
+  .removal-btn:active{transform:scale(.97)}
   .removal-btn.removed{
-    background:linear-gradient(180deg,#fce8e8,#f9d0d0);
-    border-color:#e8a0a0;color:var(--red);
+    background:linear-gradient(180deg,#3a1818,#2c1212);
+    border-color:rgba(248,113,113,.40);color:var(--red);
     text-decoration:line-through;
   }
+  .menu-drop-zone{
+    transition:background .15s,border-color .15s;
+    border-radius:14px;
+  }
+  .menu-drop-zone.drag-over{
+    background:rgba(243,164,58,.12) !important;
+    border:2px dashed var(--gold) !important;
+    border-radius:14px;
+  }
+  .draggable-frite{
+    cursor:grab;display:flex;align-items:center;justify-content:space-between;
+    padding:6px 8px;border-radius:10px;border:1px dashed var(--line);
+    background:var(--bg-soft);touch-action:none;user-select:none;
+  }
+  .draggable-frite:active{ cursor:grabbing; }
   .header-agenda-btn{
+    position:relative;overflow:hidden;
     background:linear-gradient(180deg,var(--panel),var(--panel-2));
     border:1px solid var(--line);
     border-radius:14px;
-    padding:8px 10px;
+    padding:9px 12px;
     cursor:pointer;
     display:flex;flex-direction:column;align-items:center;gap:2px;
     font-size:20px;
-    transition:.15s ease;
+    transition:transform .12s ease, border-color .18s ease, box-shadow .18s ease;
+    box-shadow:0 4px 14px rgba(0,0,0,.30);
   }
+  .header-agenda-btn::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(243,164,58,.4),transparent)}
+  .header-agenda-btn:hover{border-color:rgba(243,164,58,.35);box-shadow:0 6px 18px rgba(0,0,0,.38)}
   .header-agenda-btn:active{transform:scale(.96)}
   .header-agenda-label{font-size:9px;color:var(--text-soft);letter-spacing:1.4px;font-weight:bold}
   .agenda-slot-row{
@@ -404,20 +471,106 @@
   .agenda-slot-row:last-child{border-bottom:none}
   .agenda-slot-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
   .agenda-slot-time{
-    font-size:14px;font-weight:bold;
+    font-size:14px;font-weight:700;
     background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    color:white;border-radius:8px;padding:3px 10px;
+    color:#1a1206;border-radius:8px;padding:3px 10px;
   }
   .agenda-slot-counts{display:flex;gap:6px}
   .agenda-slot-pill{
     font-size:11px;border-radius:6px;padding:2px 8px;font-weight:bold;
-    background:#fff0d8;color:var(--gold);border:1px solid #ecc791;
+    background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);
   }
-  .agenda-slot-pill.red{background:#fce8e8;color:var(--red);border-color:#e8a0a0}
+  .agenda-slot-pill.red{background:rgba(248,113,113,.15);color:var(--red);border-color:rgba(248,113,113,.40)}
   .agenda-order-line{font-size:12px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:2px solid var(--line)}
-  .agenda-order-line.paye{border-left-color:#1a9058}
+  .agenda-order-line.paye{border-left-color:var(--green)}
   .agenda-order-line.encours{border-left-color:var(--gold)}
   .empty-icon{font-size:44px;margin-bottom:10px}
+
+  /* BARRE DE RECHERCHE EN COURS */
+  .search-bar{
+    display:flex;align-items:center;gap:8px;
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:0 12px;
+    margin-bottom:14px;
+    height:46px;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-bar:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,164,58,.18)}
+  .search-icon{font-size:15px;opacity:.7;flex-shrink:0}
+  .search-input{
+    flex:1;min-width:0;height:100%;
+    border:none;background:transparent;outline:none;
+    color:var(--text);font-size:15px;font-weight:600;
+    -moz-appearance:textfield;
+  }
+  .search-input::-webkit-outer-spin-button,
+  .search-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .search-input::placeholder{color:var(--text-soft);font-weight:400}
+  .search-clear{
+    flex-shrink:0;cursor:pointer;
+    width:26px;height:26px;border-radius:50%;
+    background:rgba(255,255,255,.06);border:1px solid var(--line);
+    color:var(--text-soft);font-size:13px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease, color .15s ease;
+  }
+  .search-clear:hover{background:rgba(248,113,113,.15);color:var(--red);border-color:rgba(248,113,113,.4)}
+
+  /* CARTE DU JOUR (toggles burgers) */
+  .carte-group-label{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+  .carte-list{display:flex;flex-direction:column;gap:2px}
+  .carte-row{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 2px;border-bottom:1px solid var(--line-soft);
+    transition:opacity .18s ease;
+  }
+  .carte-row:last-child{border-bottom:none}
+  .carte-row.off{opacity:.5}
+  .carte-info{min-width:0;flex:1}
+  .carte-name{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+  .carte-price{font-size:12px;color:var(--gold);font-family:'Courier New',monospace;font-weight:700}
+  .carte-compo{font-size:11px;color:var(--text-soft);margin-top:2px;line-height:1.3}
+  .carte-toggle{
+    flex-shrink:0;cursor:pointer;
+    width:46px;height:27px;border-radius:999px;
+    background:var(--bg-soft);border:1px solid var(--line);
+    position:relative;transition:background .2s ease, border-color .2s ease;
+    padding:0;
+  }
+  .carte-toggle.on{
+    background:linear-gradient(180deg,#34d399,#0f9d63);
+    border-color:rgba(52,211,153,.6);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  .carte-knob{
+    position:absolute;top:2px;left:2px;
+    width:21px;height:21px;border-radius:50%;
+    background:#cdd3dd;
+    box-shadow:0 1px 3px rgba(0,0,0,.4);
+    transition:transform .2s cubic-bezier(.3,1.4,.5,1), background .2s ease;
+  }
+  .carte-toggle.on .carte-knob{transform:translateX(19px);background:#fff}
+
+  /* AGENDA SUMMARY */
+  .agenda-summary{
+    position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(243,164,58,.10),rgba(243,164,58,.03));
+    border:1px solid rgba(243,164,58,.28);
+    border-radius:13px;padding:9px 13px;margin-bottom:12px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  }
+  .agenda-summary::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(243,164,58,.45),transparent)}
+  .agenda-summary-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+  .agenda-summary-title{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold)}
+  .agenda-summary-orders{font-size:10px;color:var(--text-soft);font-weight:600}
+  .agenda-summary-stats{display:flex;align-items:center;justify-content:center;gap:6px}
+  .agenda-summary-stat{flex:1;display:flex;align-items:center;justify-content:center;gap:7px}
+  .agenda-summary-emoji{font-size:15px;line-height:1}
+  .agenda-summary-num{font-size:19px;font-weight:700;color:var(--text);font-family:'Courier New',Courier,monospace;line-height:1}
+  .agenda-summary-lbl{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-soft);font-weight:700}
+  .agenda-summary-sep{width:1px;align-self:stretch;background:var(--line);margin:2px 0}
 
   /* SLOT PICKER */
   .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
@@ -430,27 +583,29 @@
   }
   .slot-section-label:first-child{border-top:none;padding-top:0}
   .slot-btn{
-    border:2px solid var(--line);cursor:pointer;
-    border-radius:16px;padding:11px 6px;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    text-align:center;transition:.15s ease;
-    box-shadow:0 2px 6px rgba(0,0,0,.06);
+    position:relative;overflow:hidden;
+    border:1.5px solid var(--line);cursor:pointer;
+    border-radius:14px;padding:11px 6px;
+    background:rgba(255,255,255,.03);
+    text-align:center;transition:transform .12s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    box-shadow:0 2px 8px rgba(0,0,0,.25);
   }
-  .slot-btn:active{transform:scale(.96)}
+  .slot-btn:hover{border-color:rgba(243,164,58,.4);background:rgba(255,255,255,.05)}
+  .slot-btn:active{transform:scale(.95)}
   .slot-btn.selected{
-    background:linear-gradient(180deg,#3ecf80,#1f9d61);
-    border-color:#1f9d61;
-    box-shadow:0 4px 16px rgba(31,157,97,.3);
+    background:linear-gradient(180deg,#34d399,#0f9d63);
+    border-color:rgba(52,211,153,.6);
+    box-shadow:0 6px 20px rgba(16,157,99,.4), inset 0 1px 0 rgba(255,255,255,.25);
   }
-  .slot-btn.full{background:linear-gradient(180deg,#fce8e8,#f9d0d0);border-color:#e08080}
-  .slot-btn.busy{background:linear-gradient(180deg,#fffbe8,#fff4cc);border-color:#e0c080}
-  .slot-btn.light{background:linear-gradient(180deg,#edfaf4,#d4f0e2);border-color:#80c8a0}
-  .slot-time{font-size:16px;font-weight:bold;font-family:Georgia,serif;color:var(--text);line-height:1}
-  .slot-btn.selected .slot-time{color:white}
+  .slot-btn.full{background:linear-gradient(180deg,#3a1818,#2c1212);border-color:rgba(248,113,113,.45)}
+  .slot-btn.busy{background:linear-gradient(180deg,#332a10,#28210c);border-color:rgba(243,164,58,.40)}
+  .slot-btn.light{background:linear-gradient(180deg,#103028,#0c2620);border-color:rgba(52,211,153,.40)}
+  .slot-time{font-size:16px;font-weight:bold;font-family:var(--font);color:var(--text);line-height:1}
+  .slot-btn.selected .slot-time{color:#04241a}
   .slot-counts{margin-top:5px;font-size:11px;color:var(--text-soft);display:flex;justify-content:center;gap:6px}
-  .slot-btn.selected .slot-counts{color:rgba(255,255,255,.85)}
-  .slot-count-pill{background:rgba(0,0,0,.06);border-radius:6px;padding:1px 5px;font-weight:bold}
-  .slot-btn.selected .slot-count-pill{background:rgba(255,255,255,.25);color:white}</style>
+  .slot-btn.selected .slot-counts{color:rgba(4,36,26,.80)}
+  .slot-count-pill{background:rgba(255,255,255,.07);border-radius:6px;padding:1px 6px;font-weight:700}
+  .slot-btn.selected .slot-count-pill{background:rgba(4,36,26,.20);color:#04241a}</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -473,6 +628,7 @@
     <button class="tab-btn" onclick="switchTab('encours')" id="tab-encours"><span class="tab-icon">⏳</span><span>En cours</span></button>
     <button class="tab-btn" onclick="switchTab('historique')" id="tab-historique"><span class="tab-icon">📋</span><span>Historique</span></button>
     <button class="tab-btn" onclick="switchTab('stocks')" id="tab-stocks"><span class="tab-icon">📦</span><span>Stocks</span></button>
+    <button class="tab-btn" onclick="switchTab('vip')" id="tab-vip"><span class="tab-icon">⭐</span><span>VIP</span></button>
   </div>
 
   <div class="content" id="content"></div>
@@ -529,30 +685,51 @@
 
 <script>
 const INGREDIENTS_DEFAULT = {
-  bun:        { name:"Buns",             qty:100, category:"Production" },
-  boeuf:      { name:"Steak charolais",  qty:40,  category:"Production" },
-  poulet:     { name:"Poulet",           qty:22,  category:"Production" },
-  vegetarien: { name:"Steak végé",       qty:10,  category:"Production" },
-  cheddar:    { name:"Cheddar",          qty:50,  category:"Fromages" },
-  chevre:     { name:"Chèvre",           qty:16,  category:"Fromages" },
-  raclette:   { name:"Raclette",         qty:36,  category:"Fromages" },
-  reblochon:  { name:"Reblochon",        qty:24,  category:"Fromages" },
-  truffees:   { name:"Truffées parmesan",qty:12,  category:"Fromages" },
-  oeuf:       { name:"Œufs",             qty:10,  category:"Œufs" }
+  bun:        { name:"Buns",             qty:70,  category:"Production" },
+  boeuf:      { name:"Steak charolais",  qty:100, category:"Production" },
+  poulet:     { name:"Poulet",           qty:6,   category:"Production" },
+  vegetarien: { name:"Steak végé",       qty:0,   category:"Production" },
+  cheddar:    { name:"Cheddar",          qty:150, category:"Composants" },
+  chevre:     { name:"Chèvre",           qty:20,  category:"Composants" },
+  bleu:       { name:"Bleu",             qty:20,  category:"Composants" },
+  reblochon:  { name:"Reblochon",        qty:20,  category:"Composants" },
+  raclette:   { name:"Raclette",         qty:15,  category:"Composants" },
+  mozzarella: { name:"Mozzarella",       qty:15,  category:"Composants" },
+  roquefort:  { name:"Roquefort",        qty:15,  category:"Composants" },
+  camembert:  { name:"Camembert",        qty:15,  category:"Composants" },
+  foiegras:   { name:"Foie gras",        qty:15,  category:"Composants" },
+  oeuf:       { name:"Œufs",             qty:0,   category:"Œufs" }
 };
 
 const BURGERS = [
-  { id:"original",   name:"L'Original",   price:11,  cat:"Burger", ing:["bun","boeuf"] },
-  { id:"bbq",        name:"Le BBQ",        price:11,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
-  { id:"dragon",     name:"Le Dragon",     price:11,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
-  { id:"montagnard", name:"Le Montagnard", price:11,  cat:"Burger", ing:["bun","boeuf","reblochon"] },
-  { id:"myko",       name:"Le Myko",       price:11,  cat:"Burger", ing:["bun","boeuf","chevre"] },
-  { id:"americain",  name:"L'Américain",   price:12,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
-  { id:"poulet",     name:"Le Poulet",     price:12,  cat:"Burger", ing:["bun","poulet","cheddar"] },
-  { id:"winter",     name:"Le Winter",     price:12,  cat:"Burger", ing:["bun","boeuf","raclette"] },
-  { id:"cheese",     name:"Le Cheese",     price:11,  cat:"Burger", ing:["bun","boeuf","cheddar"] },
-  { id:"hache",      name:"Le Steak Haché", price:5,  cat:"Burger", ing:["boeuf"] }
+  { id:"original",   name:"L'Original",   price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
+  { id:"bbq",        name:"Le BBQ",        price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
+  { id:"dragon",     name:"Le Dragon",     price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
+  { id:"montagnard", name:"Le Montagnard", price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","reblochon"] },
+  { id:"myko",       name:"Le Myko",       price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","chevre"] },
+  { id:"americain",  name:"L'Américain",   price:12,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar","cheddar"] },
+  { id:"poulet",     name:"Le Poulet",     price:12,  cat:"Burger", group:"fixe",   ing:["bun","poulet","cheddar"] },
+  { id:"cheese",     name:"Le Cheese",     price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
+  { id:"hache",      name:"Le Steak Haché", price:5,  cat:"Burger", group:"fixe",   ing:["boeuf"] },
+  { id:"bleu",       name:"Le Bleu",       price:12,  cat:"Burger", group:"moment", ing:["bun","boeuf","bleu"] },
+  { id:"winter",     name:"Le Winter",     price:12,  cat:"Burger", group:"moment", ing:["bun","boeuf","raclette"] },
+  { id:"summer",     name:"Le Summer",     price:12,  cat:"Burger", group:"moment", ing:["bun","boeuf","mozzarella"] },
+  { id:"roq",        name:"Le Roq",        price:12,  cat:"Burger", group:"moment", ing:["bun","boeuf","roquefort"] },
+  { id:"normand",    name:"Le Normand",    price:12,  cat:"Burger", group:"moment", ing:["bun","boeuf","camembert"] },
+  { id:"noel",       name:"Le Noël",       price:15,  cat:"Burger", group:"moment", ing:["bun","boeuf","foiegras"] }
 ];
+
+const MOMENT_BURGER_IDS = BURGERS.filter(b => b.group === "moment").map(b => b.id);
+
+// Ingrédients propres à un burger : visibles en stock seulement si le burger est actif
+const INGREDIENT_BURGER_LINK = {
+  raclette:   "winter",
+  mozzarella: "summer",
+  roquefort:  "roq",
+  camembert:  "normand",
+  foiegras:   "noel",
+  bleu:       "bleu"
+};
 
 // Garnitures retirables par burger — groupées par catégorie
 const BURGER_CUSTOMS = {
@@ -591,8 +768,8 @@ const BURGER_CUSTOMS = {
     sauces:    ["Sauce Ranch"],
     garnitures:["Oignons frits","Mesclun"]
   },
-  winter: {
-    fromage:   ["Raclette"],
+  bleu: {
+    fromage:   ["Bleu"],
     sauces:    [],
     garnitures:["Oignons rouges","Bacon","Mesclun"]
   },
@@ -600,6 +777,31 @@ const BURGER_CUSTOMS = {
     fromage:   ["Cheddar"],
     sauces:    ["Sauce burger"],
     garnitures:["Oignons rouges","Cornichons","Tomate","Mesclun"]
+  },
+  winter: {
+    fromage:   ["Raclette"],
+    sauces:    [],
+    garnitures:["Oignons frits","Bacon","Mesclun"]
+  },
+  summer: {
+    fromage:   ["Mozzarella"],
+    sauces:    ["Pesto"],
+    garnitures:["Tomate","Roquette"]
+  },
+  roq: {
+    fromage:   ["Roquefort"],
+    sauces:    [],
+    garnitures:["Oignons rouges","Noix","Mesclun"]
+  },
+  normand: {
+    fromage:   ["Camembert"],
+    sauces:    [],
+    garnitures:["Oignons rouges","Pomme","Mesclun"]
+  },
+  noel: {
+    fromage:   ["Foie gras"],
+    sauces:    ["Chutney d'oignons"],
+    garnitures:["Mesclun"]
   }
 };
 
@@ -613,20 +815,20 @@ const SUPPLEMENTS = [
 
 const BURGER_FRIES = [
   { id:"bfNature",  name:"Nature",                 price:2.5, ing:[] },
-  { id:"bfTruf",    name:"Truffées",               price:4.5, ing:["truffees"] },
-  { id:"bfChed",    name:"Cheddar",                price:4.5, ing:["cheddar"] },
-  { id:"bfChedOig", name:"Cheddar oignons",        price:5,   ing:["cheddar"] },
-  { id:"bfChedBac", name:"Cheddar bacon",          price:5.5, ing:["cheddar"] },
-  { id:"bfFull",    name:"Cheddar bacon oignon",   price:6,   ing:["cheddar"] }
+  { id:"bfTruf",    name:"Truffées",               price:4.5, ing:[] },
+  { id:"bfChed",    name:"Cheddar",                price:4.5, ing:["cheddar","cheddar"] },
+  { id:"bfChedOig", name:"Cheddar oignons",        price:5,   ing:["cheddar","cheddar"] },
+  { id:"bfChedBac", name:"Cheddar bacon",          price:5.5, ing:["cheddar","cheddar"] },
+  { id:"bfFull",    name:"Cheddar bacon oignon",   price:6,   ing:["cheddar","cheddar"] }
 ];
 
 const SOLO_FRIES = [
   { id:"sfNature",  name:"Frites natures",               price:3.5, ing:[] },
-  { id:"sfTruf",    name:"Frites truffées",              price:5.5, ing:["truffees"] },
-  { id:"sfChed",    name:"Frites cheddar",               price:5.5, ing:["cheddar"] },
-  { id:"sfChedOig", name:"Frites cheddar oignons",       price:6,   ing:["cheddar"] },
-  { id:"sfChedBac", name:"Frites cheddar bacon",         price:6.5, ing:["cheddar"] },
-  { id:"sfFull",    name:"Frites cheddar bacon oignon",  price:7,   ing:["cheddar"] }
+  { id:"sfTruf",    name:"Frites truffées",              price:5.5, ing:[] },
+  { id:"sfChed",    name:"Frites cheddar",               price:5.5, ing:["cheddar","cheddar"] },
+  { id:"sfChedOig", name:"Frites cheddar oignons",       price:6,   ing:["cheddar","cheddar"] },
+  { id:"sfChedBac", name:"Frites cheddar bacon",         price:6.5, ing:["cheddar","cheddar"] },
+  { id:"sfFull",    name:"Frites cheddar bacon oignon",  price:7,   ing:["cheddar","cheddar"] }
 ];
 
 const DRINKS = [
@@ -662,7 +864,13 @@ let state = {
   editingItemKey:null,
   loyaltyActive:false,
   pendingRemovals:[],
-  showCustomization:false
+  showCustomization:false,
+  friteMenuPairing:{}, // burgerKey → friteKey
+  _editingFriteForBurgerKey: null,
+  dropTargetBurgerKey:null,
+  friteStepIndex:0,
+  activeBurgers:{},
+  _encoursSearch:""
 };
 
 const STORAGE_KEYS = {
@@ -671,53 +879,82 @@ const STORAGE_KEYS = {
   orderNum:"ft7_orderNum",
   revenue:"ft7_revenue",
   loyalty:"ft7_loyalty",
-  sheetsUrl:"ft7_sheets_url"
+  sheetsUrl:"ft7_sheets_url",
+  activeBurgers:"ft7_active_burgers"
 };
 
 // ---- GOOGLE SHEETS SYNC ----
-function getSheetsUrl(){ return localStorage.getItem(STORAGE_KEYS.sheetsUrl) || ''; }
+const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE/exec"; // URL Apps Script par défaut
+function getSheetsUrl(){ return localStorage.getItem(STORAGE_KEYS.sheetsUrl) || DEFAULT_SHEETS_URL; }
 function setSheetsUrl(url){ localStorage.setItem(STORAGE_KEYS.sheetsUrl, url.trim()); }
 
-function syncOrderToSheets(order){
-  const url = getSheetsUrl();
-  if(!url) return;
-  const date = new Date();
-  const dateStr = date.toLocaleDateString('fr-FR');
-  const timeStr = date.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
-  const items = order.items.map(i => {
+function buildOrderItemsLabel(order){
+  return (order.items || []).map(i => {
     if(i.type === 'steakfrites') return 'Steak+Frites';
-    if(i.type === 'fries') return i.fries.name;
+    if(i.type === 'fries' || i.type === 'fries-menu') return i.fries.name;
     if(i.type === 'drink') return i.drink.name;
     const extras = [
       i.cuisson ? cuissonLabel(i.cuisson) : null,
-      ...(i.supplements||[]).map(s => '+'+s.name),
-      i.frite ? '+Frites '+i.frite.name : null,
-      i.drink ? '+'+i.drink.name : null,
-      ...(i.removals||[]).map(r => '-'+r)
+      ...(i.supplements||[]).map(s => '+' + s.name),
+      i.frite ? '+Frites ' + i.frite.name : null,
+      i.drink ? '+' + i.drink.name : null,
+      ...(i.removals||[]).map(r => '-' + r)
     ].filter(Boolean);
-    return i.burger.name + (extras.length ? ' ('+extras.join(', ')+')' : '');
+    return i.burger.name + (extras.length ? ' (' + extras.join(', ') + ')' : '');
   }).join(' | ');
-  const ttc = order.total;
+}
+
+function syncOrderToSheets(order){
+  const url = getSheetsUrl();
+  if(!url || !order || !order.id) return Promise.resolve(false);
+
+  order._sheetSyncPending = order._sheetSyncPending || false;
+  order._sheetSyncedStatuses = order._sheetSyncedStatuses || {};
+
+  if(order._sheetSyncPending) return Promise.resolve(false);
+  if(order._sheetSyncedStatuses[order.status]) return Promise.resolve(true);
+
+  const now = new Date();
+  const dateStr = order.date || now.toLocaleDateString('fr-FR');
+  const timeStr = order.heure || now.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+  const ttc = Number(order.total || 0);
   const ht  = ttc / 1.10;
   const tva = ttc - ht;
+
   const payload = {
     id: order.id,
     date: dateStr,
     heure: timeStr,
     creneau: order.slot || '',
-    statut: order.status === 'paye' ? 'Reglée' : order.status === 'annule' ? 'Annulée' : 'En cours',
-    articles: items,
+    statut: order.status === 'paye' ? 'Reglee' : order.status === 'annule' ? 'Annulee' : 'En cours',
+    articles: buildOrderItemsLabel(order),
     total_ttc: fmtNum(ttc),
     total_ht: fmtNum(ht),
     tva: fmtNum(tva),
     fidelite: order.loyalty ? 'Oui' : 'Non'
   };
-  fetch(url, {
+
+  order._sheetSyncPending = true;
+  saveState();
+
+  return fetch(url, {
     method:'POST',
     mode:'no-cors',
     headers:{'Content-Type':'application/json'},
     body: JSON.stringify(payload)
-  }).catch(() => {});
+  })
+  .then(() => {
+    order._sheetSyncedStatuses[order.status] = true;
+    order._sheetSyncPending = false;
+    saveState();
+    return true;
+  })
+  .catch((err) => {
+    console.error('Erreur Google Sheets :', err);
+    order._sheetSyncPending = false;
+    saveState();
+    return false;
+  });
 }
 
 function saveState(){
@@ -727,6 +964,7 @@ function saveState(){
     localStorage.setItem(STORAGE_KEYS.orderNum, JSON.stringify(state.orderNum));
     localStorage.setItem(STORAGE_KEYS.revenue, JSON.stringify(state.dailyRevenue));
     localStorage.setItem(STORAGE_KEYS.loyalty, JSON.stringify(state.loyaltyCount));
+    localStorage.setItem(STORAGE_KEYS.activeBurgers, JSON.stringify(state.activeBurgers));
   }catch(e){}
 }
 function loadState(){
@@ -736,12 +974,58 @@ function loadState(){
     const n = localStorage.getItem(STORAGE_KEYS.orderNum);
     const r = localStorage.getItem(STORAGE_KEYS.revenue);
     const l = localStorage.getItem(STORAGE_KEYS.loyalty);
-    if(i) state.ingredients = JSON.parse(i);
+    const ab = localStorage.getItem(STORAGE_KEYS.activeBurgers);
+    if(i){
+      const saved = JSON.parse(i);
+      // Fusion : on part des ingrédients par défaut (qui contiennent tous les fromages),
+      // et on reprend uniquement les quantités déjà enregistrées. Les nouveaux ingrédients
+      // (raclette, mozzarella, etc.) apparaissent ainsi même si la sauvegarde est ancienne.
+      const merged = JSON.parse(JSON.stringify(INGREDIENTS_DEFAULT));
+      for(const k of Object.keys(merged)){
+        if(saved[k] && typeof saved[k].qty === 'number') merged[k].qty = saved[k].qty;
+      }
+      state.ingredients = merged;
+    }
     if(o) state.orders = JSON.parse(o);
     if(n) state.orderNum = JSON.parse(n);
     if(r) state.dailyRevenue = JSON.parse(r);
     if(l) state.loyaltyCount = JSON.parse(l);
+    if(ab) state.activeBurgers = JSON.parse(ab);
   }catch(e){}
+  // Tout burger inconnu de l'état (nouveau ou 1er lancement) : fixe actif, du moment désactivé
+  for(const b of BURGERS){
+    if(!(b.id in state.activeBurgers)) state.activeBurgers[b.id] = (b.group !== "moment");
+  }
+}
+function setEncoursSearch(v){
+  // Ne garder que les chiffres
+  state._encoursSearch = String(v).replace(/\D/g, "");
+  render();
+  // Restaurer le focus et placer le curseur en fin de champ après le re-rendu
+  const el = document.getElementById("encours-search");
+  if(el){
+    el.focus();
+    const len = el.value.length;
+    try{ el.setSelectionRange(len, len); }catch(e){}
+  }
+}
+
+function isBurgerActive(id){ return state.activeBurgers[id] !== false; }
+function ingredientVisible(key){
+  const linkedBurger = INGREDIENT_BURGER_LINK[key];
+  if(!linkedBurger) return true;          // ingrédient commun → toujours visible
+  return isBurgerActive(linkedBurger);     // ingrédient propre → visible si son burger est actif
+}
+function activeBurgerCount(){ return BURGERS.filter(b => isBurgerActive(b.id)).length; }
+function toggleBurgerActive(id){
+  const turningOff = isBurgerActive(id);
+  if(turningOff && activeBurgerCount() <= 1){
+    alert("Au moins un burger doit rester à la carte.");
+    return;
+  }
+  state.activeBurgers[id] = !isBurgerActive(id);
+  saveState();
+  render();
 }
 function fmt(n){ return Number(n || 0).toFixed(2).replace(".", ",") + " €"; }
 function fmtNum(n){ return Number(n || 0).toFixed(2).replace(".", ","); }
@@ -751,7 +1035,7 @@ function countNeeded(ingList){
   return counts;
 }
 function getItemIngredients(item){
-  if(item.type === "fries") return [...(item.fries.ing || [])];
+  if(item.type === "fries" || item.type === "fries-menu") return [...(item.fries.ing || [])];
   if(item.type === "drink") return [...(item.drink.ing || [])];
   if(item.type === "steakfrites") return ["boeuf"];
   return [
@@ -784,7 +1068,7 @@ function ingredientsAvailable(ingList){
 function burgerAvailable(burger){ return ingredientsAvailable(burger.ing); }
 function optionAvailable(option){ return ingredientsAvailable(option.ing || []); }
 function itemTotal(item){
-  if(item.type === "fries") return item.fries.price;
+  if(item.type === "fries" || item.type === "fries-menu") return item.fries.price;
   if(item.type === "drink") return item.drink.price;
   if(item.type === "steakfrites") return STEAK_FRITES.price;
   const suppTotal = (item.supplements || []).reduce((s, x) => s + x.price, 0);
@@ -872,8 +1156,6 @@ function addBurgerItem(){
     type:"burger",
     burger:state.pendingBurger,
     supplements:[...state.pendingSupps],
-    frite:state.pendingFrite,
-    drink:state.pendingDrink,
     cuisson:state.pendingCuisson,
     removals:[...state.pendingRemovals],
     key:state.editingItemKey || (Date.now() + Math.random())
@@ -881,7 +1163,6 @@ function addBurgerItem(){
   if(!ingredientsAvailable(getItemIngredients(item))) return;
 
   if(state.editingItemKey){
-    // Replace existing item
     state.currentItems = state.currentItems.map(i => i.key === state.editingItemKey ? item : i);
   } else {
     state.currentItems.push(item);
@@ -923,7 +1204,14 @@ function addDrink(id){
   render();
 }
 function removeItem(key){
+  // Si c'est un burger, supprimer aussi sa frite pairée
+  const pairedFriteKey = state.friteMenuPairing[key];
+  if(pairedFriteKey) state.currentItems = state.currentItems.filter(i => i.key !== pairedFriteKey);
   state.currentItems = state.currentItems.filter(i => i.key !== key);
+  delete state.friteMenuPairing[key];
+  Object.keys(state.friteMenuPairing).forEach(bk => {
+    if(state.friteMenuPairing[bk] === key) state.friteMenuPairing[bk] = null;
+  });
   render();
 }
 function goBackToBurger(){
@@ -957,7 +1245,7 @@ function confirmOrder(slot){
   const rawTotal = state.currentItems.reduce((sum, item) => sum + itemTotal(item), 0);
   const orderId = state._editingOrderId || state.orderNum;
   const _now = new Date();
-  const order = { id:orderId, items:[...state.currentItems], rawTotal, total:rawTotal, status:"encours", loyalty:false, slot: slot || null, date: _now.toLocaleDateString('fr-FR'), heure: _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}) };
+  const order = { id:orderId, items:[...state.currentItems], rawTotal, total:rawTotal, status:"encours", loyalty:false, slot: slot || null, date: _now.toLocaleDateString('fr-FR'), heure: _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
 
   for(const item of state.currentItems){
     const needed = countNeeded(getItemIngredients(item));
@@ -966,10 +1254,14 @@ function confirmOrder(slot){
     }
   }
   state.orders.push(order);
-  if(!state._editingOrderId) state.orderNum++;
+  if(!state._editingOrderId){
+    state.orderNum = state.orderNum >= 100 ? 1 : state.orderNum + 1;
+  }
   state._editingOrderId = null;
   state.loyaltyActive = false;
   state.currentItems = [];
+  state.friteMenuPairing = {};
+  state.friteStepIndex = 0;
   state.step = "burger";
   saveState();
   switchTab("caisse");
@@ -981,16 +1273,457 @@ function confirmOrder(slot){
   requestAnimationFrame(() => requestAnimationFrame(scrollTop));
   setTimeout(scrollTop, 50);
 }
-function toggleOrderLoyalty(id){
+function addOrderLoyalty(id){
   const order = state.orders.find(o => o.id === id);
   if(!order || order.status === "paye") return;
-  order.loyalty = !order.loyalty;
+  const count = (order.loyaltyCount || 0) + 1;
+  order.loyaltyCount = count;
+  order.loyalty = count > 0;
   const raw = order.rawTotal ?? order.total;
   order.rawTotal = raw;
-  order.total = order.loyalty ? Math.max(0, raw - 10) : raw;
+  order.total = Math.max(0, raw - count * 10);
   saveState();
   render();
 }
+function removeOrderLoyalty(id){
+  const order = state.orders.find(o => o.id === id);
+  if(!order || order.status === "paye") return;
+  const count = Math.max(0, (order.loyaltyCount || 0) - 1);
+  order.loyaltyCount = count;
+  order.loyalty = count > 0;
+  const raw = order.rawTotal ?? order.total;
+  order.rawTotal = raw;
+  order.total = Math.max(0, raw - count * 10);
+  saveState();
+  render();
+}
+function toggleOrderLoyalty(id){
+  const order = state.orders.find(o => o.id === id);
+  if(!order || order.status === "paye") return;
+  if(order.loyaltyCount > 0) removeOrderLoyalty(id);
+  else addOrderLoyalty(id);
+}
+function goToFritesStep(){
+  if(state.currentItems.length === 0) return;
+  state.friteStepIndex = 0;
+  state.step = "frites";
+  // Pré-sélectionner Frites Nature pour chaque burger sans frite assignée
+  const burgers = state.currentItems.filter(i => i.type === 'burger');
+  const nature = BURGER_FRIES.find(x => x.id === 'bfNature');
+  burgers.forEach(b => {
+    if(!state.friteMenuPairing[b.key] && nature && optionAvailable(nature)){
+      const newItem = { type:"fries-menu", fries:nature, key:Date.now() + Math.random(), auto:true };
+      state.currentItems.push(newItem);
+      state.friteMenuPairing[b.key] = newItem.key;
+    }
+  });
+  render();
+  const scrollTop = () => { const c = document.getElementById("content"); if(c) c.scrollTop = 0; window.scrollTo(0,0); };
+  requestAnimationFrame(() => requestAnimationFrame(scrollTop));
+  setTimeout(scrollTop, 50);
+}
+
+function renderFritesStep(){
+  const burgers = state.currentItems.filter(i => i.type === 'burger');
+  const idx = Math.min(state.friteStepIndex, burgers.length - 1);
+  const b = burgers[idx];
+
+  let html = '<div class="pad">';
+  html += `<div class="options-header">
+    <button class="btn-back" onclick="${idx === 0 ? "backToBurgerFromFrites()" : `state.friteStepIndex=${idx-1};render()`}">← Retour</button>
+    <div class="options-title">🍟 Frites ${burgers.length > 1 ? `(${idx+1}/${burgers.length})` : ''}</div>
+  </div>`;
+
+  // Bouton passer aux boissons en haut
+  html += `<button class="btn btn-primary" style="width:100%;margin-bottom:16px" onclick="state.step='boissons';render()">🥤 Passer aux boissons →</button>`;
+
+  if(b){
+    const pairedFriteKey = state.friteMenuPairing[b.key];
+    const pairedFrite = pairedFriteKey ? state.currentItems.find(i => i.key === pairedFriteKey) : null;
+    const selectedId = pairedFrite ? pairedFrite.fries.id : null;
+
+    html += `<div style="padding:12px 14px;background:var(--panel-2);border:1px solid var(--line);border-radius:14px;margin-bottom:16px">
+      <div style="font-weight:bold;font-size:15px;color:var(--text)">🍔 ${b.burger.name}</div>
+      ${b.cuisson ? `<div style="font-size:12px;color:var(--text-soft);margin-top:2px">${cuissonDot(b.cuisson)} ${cuissonLabel(b.cuisson)}</div>` : ''}
+    </div>`;
+
+    html += '<div class="section-title">Choisir les frites</div>';
+    html += '<div class="grid-2">';
+
+    // Bouton Sans frites
+    html += `<button class="mini-card${selectedId===null?' selected':''}" onclick="selectFriteForBurger(${b.key},'none')" style="${selectedId===null?'border:2px solid var(--gold);background:linear-gradient(180deg,#2c2414,#241c0e)':''}">
+      <div class="mini-name">Sans frites</div>
+      <div class="mini-price">0,00 €</div>
+    </button>`;
+
+    for(const f of BURGER_FRIES){
+      const sel = selectedId === f.id;
+      const avail = optionAvailable(f);
+      html += `<button class="mini-card${sel?' selected':''}${avail?'':' unavailable'}" onclick="${avail?`selectFriteForBurger(${b.key},'${f.id}')`:''}" style="${sel?'border:2px solid var(--gold);background:linear-gradient(180deg,#2c2414,#241c0e)':''}">
+        <div class="mini-name">${f.name}</div>
+        <div class="mini-price">${fmt(f.price)}</div>
+        ${!avail?'<div class="epuise-badge">ÉPUISÉ</div>':''}
+      </button>`;
+    }
+    html += '</div>';
+
+    // Progression
+    if(burgers.length > 1){
+      html += `<div style="display:flex;gap:6px;margin-top:16px;justify-content:center">`;
+      for(let i=0;i<burgers.length;i++){
+        const done = state.friteMenuPairing[burgers[i].key] !== undefined;
+        html += `<div style="width:28px;height:6px;border-radius:3px;background:${i===idx?'var(--gold)':done?'var(--green)':'var(--line)'}"></div>`;
+      }
+      html += `</div>`;
+    }
+  }
+
+  html += `<button class="btn btn-primary" style="width:100%;margin-top:20px" onclick="state.step='boissons';render()">🥤 Boissons →</button>`;
+  html += '</div>';
+  return html;
+}
+
+function selectFriteForBurger(burgerKey, friteId){
+  burgerKey = Number(burgerKey);
+  const oldFriteKey = state.friteMenuPairing[burgerKey];
+  if(oldFriteKey){
+    state.currentItems = state.currentItems.filter(i => i.key !== oldFriteKey);
+    state.friteMenuPairing[burgerKey] = null;
+  }
+  if(friteId !== 'none'){
+    const frites = BURGER_FRIES.find(x => x.id === friteId);
+    if(frites && optionAvailable(frites)){
+      const newItem = { type:"fries-menu", fries:frites, key:Date.now() + Math.random() };
+      state.currentItems.push(newItem);
+      state.friteMenuPairing[burgerKey] = newItem.key;
+    }
+  }
+  // Passer au burger suivant
+  const burgers = state.currentItems.filter(i => i.type === 'burger');
+  if(state.friteStepIndex < burgers.length - 1){
+    state.friteStepIndex++;
+    render();
+  } else {
+    // Tous les burgers traités → boissons
+    state.step = "boissons";
+    render();
+  }
+  const scrollTop = () => { const c = document.getElementById("content"); if(c) c.scrollTop = 0; window.scrollTo(0,0); };
+  requestAnimationFrame(() => requestAnimationFrame(scrollTop));
+  setTimeout(scrollTop, 50);
+}
+
+function backToBurgerFromFrites(){
+  // Retirer les frites pré-remplies automatiquement et jamais confirmées
+  const autoKeys = state.currentItems.filter(i => i.type === "fries-menu" && i.auto).map(i => i.key);
+  if(autoKeys.length){
+    state.currentItems = state.currentItems.filter(i => !autoKeys.includes(i.key));
+    for(const bk of Object.keys(state.friteMenuPairing)){
+      if(autoKeys.includes(state.friteMenuPairing[bk])) delete state.friteMenuPairing[bk];
+    }
+  }
+  state.step = "burger";
+  render();
+}
+
+function addBurgerFriesV2(id){
+  const fries = BURGER_FRIES.find(x => x.id === id);
+  if(!fries || !optionAvailable(fries)) return;
+  const newItem = { type:"fries-menu", fries, key:Date.now() + Math.random() };
+  state.currentItems.push(newItem);
+  // Auto-pair avec le premier burger non pairé
+  const pairedFriteKeys = new Set(Object.values(state.friteMenuPairing));
+  const burgers = state.currentItems.filter(i => i.type === 'burger');
+  const unpairedBurger = burgers.find(b => !state.friteMenuPairing[b.key]);
+  if(unpairedBurger) state.friteMenuPairing[unpairedBurger.key] = newItem.key;
+  render();
+}
+
+// Drag & Drop — échange de frites entre menus
+let _touchDragFriteKey = null;
+let _touchGhost = null;
+
+function swapFriteToBurger(friteKey, targetBurgerKey){
+  friteKey = Number(friteKey);
+  targetBurgerKey = Number(targetBurgerKey);
+  const oldBurgerKey = Object.keys(state.friteMenuPairing).map(Number).find(bk => state.friteMenuPairing[bk] === friteKey);
+  const friteOnTarget = state.friteMenuPairing[targetBurgerKey];
+  if(oldBurgerKey !== undefined) state.friteMenuPairing[oldBurgerKey] = friteOnTarget || null;
+  state.friteMenuPairing[targetBurgerKey] = friteKey;
+  state.dropTargetBurgerKey = null;
+  render();
+}
+
+function onFriteDragStart(e, friteKey){
+  e.dataTransfer.setData('friteKey', friteKey);
+  e.dataTransfer.effectAllowed = 'move';
+  setTimeout(() => e.target.style.opacity = '0.4', 0);
+}
+function onFriteDragEnd(e){ e.target.style.opacity = '1'; }
+
+function onBurgerDragOver(e, burgerKey){
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  state.dropTargetBurgerKey = Number(burgerKey);
+  document.querySelectorAll('.menu-drop-zone').forEach(el => el.classList.remove('drag-over'));
+  document.querySelectorAll(`[data-burger-key="${burgerKey}"]`).forEach(el => el.classList.add('drag-over'));
+}
+function onBurgerDragLeave(e){
+  e.currentTarget.classList.remove('drag-over');
+}
+function onBurgerDrop(e, burgerKey){
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  const friteKey = e.dataTransfer.getData('friteKey');
+  if(friteKey) swapFriteToBurger(friteKey, burgerKey);
+}
+
+// Touch DnD
+function onFriteTouchStart(e, friteKey){
+  _touchDragFriteKey = friteKey;
+  const touch = e.touches[0];
+  const ghost = document.createElement('div');
+  ghost.id = 'drag-ghost';
+  ghost.innerHTML = '🍟';
+  ghost.style.cssText = `position:fixed;z-index:9999;pointer-events:none;font-size:36px;opacity:.85;
+    left:${touch.clientX-18}px;top:${touch.clientY-18}px;transition:none;transform:scale(1.3)`;
+  document.body.appendChild(ghost);
+  _touchGhost = ghost;
+}
+function onFriteTouchMove(e){
+  if(!_touchDragFriteKey) return;
+  e.preventDefault();
+  const touch = e.touches[0];
+  if(_touchGhost){
+    _touchGhost.style.left = (touch.clientX-18)+'px';
+    _touchGhost.style.top  = (touch.clientY-18)+'px';
+  }
+  document.querySelectorAll('.menu-drop-zone').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if(touch.clientX>=r.left && touch.clientX<=r.right && touch.clientY>=r.top && touch.clientY<=r.bottom){
+      el.classList.add('drag-over');
+      state.dropTargetBurgerKey = Number(el.dataset.burgerKey);
+    } else {
+      el.classList.remove('drag-over');
+    }
+  });
+}
+function onFriteTouchEnd(e){
+  if(_touchGhost){ _touchGhost.remove(); _touchGhost = null; }
+  if(_touchDragFriteKey && state.dropTargetBurgerKey){
+    swapFriteToBurger(_touchDragFriteKey, state.dropTargetBurgerKey);
+  }
+  _touchDragFriteKey = null;
+  state.dropTargetBurgerKey = null;
+  document.querySelectorAll('.menu-drop-zone').forEach(el => el.classList.remove('drag-over'));
+}
+// Attacher les listeners touch globaux une seule fois
+document.addEventListener('touchmove', onFriteTouchMove, {passive:false});
+document.addEventListener('touchend',  onFriteTouchEnd,  {passive:false});
+
+function addSoloFriesV2(id){
+  const fries = SOLO_FRIES.find(x => x.id === id);
+  if(!fries || !optionAvailable(fries)) return;
+  state.currentItems.push({ type:"fries", fries, key:Date.now() + Math.random() });
+  render();
+}
+
+function renderBoissonStep(){
+  let html = '<div class="pad">';
+  html += `<div class="options-header">
+    <button class="btn-back" onclick="state.step='frites';render()">← Retour</button>
+    <div class="options-title">🍟🥤 Frites seules & Boissons</div>
+  </div>`;
+
+  // Bouton haut
+  html += `<button class="btn btn-green" style="width:100%;margin-bottom:14px" onclick="state.step='burger';openSlotModal()">✓ Envoyer en cuisine</button>`;
+
+  // Frites seules en premier
+  html += '<div class="section-title">Frites seules</div><div class="grid-2">';
+  for(const f of SOLO_FRIES){
+    const avail = optionAvailable(f);
+    html += `<button class="mini-card${avail?'':' unavailable'}" onclick="${avail?`addSoloFriesV2('${f.id}')`:''}" >
+      <div class="mini-name">${f.name}</div>
+      <div class="mini-price">${fmt(f.price)}</div>
+      ${!avail?'<div class="epuise-badge">ÉPUISÉ</div>':''}
+    </button>`;
+  }
+  html += '</div>';
+  const fritesSeul = state.currentItems.filter(i => i.type === 'fries');
+  if(fritesSeul.length > 0){
+    for(const item of fritesSeul){
+      html += `<div class="ticket-item"><div><div class="ticket-item-name">🍟 ${item.fries.name}</div></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="ticket-item-price">${fmt(item.fries.price)}</div>
+          <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
+        </div></div>`;
+    }
+  }
+
+  // Boissons
+  html += '<div class="section-title">Boissons</div><div class="grid-2">';
+  for(const d of DRINKS){
+    html += `<button class="mini-card" onclick="addDrinkV2('${d.id}')">
+      <div class="mini-name">${d.name}</div>
+      <div class="mini-price">${fmt(d.price)}</div>
+    </button>`;
+  }
+  html += '</div>';
+  const drinkItems = state.currentItems.filter(i => i.type === 'drink');
+  if(drinkItems.length > 0){
+    for(const item of drinkItems){
+      html += `<div class="ticket-item"><div><div class="ticket-item-name">🥤 ${item.drink.name}</div></div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="ticket-item-price">${fmt(item.drink.price)}</div>
+          <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
+        </div></div>`;
+    }
+  }
+  const total = state.currentItems.reduce((sum, i) => sum + itemTotal(i), 0);
+
+  // Construction des menus via pairing explicite
+  const burgers    = state.currentItems.filter(i => i.type === 'burger');
+  const fritesMenu = state.currentItems.filter(i => i.type === 'fries-menu');
+  const boissons   = state.currentItems.filter(i => i.type === 'drink');
+
+  // Reconstruire pairing si nécessaire (burgers sans frite assignée)
+  burgers.forEach(b => {
+    if(!(b.key in state.friteMenuPairing)){
+      state.friteMenuPairing[b.key] = null;
+    }
+  });
+
+  const pairedFriteKeys = new Set(Object.values(state.friteMenuPairing).filter(Boolean));
+
+  const editingLabel = state._editingOrderId
+    ? `<span style="color:var(--gold);font-size:12px;margin-left:6px">✏️ Commande #${state._editingOrderId}</span>`
+    : '';
+  html += `<div class="ticket" style="margin-top:16px"><div class="ticket-title" style="display:flex;justify-content:space-between;align-items:center">
+    <span>🧾 RÉCAPITULATIF${editingLabel}</span>
+    <button onclick="state.step='burger';render()" style="border:none;cursor:pointer;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);white-space:nowrap">+ Burger</button>
+  </div>`;
+
+  for(const b of burgers){
+    const pairedFriteKey = state.friteMenuPairing[b.key];
+    const pairedFrite = pairedFriteKey ? fritesMenu.find(f => f.key === pairedFriteKey) : null;
+    const burgerPrice = b.burger.price + (b.supplements||[]).reduce((s,x)=>s+x.price,0);
+    const menuTotal = burgerPrice + (pairedFrite ? pairedFrite.fries.price : 0);
+    const suppsDetail = (b.supplements||[]).map(s =>
+      `<div class="ticket-item-sub" style="padding-left:8px">+ ${s.name} <span style="color:var(--gold);font-family:'Courier New',monospace">+${fmt(s.price)}</span></div>`
+    ).join('');
+    const removalsDetail = (b.removals||[]).map(r =>
+      `<div class="ticket-item-sub" style="padding-left:8px;color:var(--red)">✕ Sans ${r}</div>`
+    ).join('');
+    const isEditingFrite = state._editingFriteForBurgerKey === b.key;
+
+    html += `<div style="margin-bottom:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:${pairedFrite?'rgba(243,164,58,.06)':'var(--panel)'}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-weight:bold;color:var(--gold);font-size:12px">${pairedFrite ? '🍽️ MENU' : '🍔 BURGER'}</div>
+        <div class="ticket-item-price">${fmt(menuTotal)}</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div class="ticket-item-name">🍔 ${b.burger.name}${b.cuisson ? ` <span style="font-size:11px">[${cuissonLabel(b.cuisson)}]</span>` : ''}</div>
+            <button onclick="editItem(${b.key})" style="border:none;cursor:pointer;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);white-space:nowrap;flex-shrink:0">✏️ Modifier</button>
+            <button onclick="removeItem(${b.key})" class="remove-btn" style="flex-shrink:0">×</button>
+          </div>
+          ${suppsDetail}${removalsDetail}
+        </div>
+        <div class="ticket-item-price" style="font-size:12px;color:var(--text-soft);flex-shrink:0">${fmt(burgerPrice)}</div>
+      </div>`;
+
+    // Ligne frite pairée avec bouton Modifier
+    if(pairedFrite){
+      html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding:6px 8px;background:rgba(243,164,58,.14);border-radius:8px">
+        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
+          <span style="font-size:13px">🍟 ${pairedFrite.fries.name}</span>
+          <button onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()" style="border:1px solid rgba(243,164,58,.40);cursor:pointer;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.12);color:var(--gold);white-space:nowrap">✏️ Changer</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+          <span class="ticket-item-price" style="font-size:12px">${fmt(pairedFrite.fries.price)}</span>
+          <button class="remove-btn" onclick="removeItem(${pairedFrite.key})" style="font-size:14px">×</button>
+        </div>
+      </div>`;
+    } else {
+      html += `<div style="border:1px dashed var(--line);border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+        <span style="font-size:11px;color:var(--text-soft)">Pas de frites pour ce burger</span>
+        <button onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()" style="border:1px solid rgba(243,164,58,.40);cursor:pointer;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);white-space:nowrap">+ Ajouter frites</button>
+      </div>`;
+    }
+
+    // Sélecteur de frites inline si en cours d'édition
+    if(isEditingFrite){
+      html += `<div style="margin-top:8px;padding:8px;background:#f9f9f9;border-radius:8px;border:1px solid var(--line)">
+        <div style="font-size:11px;color:var(--text-soft);margin-bottom:6px;font-weight:bold">Choisir les frites :</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <button onclick="changeFriteForBurger(${b.key},null)" style="border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:rgba(255,255,255,.04);cursor:pointer;font-size:11px;color:var(--red);font-weight:bold">✕ Sans frites</button>`;
+      for(const f of BURGER_FRIES){
+        const isSelected = pairedFrite && pairedFrite.fries.id === f.id;
+        html += `<button onclick="changeFriteForBurger(${b.key},'${f.id}')" style="border:1px solid ${isSelected?'var(--gold)':'var(--line)'};border-radius:8px;padding:7px 8px;background:${isSelected?'rgba(243,164,58,.14)':'var(--panel)'};cursor:pointer;font-size:11px;color:${isSelected?'var(--gold)':'var(--text)'};text-align:left">
+          <div style="font-weight:bold">${f.name}</div>
+          <div style="font-size:10px;color:var(--text-soft)">${fmt(f.price)}</div>
+        </button>`;
+      }
+      html += `</div></div>`;
+    }
+
+    html += `</div>`;
+  }
+
+  // Frites seules
+  for(const f of fritesSeul){
+    html += `<div class="ticket-item"><div class="ticket-item-name">🍟 ${f.fries.name} <span style="font-size:10px;color:var(--text-soft)">(hors menu)</span></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="ticket-item-price">${fmt(f.fries.price)}</div>
+        <button class="remove-btn" onclick="removeItem(${f.key})">×</button>
+      </div></div>`;
+  }
+
+  // Boissons
+  for(const d of boissons){
+    html += `<div class="ticket-item"><div class="ticket-item-name">🥤 ${d.drink.name}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="ticket-item-price">${fmt(d.drink.price)}</div>
+        <button class="remove-btn" onclick="removeItem(${d.key})">×</button>
+      </div></div>`;
+  }
+
+  html += `<div class="ticket-footer">
+    <div><div class="ticket-count">${state.currentItems.length} articles</div><div class="ticket-total">${fmt(total)}</div></div>
+    <button class="btn btn-green" style="flex:1" onclick="state.step='burger';openSlotModal()">✓ Envoyer en cuisine</button>
+  </div></div></div>`;
+  return html;
+}
+
+function changeFriteForBurger(burgerKey, friteId){
+  burgerKey = Number(burgerKey);
+  // Supprimer l'ancienne frite pairée si elle existe
+  const oldFriteKey = state.friteMenuPairing[burgerKey];
+  if(oldFriteKey){
+    state.currentItems = state.currentItems.filter(i => i.key !== oldFriteKey);
+  }
+  if(friteId){
+    const frite = BURGER_FRIES.find(f => f.id === friteId);
+    if(frite){
+      const newKey = Date.now() + Math.random();
+      state.currentItems.push({ type:"fries-menu", key:newKey, fries:frite });
+      state.friteMenuPairing[burgerKey] = newKey;
+    }
+  } else {
+    state.friteMenuPairing[burgerKey] = null;
+  }
+  state._editingFriteForBurgerKey = null;
+  render();
+}
+
+function addDrinkV2(id){
+  const drink = DRINKS.find(x => x.id === id);
+  if(!drink) return;
+  state.currentItems.push({ type:"drink", drink, key:Date.now() + Math.random() });
+  render();
+}
+
 function playCashSound(){
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1035,7 +1768,7 @@ function payOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   order.status = "paye";
-  if(order.loyalty) state.loyaltyCount++;
+  state.loyaltyCount += (order.loyaltyCount || (order.loyalty ? 1 : 0));
   state.dailyRevenue += order.total;
   saveState();
   syncOrderToSheets(order);
@@ -1045,19 +1778,21 @@ function payOrder(id){
 function cancelOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
-  // Restore stock
   for(const item of order.items){
     const needed = countNeeded(getItemIngredients(item));
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
   }
-  // If was paid, remove from revenue; undo loyalty count
   if(order.status === "paye") state.dailyRevenue = Math.max(0, state.dailyRevenue - order.total);
-  if(order.loyalty) state.loyaltyCount = Math.max(0, state.loyaltyCount - 1);
+  state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
   order.status = "annule";
   saveState();
   syncOrderToSheets(order);
+  // Forcer le rendu immédiat sans changer d'onglet
+  state.tab = "encours";
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-encours").classList.add("active");
   render();
 }
 function deleteOrder(id){
@@ -1083,21 +1818,24 @@ function editOrder(id){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
   }
-  // If was paid, reverse revenue; undo loyalty count
   if(order.status === "paye") state.dailyRevenue = Math.max(0, state.dailyRevenue - order.total);
-  if(order.loyalty) state.loyaltyCount = Math.max(0, state.loyaltyCount - 1);
-  // Load back into ticket
+  state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
+  // Restore items with stable keys
   state.currentItems = order.items.map(i => ({...i, key: i.key || (Date.now() + Math.random())}));
+  // Restore frite pairing
+  state.friteMenuPairing = order.friteMenuPairing ? {...order.friteMenuPairing} : {};
   state._editingOrderId = order.id;
   state.loyaltyActive = order.loyalty || false;
   state.orders = state.orders.filter(o => o.id !== id);
-  state.step = "burger";
+  // Aller directement au récap (étape boissons)
+  state.step = "boissons";
   state.pendingBurger = null;
   state.pendingSupps = [];
   state.pendingFrite = null;
   state.pendingDrink = null;
   state.pendingCuisson = null;
   state.editingItemKey = null;
+  state.friteStepIndex = 0;
   saveState();
   switchTab("caisse");
 }
@@ -1153,7 +1891,7 @@ function slotStats(slot){
   for(const o of slotOrders){
     for(const item of o.items){
       if(item.type === "burger"){ burgers++; if(item.frite) frites++; }
-      else if(item.type === "fries") frites++;
+      else if(item.type === "fries" || item.type === "fries-menu") frites++;
       else if(item.type === "steakfrites"){ burgers++; frites++; }
     }
   }
@@ -1222,16 +1960,17 @@ function confirmOrderWithSlot(){
 
 // ---- CA MODAL ----
 function openCAModal(){
-  const allItems = state.orders.flatMap(o => o.items);
-  const nbBurgers  = allItems.filter(i => i.type === "burger").length;
-  // Frites = seules + steakfrites + frites dans les menus burger
-  const nbFritesSolo = allItems.filter(i => i.type === "fries" || i.type === "steakfrites").length;
-  const nbFritesMenu = allItems.filter(i => i.type === "burger" && i.frite).length;
-  const nbFrites = nbFritesSolo + nbFritesMenu;
-  // Boissons = seules + boissons dans les menus burger
-  const nbBoissonsSolo = allItems.filter(i => i.type === "drink").length;
-  const nbBoissonsMenu = allItems.filter(i => i.type === "burger" && i.drink).length;
-  const nbBoissons = nbBoissonsSolo + nbBoissonsMenu;
+  const paidOrders = state.orders.filter(o => o.status === 'paye');
+  const allPaidItems = paidOrders.flatMap(o => o.items);
+  const pairedFriteKeys = new Set(
+    paidOrders.flatMap(o => Object.values(o.friteMenuPairing || {}).filter(Boolean))
+  );
+  const nbBurgers  = allPaidItems.filter(i => i.type === "burger").length;
+  const nbFritesSolo = allPaidItems.filter(i => i.type === "fries").length;
+  const nbFritesMenu = allPaidItems.filter(i => i.type === "fries-menu" && pairedFriteKeys.has(i.key)).length;
+  const nbFritesUnpaired = allPaidItems.filter(i => i.type === "fries-menu" && !pairedFriteKeys.has(i.key)).length;
+  const nbFrites = nbFritesSolo + nbFritesMenu + nbFritesUnpaired;
+  const nbBoissons = allPaidItems.filter(i => i.type === "drink").length;
 
   let html = `<div class="ca-stats" style="grid-template-columns:1fr 1fr 1fr 1fr">
     <div class="ca-stat"><div class="ca-stat-val">${nbBurgers}</div><div class="ca-stat-label">BURGERS</div></div>
@@ -1248,24 +1987,28 @@ function openCAModal(){
       const statusBadge = order.status === 'paye'
         ? '<span style="font-size:10px;background:#d8f5e8;color:#1a9058;border-radius:6px;padding:2px 6px;margin-left:6px">✓ Réglée</span>'
         : order.status === 'annule'
-          ? '<span style="font-size:10px;background:#fce0e0;color:var(--red);border-radius:6px;padding:2px 6px;margin-left:6px">✕ Annulée</span>'
-          : '<span style="font-size:10px;background:#fff0d8;color:#d77a11;border-radius:6px;padding:2px 6px;margin-left:6px">⏳ En cours</span>';
+          ? '<span style="font-size:10px;background:rgba(248,113,113,.15);color:var(--red);border-radius:6px;padding:2px 6px;margin-left:6px">✕ Annulée</span>'
+          : '<span style="font-size:10px;background:rgba(243,164,58,.14);color:var(--gold);border-radius:6px;padding:2px 6px;margin-left:6px">⏳ En cours</span>';
+      const orderPairing = order.friteMenuPairing || {};
+      const orderPairedFriteKeys = new Set(Object.values(orderPairing).filter(Boolean));
       html += `<div class="ca-detail-row" style="flex-direction:column;align-items:stretch;gap:6px${order.status==='annule'?';opacity:.5':''}">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
             <div class="ca-detail-num">#${order.id}</div>${statusBadge}
-            ${order.loyalty ? '<span style="font-size:10px;background:#fce8e8;color:var(--red);border-radius:6px;padding:2px 6px">🎫 Fidélité</span>' : ''}
+            ${order.loyalty ? `<span style="font-size:10px;background:rgba(248,113,113,.15);color:var(--red);border-radius:6px;padding:2px 6px">🎫 ×${order.loyaltyCount||1}</span>` : ''}
+            ${order.slot ? `<span style="font-size:10px;background:rgba(243,164,58,.14);color:var(--gold);border-radius:6px;padding:2px 6px">🕐 ${order.slot}</span>` : ''}
           </div>
           <div class="ca-detail-price">${fmt(order.total)}</div>
         </div>`;
 
       for(const item of order.items){
+        if(item.type === "fries-menu" && orderPairedFriteKeys.has(item.key)) continue; // affiché sous son burger
         if(item.type === "steakfrites"){
           html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0 3px 8px;border-left:3px solid #e8c46a">
             <div class="ca-detail-item" style="margin:0">🥩 Steak + Frites</div>
             <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(STEAK_FRITES.price)}</div>
           </div>`;
-        } else if(item.type === "fries"){
+        } else if(item.type === "fries" || item.type === "fries-menu"){
           html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0 3px 8px;border-left:3px solid #f1d7b7">
             <div class="ca-detail-item" style="margin:0">🍟 ${item.fries.name}</div>
             <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.fries.price)}</div>
@@ -1275,46 +2018,36 @@ function openCAModal(){
             <div class="ca-detail-item" style="margin:0">🥤 ${item.drink.name}</div>
             <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.drink.price)}</div>
           </div>`;
-        } else {
-          // Burger — ligne principale
+        } else if(item.type === "burger"){
           const cuisson = item.cuisson ? ` (${cuissonLabel(item.cuisson)})` : '';
           const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
+          const pairedFriteKey = orderPairing[item.key];
+          const pairedFrite = pairedFriteKey ? order.items.find(i => i.key === pairedFriteKey) : null;
           html += `<div style="padding:3px 0 3px 8px;border-left:3px solid ${nameColor}">
             <div style="display:flex;justify-content:space-between;align-items:center">
               <div class="ca-detail-item" style="margin:0;font-weight:bold;color:${nameColor}">🍔 ${item.burger.name}${cuisson}</div>
               <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.burger.price)}</div>
             </div>`;
-          // Suppléments
           for(const s of (item.supplements||[])){
             html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px">
-              <div class="ca-detail-item" style="margin:0;padding-left:8px">+ ${s.name}</div>
+              <div class="ca-detail-item" style="margin:0;padding-left:8px;color:#2a7abf;font-weight:bold">+ ${s.name}</div>
               <div style="font-size:11px;color:var(--text-soft)">${fmt(s.price)}</div>
             </div>`;
           }
-          // Retraits
           for(const r of (item.removals||[])){
             html += `<div style="padding-top:2px;padding-left:8px">
               <div class="ca-detail-item" style="margin:0;color:var(--red)">✕ Sans ${r}</div>
             </div>`;
           }
-          // Frites avec burger
-          if(item.frite){
-            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px">
-              <div class="ca-detail-item" style="margin:0;padding-left:8px">🍟 Frites ${item.frite.name}</div>
-              <div style="font-size:11px;color:var(--text-soft)">${fmt(item.frite.price)}</div>
-            </div>`;
-          }
-          // Boisson avec burger
-          if(item.drink){
-            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px">
-              <div class="ca-detail-item" style="margin:0;padding-left:8px">🥤 ${item.drink.name}</div>
-              <div style="font-size:11px;color:var(--text-soft)">${fmt(item.drink.price)}</div>
+          if(pairedFrite){
+            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px;padding-left:8px">
+              <div class="ca-detail-item" style="margin:0;color:var(--gold)">🍟 ${pairedFrite.fries.name}</div>
+              <div style="font-size:11px;color:var(--text-soft)">${fmt(pairedFrite.fries.price)}</div>
             </div>`;
           }
           html += '</div>';
         }
       }
-      // Ligne HT + TVA par commande
       if(order.status !== 'annule'){
         const ht  = order.total / 1.10;
         const tva = order.total - ht;
@@ -1338,15 +2071,11 @@ function openCAModal(){
     </div>
     <div style="height:1px;background:rgba(0,0,0,.08)"></div>
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div style="font-size:11px;font-weight:bold;letter-spacing:1.5px;color:var(--text-soft)">DONT TVA (10%)</div>
-      </div>
+      <div><div style="font-size:11px;font-weight:bold;letter-spacing:1.5px;color:var(--text-soft)">DONT TVA (10%)</div></div>
       <div style="font-size:16px;font-weight:bold;color:var(--orange);font-family:'Courier New',monospace">${fmt(state.dailyRevenue - state.dailyRevenue / 1.10)}</div>
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div class="ca-total-label" style="color:var(--green)">CA NET HT</div>
-      </div>
+      <div><div class="ca-total-label" style="color:var(--green)">CA NET HT</div></div>
       <div class="ca-total-value" style="color:var(--green)">${fmt(state.dailyRevenue / 1.10)}</div>
     </div>
   </div>`;
@@ -1361,47 +2090,151 @@ function closeCAModal(e){
 }
 
 // ---- AGENDA MODAL ----
-function openAgendaModal(){
-  const usedSlots = SLOTS.filter(s => state.orders.some(o => o.slot === s && o.status !== "annule"));
-  let html = '';
+let _agendaSelectedSlot = null;
 
-  if(usedSlots.length === 0){
-    html = '<div style="text-align:center;color:var(--text-soft);padding:24px 0">Aucune commande planifiée pour le moment</div>';
-  } else {
-    for(const slot of SLOTS){
-      const slotOrders = state.orders.filter(o => o.slot === slot && o.status !== "annule");
-      if(slotOrders.length === 0) continue;
-      const {burgers, frites} = slotStats(slot);
-      const isFull = burgers >= 6;
-      html += `<div class="agenda-slot-row">
-        <div class="agenda-slot-head">
-          <div class="agenda-slot-time">${slot}</div>
-          <div class="agenda-slot-counts">
-            <span class="agenda-slot-pill${isFull ? ' red' : ''}">🍔 ${burgers}${isFull ? ' ⚠' : ''}</span>
-            <span class="agenda-slot-pill">🍟 ${frites}</span>
-          </div>
-        </div>`;
-      for(const order of slotOrders){
-        const burgerItems = order.items.filter(i => i.type === "burger" || i.type === "steakfrites");
-        const friteItems  = order.items.filter(i => i.type === "fries" || (i.type === "burger" && i.frite) || i.type === "steakfrites");
-        const burgerLines = burgerItems.map(i => {
-          if(i.type === "steakfrites") return `<div style="font-size:12px;color:var(--text)">🥩 Steak + Frites</div>`;
-          const cuisson = i.cuisson ? ` <span style="color:${cuissonColor(i.cuisson)}">[${cuissonLabel(i.cuisson)}]</span>` : '';
-          const removals = (i.removals||[]).length ? ` <span style="color:var(--red)">✕${(i.removals).map(r=>r.split(' ')[0]).join(',')}</span>` : '';
-          return `<div style="font-size:12px;color:var(--text)">🍔 ${i.burger.name}${cuisson}${removals}</div>`;
-        }).join('');
-        html += `<div class="agenda-order-line ${order.status}" style="display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-left:none;border-bottom:1px solid var(--line)">
-          <button onclick="goToOrder(${order.id})" style="flex-shrink:0;background:${order.status==='paye'?'#1a9058':'var(--gold)'};color:white;border:none;border-radius:10px;padding:7px 14px;font-size:15px;font-weight:bold;cursor:pointer;min-width:52px;text-align:center;font-family:Georgia,serif;letter-spacing:.5px">#${order.id}</button>
-          <div style="flex:1">${burgerLines || '<div style="font-size:12px;color:var(--text-soft)">—</div>'}${order.loyalty ? '<div style="font-size:11px;color:var(--red)">🎫 Fidélité</div>' : ''}</div>
-          <div style="font-size:13px;font-weight:bold;color:var(--gold);font-family:\'Courier New\',monospace;white-space:nowrap">${fmt(order.total)}</div>
-        </div>`;
-      }
-      html += '</div>';
+function openAgendaModal(){
+  _agendaSelectedSlot = null;
+  renderAgendaModal();
+  document.getElementById("modal-agenda").style.display = "flex";
+}
+
+function selectAgendaSlot(slot){
+  _agendaSelectedSlot = (_agendaSelectedSlot === slot) ? null : slot;
+  renderAgendaModal();
+}
+
+function agendaTotals(){
+  let burgers = 0, frites = 0, orders = 0;
+  for(const o of state.orders){
+    if(o.status !== "encours") continue;
+    orders++;
+    for(const item of o.items){
+      if(item.type === "burger"){ burgers++; if(item.frite) frites++; }
+      else if(item.type === "fries" || item.type === "fries-menu") frites++;
+      else if(item.type === "steakfrites"){ burgers++; frites++; }
     }
   }
+  return { burgers, frites, orders };
+}
+
+function renderAgendaModal(){
+  const col1 = SLOTS.filter(s => parseInt(s) < 20);
+  const col2 = SLOTS.filter(s => parseInt(s) >= 20);
+
+  function slotBtn(slot){
+    const {burgers, frites} = slotStats(slot);
+    const isSel   = _agendaSelectedSlot === slot;
+    const isFull  = burgers >= 6;
+    const isBusy  = burgers >= 3 && burgers < 6;
+    const isLight = burgers > 0 && burgers < 3;
+    let cls = 'slot-btn';
+    if(isSel)        cls += ' selected';
+    else if(isFull)  cls += ' full';
+    else if(isBusy)  cls += ' busy';
+    else if(isLight) cls += ' light';
+    const warn = isFull ? ' ⚠' : '';
+    return `<button class="${cls}" onclick="selectAgendaSlot('${slot}')">
+      <div class="slot-time">${slot}</div>
+      <div class="slot-counts">
+        <span class="slot-count-pill">🍔 ${burgers}${warn}</span>
+        <span class="slot-count-pill">🍟 ${frites}</span>
+      </div>
+    </button>`;
+  }
+
+  const tot = agendaTotals();
+  let html = `<div class="agenda-summary">
+    <div class="agenda-summary-head">
+      <span class="agenda-summary-title">État de la soirée</span>
+      <span class="agenda-summary-orders">${tot.orders} commande${tot.orders > 1 ? 's' : ''} en cours</span>
+    </div>
+    <div class="agenda-summary-stats">
+      <div class="agenda-summary-stat">
+        <span class="agenda-summary-emoji">🍔</span>
+        <span class="agenda-summary-num">${tot.burgers}</span>
+        <span class="agenda-summary-lbl">burgers</span>
+      </div>
+      <div class="agenda-summary-sep"></div>
+      <div class="agenda-summary-stat">
+        <span class="agenda-summary-emoji">🍟</span>
+        <span class="agenda-summary-num">${tot.frites}</span>
+        <span class="agenda-summary-lbl">frites</span>
+      </div>
+    </div>
+  </div>`;
+
+  html += `<div class="slot-grid">`;
+  html += `<div class="slot-section-label">19 H — 20 H</div>`;
+  for(const s of col1) html += slotBtn(s);
+  html += `<div class="slot-section-label">20 H — 21 H</div>`;
+  for(const s of col2) html += slotBtn(s);
+  html += `</div>`;
+
+  html += `<div style="margin-top:12px">${renderAgendaSlotDetail(_agendaSelectedSlot)}</div>`;
 
   document.getElementById("agenda-content").innerHTML = html;
-  document.getElementById("modal-agenda").style.display = "flex";
+}
+
+function renderAgendaSlotDetail(slot){
+  if(!slot){
+    return '<div style="text-align:center;color:var(--text-soft);padding:18px 0;font-size:13px">Sélectionnez un créneau pour voir ses commandes</div>';
+  }
+  const slotOrders = state.orders.filter(o => o.slot === slot && o.status !== "annule");
+  if(slotOrders.length === 0){
+    return `<div style="text-align:center;color:var(--text-soft);padding:18px 0;font-size:13px">Aucune commande sur le créneau ${slot}</div>`;
+  }
+  const {burgers, frites} = slotStats(slot);
+  const isFull = burgers >= 6;
+  let html = `<div class="agenda-slot-row">
+    <div class="agenda-slot-head">
+      <div class="agenda-slot-time">${slot}</div>
+      <div class="agenda-slot-counts">
+        <span class="agenda-slot-pill${isFull ? ' red' : ''}">🍔 ${burgers}${isFull ? ' ⚠' : ''}</span>
+        <span class="agenda-slot-pill">🍟 ${frites}</span>
+      </div>
+    </div>`;
+  for(const order of slotOrders){
+    const pairing = order.friteMenuPairing || {};
+    const burgerItems = order.items.filter(i => i.type === "burger" || i.type === "steakfrites");
+    const drinkItems  = order.items.filter(i => i.type === "drink");
+    const fritesSolo  = order.items.filter(i => i.type === "fries");
+
+    let detailHtml = '';
+    for(const i of burgerItems){
+      if(i.type === "steakfrites"){
+        detailHtml += `<div style="padding:5px 0 5px 8px;border-left:3px solid #e8c46a;margin-bottom:4px">
+          <div style="font-size:13px;font-weight:bold">🥩 Steak + Frites</div>
+        </div>`;
+      } else {
+        const nameColor = i.cuisson ? cuissonColor(i.cuisson) : 'var(--text)';
+        const pairedFriteKey = pairing[i.key];
+        const pairedFrite = pairedFriteKey ? order.items.find(x => x.key === pairedFriteKey) : null;
+        detailHtml += `<div style="padding:5px 0 5px 8px;border-left:3px solid ${nameColor};margin-bottom:4px">
+          <div style="font-size:13px;font-weight:bold;color:${nameColor}">🍔 ${i.burger.name}${i.cuisson ? ` <span style="font-size:11px">[${cuissonLabel(i.cuisson)}]</span>` : ''}</div>
+          ${(i.supplements||[]).map(s => `<div style="font-size:11px;color:#2a7abf;font-weight:bold;padding-left:6px">+ ${s.name}</div>`).join('')}
+          ${(i.removals||[]).map(r => `<div style="font-size:11px;color:var(--red);padding-left:6px;font-weight:bold">✕ SANS ${r.toUpperCase()}</div>`).join('')}
+          ${pairedFrite ? `<div style="font-size:11px;color:var(--gold);padding-left:6px">🍟 ${pairedFrite.fries.name}</div>` : ''}
+        </div>`;
+      }
+    }
+    for(const f of fritesSolo){
+      detailHtml += `<div style="font-size:11px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:3px solid #f1d7b7;margin-bottom:4px">🍟 ${f.fries.name} <span style="font-size:10px">(seule)</span></div>`;
+    }
+    for(const d of drinkItems){
+      detailHtml += `<div style="font-size:11px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:3px solid #c0d8f0;margin-bottom:4px">🥤 ${d.drink.name}</div>`;
+    }
+
+    html += `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)">
+      <button onclick="goToOrder(${order.id})" style="flex-shrink:0;background:${order.status==='paye'?'#0f6e44':'var(--gold)'};color:white;border:none;border-radius:10px;padding:7px 14px;font-size:15px;font-weight:bold;cursor:pointer;min-width:52px;text-align:center;font-family:var(--font);letter-spacing:.5px">#${order.id}</button>
+      <div style="flex:1;min-width:0">
+        ${detailHtml || '<div style="font-size:12px;color:var(--text-soft)">—</div>'}
+        ${order.loyalty ? `<div style="font-size:11px;color:var(--red);margin-top:2px">🎫 Fidélité ×${order.loyaltyCount||1}</div>` : ''}
+      </div>
+      <div style="font-size:13px;font-weight:bold;color:var(--gold);font-family:'Courier New',monospace;white-space:nowrap;padding-top:4px">${fmt(order.total)}</div>
+    </div>`;
+  }
+  html += '</div>';
+  return html;
 }
 function closeAgendaModal(e){
   if(!e || e.target === document.getElementById("modal-agenda")){
@@ -1422,24 +2255,12 @@ function exportExcel(){
   const url = getSheetsUrl();
 
   if(url){
-    const orders = state.orders.filter(o => o.status !== 'annule');
+    const orders = state.orders.filter(o => o.status === 'paye');
     if(orders.length === 0){ alert("Aucune commande à exporter."); return; }
 
     // Onglet 1 : détail des commandes
     const rows = orders.map(order => {
-      const items = order.items.map(i => {
-        if(i.type === 'steakfrites') return 'Steak+Frites';
-        if(i.type === 'fries') return i.fries.name;
-        if(i.type === 'drink') return i.drink.name;
-        const extras = [
-          i.cuisson ? cuissonLabel(i.cuisson) : null,
-          ...(i.supplements||[]).map(s => '+'+s.name),
-          i.frite ? '+Frites '+i.frite.name : null,
-          i.drink ? '+'+i.drink.name : null,
-          ...(i.removals||[]).map(r => '-'+r)
-        ].filter(Boolean);
-        return i.burger.name + (extras.length ? ' ('+extras.join(', ')+')' : '');
-      }).join(' | ');
+      const items = buildOrderItemsLabel(order);
       const ttc = order.total;
       return {
         id: order.id,
@@ -1475,7 +2296,7 @@ function exportExcel(){
           counts['Le Steak Haché']++;
           totalBurgers++;
           totalFrites++;
-        } else if(item.type === 'fries'){
+        } else if(item.type === 'fries' || item.type === 'fries-menu'){
           totalFrites++;
         }
       }
@@ -1512,7 +2333,7 @@ function exportExcel(){
     for(let i = 0; i < order.items.length; i++){
       const item = order.items[i];
       let type = "", detail = "", cuisson = "", prix = 0;
-      if(item.type === "fries"){
+      if(item.type === "fries" || item.type === "fries-menu"){
         type = "Frites"; detail = item.fries.name; prix = item.fries.price;
       } else if(item.type === "drink"){
         type = "Boisson"; detail = item.drink.name; prix = item.drink.price;
@@ -1573,21 +2394,164 @@ function render(){
 
   const content = document.getElementById("content");
   if(state.tab === "caisse"){
-    content.innerHTML = (state.step === "options" && state.pendingBurger) ? renderOptions() : renderCaisse();
+    if(state.step === "options" && state.pendingBurger) content.innerHTML = renderOptions();
+    else if(state.step === "frites") content.innerHTML = renderFritesStep();
+    else if(state.step === "boissons") content.innerHTML = renderBoissonStep();
+    else content.innerHTML = renderCaisse();
   }else if(state.tab === "encours"){
     content.innerHTML = renderEnCours();
   }else if(state.tab === "historique"){
     content.innerHTML = renderHistorique();
+  }else if(state.tab === "vip"){
+    content.innerHTML = renderVIP();
   }else{
     content.innerHTML = renderStocks();
   }
 }
 
+// ---- VIP PRESETS ----
+const VIP_ORDERS = [
+  {
+    id: "leG",
+    name: "Le G",
+    emoji: "👑",
+    description: "2× Montagnard double steak · 2× Frites cheddar bacon · 1× Poulet · 2× Soft",
+    build: () => {
+      const items = [];
+      const montagnard = BURGERS.find(b => b.id === "montagnard");
+      const poulet     = BURGERS.find(b => b.id === "poulet");
+      const doubleSupp = SUPPLEMENTS.find(s => s.id === "double");
+      const bfChedBac  = BURGER_FRIES.find(f => f.id === "bfChedBac");
+      const softDrink  = DRINKS.find(d => d.id === "soft");
+
+      const key1 = Date.now();
+      const key2 = key1 + 1;
+      const key3 = key1 + 2;
+      const keyF1 = key1 + 10;
+      const keyF2 = key1 + 11;
+      const keyD1 = key1 + 20;
+      const keyD2 = key1 + 21;
+
+      // 2 Montagnard double steak
+      items.push({ type:"burger", key:key1, burger:montagnard, supplements:[doubleSupp], removals:[], cuisson:null });
+      items.push({ type:"burger", key:key2, burger:montagnard, supplements:[doubleSupp], removals:[], cuisson:null });
+      // 1 Poulet
+      items.push({ type:"burger", key:key3, burger:poulet, supplements:[], removals:[], cuisson:null });
+      // 2 frites cheddar bacon (menu)
+      items.push({ type:"fries-menu", key:keyF1, fries:bfChedBac });
+      items.push({ type:"fries-menu", key:keyF2, fries:bfChedBac });
+      // 2 Soft
+      items.push({ type:"drink", key:keyD1, drink:softDrink });
+      items.push({ type:"drink", key:keyD2, drink:softDrink });
+
+      const pairing = { [key1]: keyF1, [key2]: keyF2, [key3]: null };
+      return { items, pairing };
+    }
+  },
+  {
+    id: "pouletMyko",
+    name: "Poulet Myko Boy",
+    emoji: "🐔",
+    description: "1× Myko sans frites · 1× Poulet sans frites",
+    build: () => {
+      const myko   = BURGERS.find(b => b.id === "myko");
+      const poulet = BURGERS.find(b => b.id === "poulet");
+      const key1 = Date.now();
+      const key2 = key1 + 1;
+      const items = [
+        { type:"burger", key:key1, burger:myko,   supplements:[], removals:[], cuisson:null },
+        { type:"burger", key:key2, burger:poulet, supplements:[], removals:[], cuisson:null },
+      ];
+      return { items, pairing: { [key1]: null, [key2]: null } };
+    }
+  },
+  {
+    id: "starCity",
+    name: "Nephis",
+    emoji: "🌟",
+    description: "1× Poulet + bacon · 1× Frites nature",
+    build: () => {
+      const poulet   = BURGERS.find(b => b.id === "poulet");
+      const bacon    = SUPPLEMENTS.find(s => s.id === "bacon");
+      const bfNature = BURGER_FRIES.find(f => f.id === "bfNature");
+      const key1 = Date.now();
+      const keyF1 = key1 + 10;
+      const items = [
+        { type:"burger",     key:key1,  burger:poulet, supplements:[bacon], removals:[], cuisson:null },
+        { type:"fries-menu", key:keyF1, fries:bfNature },
+      ];
+      return { items, pairing: { [key1]: keyF1 } };
+    }
+  },
+  {
+    id: "dameSansCornichon",
+    name: "La dame sans cornichon",
+    emoji: "🥒",
+    description: "1× Original sans cornichon · 1× Frites nature",
+    build: () => {
+      const original = BURGERS.find(b => b.id === "original");
+      const bfNature = BURGER_FRIES.find(f => f.id === "bfNature");
+      const key1 = Date.now();
+      const keyF1 = key1 + 10;
+      const items = [
+        { type:"burger",     key:key1,  burger:original, supplements:[], removals:["Cornichons"], cuisson:null },
+        { type:"fries-menu", key:keyF1, fries:bfNature },
+      ];
+      return { items, pairing: { [key1]: keyF1 } };
+    }
+  }
+];
+
+function loadVipOrder(vipId){
+  if(state.currentItems.length > 0){
+    if(!confirm("Un ticket est déjà en cours. Remplacer par la commande VIP ?")) return;
+  }
+  const vip = VIP_ORDERS.find(v => v.id === vipId);
+  if(!vip) return;
+  const { items, pairing } = vip.build();
+  state.currentItems = items;
+  state.friteMenuPairing = pairing;
+  state.friteStepIndex = 0;
+  state.step = "boissons";
+  switchTab("caisse");
+  // Ouvrir modal horaire
+  requestAnimationFrame(() => openSlotModal());
+}
+
+function renderVIP(){
+  let html = '<div class="pad">';
+  html += '<div class="section-title" style="margin-bottom:16px">⭐ Commandes VIP</div>';
+  html += '<div style="font-size:12px;color:var(--text-soft);margin-bottom:18px">Appuyer sur une commande pour la charger directement sur l\'écran des horaires.</div>';
+
+  for(const vip of VIP_ORDERS){
+    const rawTotal = vip.build().items.reduce((s,i) => s + itemTotal(i), 0);
+    html += `<button onclick="loadVipOrder('${vip.id}')" style="width:100%;background:rgba(243,164,58,.10);border:1.5px solid rgba(243,164,58,.40);border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:16px">
+      <div style="font-size:36px;line-height:1">${vip.emoji}</div>
+      <div style="flex:1">
+        <div style="font-size:17px;font-weight:bold;color:var(--gold);font-family:var(--font);margin-bottom:4px">${vip.name}</div>
+        <div style="font-size:12px;color:var(--text-soft);line-height:1.5">${vip.description}</div>
+      </div>
+      <div style="font-size:15px;font-weight:bold;color:var(--gold);font-family:'Courier New',monospace;white-space:nowrap">${fmt(rawTotal)}</div>
+    </button>`;
+  }
+
+  html += '</div>';
+  return html;
+}
+
 function renderCaisse(){
   let html = '<div class="pad">';
 
+  // Bouton haut si items en cours
+  const hasBurgers = state.currentItems.filter(i => i.type === 'burger').length > 0;
+  if(hasBurgers){
+    const total = state.currentItems.reduce((sum, i) => sum + itemTotal(i), 0);
+    html += `<button class="btn btn-primary" style="width:100%;margin-bottom:14px" onclick="goToFritesStep()">🍟 Passer aux frites → <span style="opacity:.8;font-size:13px">${fmt(total)}</span></button>`;
+  }
+
   html += '<div class="section-title">Burgers</div><div class="grid-2">';
   for(const b of BURGERS){
+    if(!isBurgerActive(b.id)) continue;
     const avail = burgerAvailable(b);
     html += `<button class="burger-card${avail ? '' : ' unavailable'}" onclick="${avail ? `selectBurger('${b.id}')` : ''}">
       <div class="burger-card-name">${b.name}</div>
@@ -1613,7 +2577,6 @@ function renderCaisse(){
     html += `<button class="mini-card" onclick="addDrink('${d.id}')">
       <div class="mini-name">${d.name}</div>
       <div class="mini-price">${fmt(d.price)}</div>
-      <div class="mini-sub">Boisson seule</div>
     </button>`;
   }
   html += '</div>';
@@ -1624,7 +2587,7 @@ function renderCaisse(){
       : '';
     html += `<div class="ticket"><div class="ticket-title">🧾 TICKET EN COURS${editingLabel}</div>`;
     for(const item of state.currentItems){
-      if(item.type === "fries"){
+      if(item.type === "fries" || item.type === "fries-menu"){
         html += `<div class="ticket-item">
           <div>
             <div class="ticket-item-name">${item.fries.name}</div>
@@ -1660,17 +2623,17 @@ function renderCaisse(){
       } else {
         const cuissonInfo = item.cuisson ? `${cuissonDot(item.cuisson)}<span>${cuissonLabel(item.cuisson)}</span>` : '';
         const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
-        html += `<div class="ticket-item">
-          <div style="flex:1">
-            <div class="ticket-item-name" style="color:${nameColor}">${item.burger.name}</div>
+        html += `<div class="ticket-item" style="align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+              <div class="ticket-item-name" style="color:${nameColor};flex:1;min-width:0">${item.burger.name}</div>
+              <button class="ticket-item-edit" onclick="editItem(${item.key})" style="flex-shrink:0">✏️ Modifier</button>
+            </div>
             ${item.cuisson ? `<div class="ticket-item-sub">${cuissonInfo}</div>` : ''}
             ${(item.supplements || []).map(s => `<div class="ticket-item-sub">+ ${s.name}</div>`).join('')}
             ${(item.removals || []).map(r => `<div class="ticket-item-sub" style="color:var(--red)">✕ Sans ${r}</div>`).join('')}
-            ${item.frite ? `<div class="ticket-item-sub">+ Frites ${item.frite.name}</div>` : ''}
-            ${item.drink ? `<div class="ticket-item-sub">+ Boisson ${item.drink.name}</div>` : ''}
-            <button class="ticket-item-edit" onclick="editItem(${item.key})">✏️ Modifier</button>
           </div>
-          <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:flex-start;gap:10px;padding-top:2px">
             <div class="ticket-item-price">${fmt(itemTotal(item))}</div>
             <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
           </div>
@@ -1685,7 +2648,7 @@ function renderCaisse(){
         <div class="ticket-total">${fmt(finalTotal)}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
-        <button class="btn btn-green" style="width:100%;margin-top:4px" onclick="openSlotModal()">✓ Envoyer en cuisine</button>
+        <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="goToFritesStep()">🍟 Passer aux frites →</button>
       </div>
     </div></div>`;
   }
@@ -1696,9 +2659,7 @@ function renderCaisse(){
 function renderOptions(){
   const b = state.pendingBurger;
   const suppTotal = state.pendingSupps.reduce((sum, s) => sum + s.price, 0);
-  const friesPrice = state.pendingFrite?.price || 0;
-  const drinkPrice = state.pendingDrink?.price || 0;
-  const total = b.price + suppTotal + friesPrice + drinkPrice;
+  const total = b.price + suppTotal;
   const isEditing = !!state.editingItemKey;
 
   let html = '<div class="pad">';
@@ -1707,8 +2668,11 @@ function renderOptions(){
     <div class="options-title">${b.name} — ${fmt(b.price)}</div>
   </div>`;
 
+  // Bouton Ajouter au ticket en haut
+  html += `<button class="btn btn-primary" style="width:100%;margin-bottom:14px" onclick="addBurgerItem()">${isEditing ? '✓ Mettre à jour' : '+ Ajouter au ticket'}</button>`;
+
   // Cuisson
-  html += '<div class="section-title">Cuisson</div><div class="grid-2">';
+  html += '<div class="section-title">Cuisson</div><div class="grid-4">';
   for(const c of CUISSONS){
     const sel = state.pendingCuisson === c.id;
     html += `<button class="option-card ${c.cssClass}${sel ? ' selected' : ''}" onclick="selectCuisson('${c.id}')">
@@ -1731,54 +2695,27 @@ function renderOptions(){
   }
   html += '</div>';
 
-  // Frites — masquées pour Le Steak seul
-  if(!b.noDefaultFrite){
-    html += '<div class="section-title">Frites avec burger</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
-    html += `<button class="option-card${!state.pendingFrite ? ' selected' : ''}" onclick="selectFrite(null)">
-      <div class="option-card-label">Sans frites</div>
-      <div class="option-card-price">0,00 €</div>
-    </button>`;
-    for(const f of BURGER_FRIES){
-      const sel = state.pendingFrite?.id === f.id;
-      const avail = optionAvailable(f);
-      html += `<button class="option-card${sel ? ' selected' : ''}${avail ? '' : ' unavailable'}" onclick="${avail ? `selectFrite('${f.id}')` : ''}">
-        <div class="option-card-label">${f.name}</div>
-        <div class="option-card-price">+ ${fmt(f.price)}</div>
-      </button>`;
-    }
-    html += '</div>';
-  }
-
-  // Boisson — pas de "sans boisson", aucune sélection par défaut
-  html += '<div class="section-title">Boisson avec menu</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
-  for(const d of DRINKS){
-    const sel = state.pendingDrink?.id === d.id;
-    html += `<button class="option-card${sel ? ' selected' : ''}" onclick="selectDrink('${d.id}')">
-      <div class="option-card-label">${d.name}</div>
-      <div class="option-card-price">+ ${fmt(d.price)}</div>
-    </button>`;
-  }
-  html += '</div>';
-
   // Personnalisation — retrait d'ingrédients (masqué par défaut)
   const customs = BURGER_CUSTOMS[b.id];
   const hasCustoms = customs && [...customs.fromage, ...customs.sauces, ...customs.garnitures].length > 0;
   const removalsCount = state.pendingRemovals.length;
 
   // Recap
-
   html += `<div class="recap" style="margin-top:20px">
     <div class="section-title" style="margin-top:0">Récapitulatif</div>
-    <div class="recap-row"><span>${b.name}</span><span>${fmt(b.price)}</span></div>
+    <div class="recap-row" style="align-items:center">
+      <span style="display:flex;align-items:center;gap:8px;flex:1">
+        ${b.name}
+        ${hasCustoms ? `<button onclick="toggleCustomization()" style="border:none;cursor:pointer;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:bold;flex-shrink:0;${state.showCustomization ? 'background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40)' : 'background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)'}">
+          ✏️ Modifier${removalsCount > 0 ? ' (' + removalsCount + ')' : ''} ${state.showCustomization ? '▲' : '▼'}
+        </button>` : ''}
+      </span>
+      <span>${fmt(b.price)}</span>
+    </div>
     ${state.pendingCuisson ? `<div class="recap-row sub"><span>${cuissonDot(state.pendingCuisson)} Cuisson : ${cuissonLabel(state.pendingCuisson)}</span><span></span></div>` : ''}
     ${state.pendingRemovals.map(r => `<div class="recap-row sub"><span style="color:var(--red)">✕ Sans ${r}</span><span></span></div>`).join('')}
     ${state.pendingSupps.map(s => `<div class="recap-row sub"><span>+ ${s.name}</span><span>${fmt(s.price)}</span></div>`).join('')}
-    ${state.pendingFrite ? `<div class="recap-row sub"><span>+ Frites ${state.pendingFrite.name}</span><span>${fmt(state.pendingFrite.price)}</span></div>` : ''}
-    ${state.pendingDrink ? `<div class="recap-row sub"><span>+ Boisson ${state.pendingDrink.name}</span><span>${fmt(state.pendingDrink.price)}</span></div>` : ''}
     <div class="recap-total"><span>Total</span><span>${fmt(total)}</span></div>
-    ${hasCustoms ? `<button onclick="toggleCustomization()" style="width:100%;margin-top:10px;border:none;cursor:pointer;border-radius:12px;padding:9px 12px;font-size:12px;font-weight:bold;${state.showCustomization ? 'background:linear-gradient(180deg,#fce8e8,#f9d0d0);color:var(--red);border:1px solid #e8a0a0' : 'background:#fff0d8;color:var(--gold);border:1px solid #ecc791'}">
-      ✏️ Personnaliser${removalsCount > 0 ? ' (' + removalsCount + ' retrait' + (removalsCount>1?'s':'') + ')' : ''} ${state.showCustomization ? '▲' : '▼'}
-    </button>` : ''}
   </div>`;
 
   // Panneau de personnalisation (visible seulement si ouvert)
@@ -1806,46 +2743,75 @@ function renderOptions(){
 
 function renderOrderItems(order){
   let html = '';
+  const pairing = order.friteMenuPairing || {};
+  const pairedFriteKeys = new Set(Object.values(pairing).filter(Boolean));
+
   for(const item of order.items){
-    if(item.type === "fries"){
-      html += `<div class="order-item"><div><div class="order-item-name">${item.fries.name}</div><div class="order-item-sub">Portion seule</div></div></div>`;
+    if(item.type === "fries-menu" && pairedFriteKeys.has(item.key)) continue; // affiché avec son burger
+    if(item.type === "fries" || item.type === "fries-menu"){
+      html += `<div class="order-item"><div><div class="order-item-name">🍟 ${item.fries.name}</div><div class="order-item-sub">Portion seule</div></div></div>`;
     } else if(item.type === "drink"){
       html += `<div class="order-item"><div><div class="order-item-name">${item.drink.name}</div><div class="order-item-sub">Boisson</div></div></div>`;
     } else if(item.type === "steakfrites"){
       html += `<div class="order-item"><div><div class="order-item-name">🥩 Steak + Frites</div><div class="order-item-sub">Formule</div></div></div>`;
-    } else {
+    } else if(item.type === "burger"){
       const cuisson = item.cuisson ? `<div class="order-item-sub">${cuissonDot(item.cuisson)} Cuisson : ${cuissonLabel(item.cuisson)}</div>` : '';
       const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
+      const pairedFriteKey = pairing[item.key];
+      const pairedFrite = pairedFriteKey ? order.items.find(i => i.key === pairedFriteKey) : null;
       html += `<div class="order-item">
         <div>
           <div class="order-item-name" style="color:${nameColor}">${item.burger.name}</div>
           ${cuisson}
-          ${(item.supplements || []).map(s => `<div class="order-item-sub">+ ${s.name}</div>`).join('')}
+          ${(item.supplements || []).map(s => `<div class="order-item-sub" style="color:#2a7abf;font-weight:bold">+ ${s.name}</div>`).join('')}
           ${(item.removals || []).map(r => `<div class="order-item-sub" style="color:var(--red);font-weight:bold">✕ SANS ${r.toUpperCase()}</div>`).join('')}
-          ${item.frite ? `<div class="order-item-sub">+ Frites ${item.frite.name}</div>` : ''}
-          ${item.drink ? `<div class="order-item-sub">+ Boisson ${item.drink.name}</div>` : ''}
+          ${pairedFrite ? `<div class="order-item-sub" style="color:var(--gold)">🍟 ${pairedFrite.fries.name}</div>` : ''}
         </div>
       </div>`;
     }
   }
-  if(order.loyalty) html += `<div style="font-size:11px;color:var(--red);padding:4px 0;border-top:1px solid var(--line);margin-top:4px">🎫 Carte fidélité — 10,00 € déduits</div>`;
+  if(order.loyalty) html += `<div style="font-size:11px;color:var(--red);padding:4px 0;border-top:1px solid var(--line);margin-top:4px">🎫 Fidélité ×${order.loyaltyCount||1} — −${fmt((order.loyaltyCount||1)*10)} déduits</div>`;
   return html;
 }
 
 function renderEnCours(){
-  const sortBySlot = (a, b) => {
-    if(!a.slot && !b.slot) return a.id - b.id;
-    if(!a.slot) return 1;
-    if(!b.slot) return -1;
-    return a.slot.localeCompare(b.slot) || a.id - b.id;
+  const parseTime = h => {
+    if(!h) return 9999;
+    const [hh, mm] = h.split(':').map(Number);
+    return hh * 60 + (mm || 0);
   };
-  const encours = state.orders.filter(o => o.status === "encours").sort(sortBySlot);
-  const payes   = state.orders.filter(o => o.status === "paye").sort(sortBySlot);
-  const annules = state.orders.filter(o => o.status === "annule");
+  const sortByTime = (a, b) => {
+    const ta = parseTime(a.heure), tb = parseTime(b.heure);
+    if(ta !== tb) return ta - tb;
+    if(a.slot && b.slot) return a.slot.localeCompare(b.slot);
+    return a.id - b.id;
+  };
+  const q = (state._encoursSearch || "").trim();
+  const matchQ = o => q === "" || String(o.id).includes(q);
+  const encours = state.orders.filter(o => o.status === "encours" && matchQ(o)).sort(sortByTime);
+  const payes   = state.orders.filter(o => o.status === "paye" && matchQ(o)).sort(sortByTime);
+  const annules = state.orders.filter(o => o.status === "annule" && matchQ(o));
   let html = '<div class="pad">';
 
+  // Barre de recherche par numéro de commande
+  const totalOngoing = state.orders.filter(o => o.status === "encours").length;
+  if(totalOngoing > 0 || q !== ""){
+    html += `<div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input id="encours-search" class="search-input" type="text" inputmode="numeric" pattern="[0-9]*"
+        placeholder="Rechercher un n° de commande…" value="${q}"
+        oninput="setEncoursSearch(this.value)">
+      ${q !== "" ? `<button class="search-clear" onclick="setEncoursSearch('')" aria-label="Effacer">✕</button>` : ''}
+    </div>`;
+  }
+
   if(encours.length === 0){
-    html += '<div class="empty"><div class="empty-icon">🍳</div><div>Aucune commande en cours</div></div>';
+    const noneAtAll = payes.length === 0 && annules.length === 0;
+    if(q !== "" && !noneAtAll){
+      html += `<div style="text-align:center;color:var(--text-soft);font-size:13px;padding:10px 0 4px">Aucune commande #${q} en cours — voir ci-dessous</div>`;
+    } else {
+      html += `<div class="empty"><div class="empty-icon">${q !== "" ? '🔍' : '🍳'}</div><div>${q !== "" ? `Aucune commande #${q}` : 'Aucune commande en cours'}</div></div>`;
+    }
   }
 
   for(const order of encours){
@@ -1853,8 +2819,8 @@ function renderEnCours(){
       <div class="order-header">
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
           <div class="order-num">#${order.id}</div>
-          ${order.slot ? `<span style="font-size:12px;background:#fff0d8;color:var(--gold);border:1px solid #ecc791;border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-          ${order.loyalty ? `<span style="font-size:12px;background:#fce8e8;color:var(--red);border:1px solid #e8a0a0;border-radius:8px;padding:3px 10px;font-weight:bold">🎫 −10,00 €</span>` : ''}
+          ${order.slot ? `<span style="font-size:12px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
+          ${order.loyalty ? `<span onclick="removeOrderLoyalty(${order.id})" style="cursor:pointer;font-size:12px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:8px;padding:3px 10px;font-weight:bold" title="Cliquer pour retirer une carte">🎫 ×${order.loyaltyCount||1} −${fmt((order.loyaltyCount||1)*10)} ✕</span>` : ''}
         </div>
         <div class="order-total">${fmt(order.total)}</div>
       </div>
@@ -1865,8 +2831,8 @@ function renderEnCours(){
       </div>
       <div class="order-actions">
         <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">✕ Annuler</button>
-        <button class="btn" style="flex:1;background:#fff0d8;color:var(--gold);border:1px solid #ecc791" onclick="editOrder(${order.id})">✏️ Modifier</button>
-        <button class="btn" style="padding:9px 16px;font-size:12px;white-space:nowrap;${order.loyalty ? 'background:linear-gradient(180deg,#d94f4f,#b03030);color:white' : 'background:#fff0d8;color:var(--gold);border:1px solid #ecc791'}" onclick="toggleOrderLoyalty(${order.id})">🎫 Fidélité</button>
+        <button class="btn" style="flex:1;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Modifier</button>
+        <button class="btn" style="background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);text-align:center" onclick="addOrderLoyalty(${order.id})">🎫 Fidélité</button>
         <button class="btn btn-pay" onclick="payOrder(${order.id})">💳 ${fmt(order.total)}</button>
       </div></div>`;
   }
@@ -1878,8 +2844,8 @@ function renderEnCours(){
         <div class="order-header">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="order-num" style="background:var(--green)">#${order.id}</div>
-            ${order.slot ? `<span style="font-size:12px;background:#e0f4eb;color:var(--green);border:1px solid #90cca8;border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-            ${order.loyalty ? `<span style="font-size:12px;background:#fce8e8;color:var(--red);border:1px solid #e8a0a0;border-radius:8px;padding:3px 10px;font-weight:bold">🎫 Fidélité</span>` : ''}
+            ${order.slot ? `<span style="font-size:12px;background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
+            ${order.loyalty ? `<span style="font-size:12px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🎫 Fidélité</span>` : ''}
           </div>
           <div class="order-total">${fmt(order.total)}</div>
         </div>
@@ -1890,7 +2856,7 @@ function renderEnCours(){
         </div>
         <div class="order-actions">
           <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">✕ Annuler</button>
-          <button class="btn" style="flex:2;background:#fff0d8;color:var(--gold);border:1px solid #ecc791" onclick="editOrder(${order.id})">✏️ Modifier</button>
+          <button class="btn" style="flex:2;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Modifier</button>
         </div></div>`;
     }
     html += `<div class="summary-card">
@@ -1912,7 +2878,7 @@ function renderEnCours(){
         </div>
         ${renderOrderItems(order)}
         <div class="order-actions">
-          <button class="btn" style="flex:1;background:#fff0d8;color:var(--gold);border:1px solid #ecc791" onclick="editOrder(${order.id})">✏️ Ré-ouvrir</button>
+          <button class="btn" style="flex:1;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Ré-ouvrir</button>
         </div></div>`;
     }
   }
@@ -1931,17 +2897,17 @@ function renderHistorique(){
       const isPaye = order.status === 'paye';
       const isAnn  = order.status === 'annule';
       const statusBadge = isPaye
-        ? `<span style="font-size:11px;background:#e0f4eb;color:var(--green);border:1px solid #90cca8;border-radius:6px;padding:2px 8px;font-weight:bold">✓ Réglée</span>`
+        ? `<span style="font-size:11px;background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.40);border-radius:6px;padding:2px 8px;font-weight:bold">✓ Réglée</span>`
         : isAnn
-        ? `<span style="font-size:11px;background:#fce0e0;color:var(--red);border:1px solid #e8a0a0;border-radius:6px;padding:2px 8px;font-weight:bold">✕ Annulée</span>`
-        : `<span style="font-size:11px;background:#fff0d8;color:var(--gold);border:1px solid #ecc791;border-radius:6px;padding:2px 8px;font-weight:bold">⏳ En cours</span>`;
+        ? `<span style="font-size:11px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:6px;padding:2px 8px;font-weight:bold">✕ Annulée</span>`
+        : `<span style="font-size:11px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:6px;padding:2px 8px;font-weight:bold">⏳ En cours</span>`;
 
       html += `<div class="order-card" style="margin-bottom:10px${isAnn ? ';opacity:.5' : ''}">
         <div class="order-header">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="order-num" style="${isPaye ? 'background:var(--green)' : isAnn ? 'background:var(--text-soft)' : ''}">#${order.id}</div>
             ${statusBadge}
-            ${order.slot ? `<span style="font-size:11px;background:#fff0d8;color:var(--gold);border:1px solid #ecc791;border-radius:6px;padding:2px 8px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
+            ${order.slot ? `<span style="font-size:11px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:6px;padding:2px 8px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
             ${order.loyalty ? `<span style="font-size:11px;color:var(--red)">🎫</span>` : ''}
           </div>
           <div class="order-total" style="${isAnn ? 'color:var(--text-soft)' : ''}">${fmt(order.total)}</div>
@@ -1959,10 +2925,19 @@ function renderHistorique(){
   return html;
 }
 
+function burgerCompoLabel(b){
+  const counts = {};
+  for(const k of (b.ing || [])) counts[k] = (counts[k] || 0) + 1;
+  return Object.entries(counts).map(([k, n]) => {
+    const nm = (INGREDIENTS_DEFAULT[k] && INGREDIENTS_DEFAULT[k].name) || k;
+    return n > 1 ? `${nm} ×${n}` : nm;
+  }).join(' · ');
+}
+
 function renderStocks(){
   const categories = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
-  const low = Object.values(state.ingredients).filter(i => i.qty <= 5 && i.qty > 0).length;
-  const out = Object.values(state.ingredients).filter(i => i.qty === 0).length;
+  const low = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty <= 5 && i.qty > 0).length;
+  const out = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty === 0).length;
   const sheetsUrl = getSheetsUrl();
   let html = '<div class="pad">';
 
@@ -1977,11 +2952,27 @@ function renderStocks(){
     <div style="display:flex;gap:8px;align-items:center">
       <input id="sheets-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec"
         value="${sheetsUrl}"
-        style="flex:1;height:38px;border-radius:10px;border:1px solid var(--line);background:white;color:var(--text);padding:0 10px;font-size:12px">
+        style="flex:1;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg-soft);color:var(--text);padding:0 10px;font-size:12px;outline:none">
       <button class="btn btn-primary" style="white-space:nowrap;padding:10px 14px;font-size:12px"
         onclick="saveSheetsUrl()">Enregistrer</button>
       ${sheetsUrl ? `<button class="btn btn-cancel" style="padding:10px 12px;font-size:12px;flex:unset"
         onclick="clearSheetsUrl()">✕</button>` : ''}
+    </div>
+  </div>`;
+
+  // Numéro de départ
+  html += `<div class="stock-card" style="margin-bottom:14px">
+    <div class="section-title" style="margin-top:0">🔢 Numéro de commande</div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">
+      Numéro de la prochaine commande (cycle 1 → 100 → 1).
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="stock-step" onclick="adjustOrderNum(-1)">−</button>
+      <input id="order-num-input" class="edit-input" type="number" min="1" max="100" value="${state.orderNum}"
+        style="width:70px;text-align:center;font-size:18px;font-weight:bold;color:var(--gold)"
+        onchange="setOrderNum(this.value)">
+      <button class="stock-step" onclick="adjustOrderNum(1)">+</button>
+      <span style="font-size:12px;color:var(--text-soft);margin-left:4px">prochain numéro</span>
     </div>
   </div>`;
 
@@ -1993,10 +2984,12 @@ function renderStocks(){
   }
 
   for(const cat of categories){
+    // Ingrédients visibles de cette catégorie (les fromages propres aux burgers inactifs sont masqués)
+    const entries = Object.entries(state.ingredients).filter(([key, ing]) => ing.category === cat && ingredientVisible(key));
+    if(entries.length === 0) continue; // ne pas afficher une catégorie vide
     html += `<div class="stock-card" style="margin-bottom:14px">
       <div class="section-title" style="margin-top:0">${cat}</div>`;
-    for(const [key, ing] of Object.entries(state.ingredients)){
-      if(ing.category !== cat) continue;
+    for(const [key, ing] of entries){
       const isOut = ing.qty === 0;
       const isLow = ing.qty > 0 && ing.qty <= 5;
       html += `<div class="stock-item">
@@ -2012,6 +3005,41 @@ function renderStocks(){
     html += '</div>';
   }
 
+  // ── Ma carte du jour (en bas) : activer/désactiver les burgers ──
+  const nbActive = activeBurgerCount();
+  function carteGroup(title, sub, group){
+    let g = `<div class="carte-group-label">${title}</div>
+      <div style="font-size:11px;color:var(--text-soft);margin:-2px 0 8px">${sub}</div>
+      <div class="carte-list">`;
+    for(const b of BURGERS){
+      if(b.group !== group) continue;
+      const on = isBurgerActive(b.id);
+      g += `<div class="carte-row${on ? '' : ' off'}">
+        <div class="carte-info">
+          <div class="carte-name">${b.name} <span class="carte-price">${fmt(b.price)}</span></div>
+          <div class="carte-compo">${burgerCompoLabel(b)}</div>
+        </div>
+        <button class="carte-toggle${on ? ' on' : ''}" onclick="toggleBurgerActive('${b.id}')" aria-label="${on ? 'Désactiver' : 'Activer'} ${b.name}">
+          <span class="carte-knob"></span>
+        </button>
+      </div>`;
+    }
+    g += `</div>`;
+    return g;
+  }
+  html += `<div class="stock-card" style="margin-bottom:14px">
+    <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center">
+      <span>🍔 Ma carte du jour</span>
+      <span style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px">${nbActive}/${BURGERS.length} actifs</span>
+    </div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:14px">
+      Active les burgers présents à ta carte. Seuls les actifs apparaissent en caisse.
+    </div>
+    ${carteGroup('Burgers fixes', 'Toujours disponibles à la carte', 'fixe')}
+    <div style="height:14px"></div>
+    ${carteGroup('Burgers du moment', 'Éphémères — active-les selon la saison', 'moment')}
+  </div>`;
+
   html += '</div>';
   return html;
 }
@@ -2023,6 +3051,19 @@ if('serviceWorker' in navigator){
   });
 }
 
+function setOrderNum(val){
+  const n = Math.min(100, Math.max(1, parseInt(val, 10) || 1));
+  state.orderNum = n;
+  saveState();
+  const el = document.getElementById('order-num-input');
+  if(el) el.value = n;
+}
+function adjustOrderNum(delta){
+  let n = state.orderNum + delta;
+  if(n > 100) n = 1;
+  if(n < 1) n = 100;
+  setOrderNum(n);
+}
 function saveSheetsUrl(){
   const v = document.getElementById('sheets-url-input')?.value || '';
   setSheetsUrl(v);
