@@ -29,6 +29,7 @@
     --shadow:0 14px 40px rgba(0,0,0,.45);
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
+  html{background-color:#0a0c10}
   html,body{height:100%;overflow:hidden}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
@@ -42,7 +43,12 @@
     background-attachment:fixed;
   }
   button,input{font-family:var(--font)}
-  .app{max-width:640px;margin:0 auto;height:100%;display:flex;flex-direction:column;overflow:hidden}
+  .app{
+    max-width:640px;margin:0 auto;
+    height:100vh;                              /* fallback */
+    height:var(--app-height, 100vh);           /* hauteur réelle mesurée par JS */
+    display:flex;flex-direction:column;overflow:hidden;
+  }
 
   /* HEADER */
   .header{
@@ -685,6 +691,16 @@
 </div>
 
 <script>
+// Hauteur réelle de l'écran (fiable sur iOS, contourne les bugs de 100vh/dvh)
+(function(){
+  function setAppHeight(){
+    // window.innerHeight = zone visible ; on lit aussi la safe-area du bas via une sonde
+    document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+  }
+  setAppHeight();
+  window.addEventListener('resize', setAppHeight);
+  window.addEventListener('orientationchange', function(){ setTimeout(setAppHeight, 100); });
+})();
 const INGREDIENTS_DEFAULT = {
   bun:        { name:"Buns",             qty:70,  category:"Production" },
   boeuf:      { name:"Steak charolais",  qty:100, category:"Production" },
