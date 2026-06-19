@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="L'Arrêt Gourmand">
 <meta name="theme-color" content="#0c0e13">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22short_name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0c10%22%2C%22theme_color%22%3A%22%230c0e13%22%2C%22orientation%22%3A%22portrait%22%7D">
@@ -29,9 +29,10 @@
     --shadow:0 14px 40px rgba(0,0,0,.45);
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
-  html,body{height:100%;overflow:hidden;overscroll-behavior:none;background-color:#0a0c10}
+  html,body{min-height:100vh}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
+    min-height:100vh;
     font-family:var(--font);
     color:var(--text);
     background:
@@ -41,20 +42,11 @@
     background-attachment:fixed;
   }
   button,input{font-family:var(--font)}
-  .app{
-    position:fixed;
-    top:0;left:0;right:0;bottom:0;
-    /* descend jusqu'au bord physique de l'écran, sous la barre de gestes */
-    height:100%;
-    padding-bottom:env(safe-area-inset-bottom);
-    max-width:640px;margin:0 auto;
-    display:flex;flex-direction:column;overflow:hidden;
-    background:linear-gradient(180deg,#0c0e13 0%, #0a0c10 100%);
-  }
+  .app{max-width:640px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 
   /* HEADER */
   .header{
-    flex-shrink:0;z-index:100;
+    position:sticky;top:0;z-index:100;
     padding:max(14px, env(safe-area-inset-top)) 16px 14px;
     display:flex;align-items:center;justify-content:space-between;gap:16px;
     background:rgba(12,14,19,.85);
@@ -84,7 +76,7 @@
 
   /* TABS */
   .tabs{
-    flex-shrink:0;z-index:99;
+    position:sticky;top:78px;z-index:99;
     display:flex;gap:8px;padding:10px 12px;
     background:rgba(12,14,19,.82);
     backdrop-filter:blur(10px);
@@ -110,7 +102,7 @@
     box-shadow:0 8px 22px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.35);
   }
   .tab-btn.active .tab-icon{transform:scale(1.08)}
-  .content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-bottom:24px}
+  .content{flex:1;overflow-y:auto;padding-bottom:24px}
   .pad{padding:16px}
   .section-title{
     font-size:11px;font-weight:bold;letter-spacing:2.4px;
@@ -902,14 +894,15 @@ const STORAGE_KEYS = {
 };
 
 // ---- GOOGLE SHEETS SYNC ----
-const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycbwVNkOijthroXPOcNJBHQgq9T-5CBgI1-b1B4U-B_w-elbLogV1noOV4xDYKsVQc7FO/exec"; // URL Apps Script par défaut
+const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycby4tCRyhgBESCDg6v-fbxBW0RYMUG3r1nAWdMXb9ezfgNv6c5hU7Lk4yS93u0jxC06t/exec"; // URL Apps Script par défaut
 // Migration : si une ancienne URL est stockée sur l'appareil, on la remplace par la nouvelle
 (function migrateSheetsUrl(){
   try{
     const OLD_IDS = [
       "AKfycbw2H6Zq3GQTSiEP5uZ6cmE8_QRTKbShbSleRseUnNArnT5sqPt-5FPyC2J8-5kXeUCE",
       "AKfycbz2zsMnTIl3BJD293Z5KifGL39tezZuObHLAQv3CTIzG2w5M9rbQnXk27EWyusdPffZ",
-      "AKfycbwHQV1Q2Svv3zBZ6IXyARVD4SIXxpqfDOaiNxGdo0a52LN5yWBOv5u_dDyd3PSlL1h4"
+      "AKfycbwHQV1Q2Svv3zBZ6IXyARVD4SIXxpqfDOaiNxGdo0a52LN5yWBOv5u_dDyd3PSlL1h4",
+      "AKfycbwVNkOijthroXPOcNJBHQgq9T-5CBgI1-b1B4U-B_w-elbLogV1noOV4xDYKsVQc7FO"
     ];
     const stored = localStorage.getItem(STORAGE_KEYS.sheetsUrl) || "";
     if(OLD_IDS.some(id => stored.includes(id))) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL);
