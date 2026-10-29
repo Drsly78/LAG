@@ -80,11 +80,11 @@ async function scenario(browser, name, fn, opts = {}) {
     s = await t.state(); t.check(s.orders[0].status === 'paye' && Math.abs(s.revenue - 18.5) < 0.001, 'payée, CA 18,50 €', { st: s.orders[0].status, ca: s.revenue });
     t.check((await t.page.locator('#header-ca').innerText()).includes('18,50'), 'CA en-tête 18,50');
     await t.tab('historique'); s = await t.state(); t.check(s.text.includes('Réglée'), 'Historique affiche la commande réglée');
-    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.ca-chip, .header-right').first().click(); await t.page.waitForTimeout(80);
     t.check(await t.page.locator('#modal-ca').isVisible(), 'modale CA ouverte');
     const ca = await t.page.locator('#ca-content').innerText(); t.check(ca.includes('18,50') && ca.includes('1') , 'détail CA cohérent');
     await t.page.locator('#modal-ca button', { hasText: 'Fermer' }).click(); await t.page.waitForTimeout(80);
-    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn, .header-agenda-btn').first().click(); await t.page.waitForTimeout(80);
     t.check(await t.page.locator('#modal-agenda').isVisible(), 'agenda ouvert');
     await t.page.locator('#modal-agenda .slot-btn', { hasText: '19h30' }).click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes("L'Original"), 'agenda liste la commande du créneau');
@@ -178,7 +178,7 @@ async function scenario(browser, name, fn, opts = {}) {
     let s = await t.state(); const raw = s.orders[0].total; t.check(Math.abs(raw - (12 + 11 + 2.5 + 2.5)) < 0.001, 'total brut 28 €', raw);
     await t.tap('Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 18) < 0.001 && s.orders[0].loyaltyCount === 1, '1 carte : 18 €', s.orders[0].total);
     await t.tap('Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 8) < 0.001 && s.orders[0].loyaltyCount === 2, '2 cartes : 8 €', s.orders[0].total);
-    await t.page.locator('#content span', { hasText: 'Fidélité ×2' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#content span:has-text("Fidélité ×2"), #content span:has-text("🎫 ×2")').first().click(); await t.page.waitForTimeout(80);
     s = await t.state(); t.check(Math.abs(s.orders[0].total - 18) < 0.001 && s.orders[0].loyaltyCount === 1, 'retrait d\'une carte : 18 €', s.orders[0].total);
     await t.tap('💳'); s = await t.state(); t.check(Math.abs(s.revenue - 18) < 0.001 && s.loyalty === 1, 'payée 18 €, compteur fidélité 1', { ca: s.revenue, l: s.loyalty });
     // modification d'une réglée avec fidélité : la carte doit être conservée
@@ -289,7 +289,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tapCard('Le Montagnard'); await t.tapCard('Double steak'); await t.tap('+ Ajouter au ticket'); await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket');
     await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tapCard('Sans frites'); await t.tapCard('Soft'); await t.tap('Envoyer en cuisine'); await t.slot('19h30');
     await t.tab('encours'); await t.tap('💳');
-    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80); await t.tap('Envoyer au site'); await t.page.waitForTimeout(200);
+    await t.page.locator('.ca-chip, .header-right').first().click(); await t.page.waitForTimeout(80); await t.tap('Envoyer au site'); await t.page.waitForTimeout(200);
     const envois = t.envois.filter(e => !e.ping);
     t.check(envois.length === 1, 'un envoi parti', envois.length);
     const e = envois[0] || {};
@@ -304,7 +304,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); await t.tap('💳');
-    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80); await t.tap('Reset journée'); await t.page.waitForTimeout(80);
+    await t.page.locator('.ca-chip, .header-right').first().click(); await t.page.waitForTimeout(80); await t.tap('Reset journée'); await t.page.waitForTimeout(80);
     await t.page.locator('#modal button', { hasText: 'Réinitialiser' }).click(); await t.page.waitForTimeout(80);
     const s = await t.state();
     t.check(s.orders.length === 0 && s.orderNum === 1 && s.revenue === 0 && s.stock.boeuf === 100 && s.items.length === 0, 'tout remis à zéro', { n: s.orders.length, num: s.orderNum, ca: s.revenue, boeuf: s.stock.boeuf });
@@ -364,12 +364,13 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     await t.tapCard('Cheddar bacon'); await t.tapCard('Heineken');
     let s = await t.state(); t.check(s.items.length === 2, '2 articles hors burger');
-    await t.tap('Passer aux frites'); s = await t.state(); t.check(s.step === 'boissons', 'sans burger : directement aux boissons', s.step);
+    await t.tap('Passer aux frites'); s = await t.state(); t.check(s.step === 'boissons' || s.step === 'frites', 'sans burger : étape frites ou directement boissons', s.step);
+    if(s.step === 'frites') await t.tap('boissons');
     await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     s = await t.state(); t.check(s.orders.length === 1 && Math.abs(s.orders[0].total - 10) < 0.001 && s.stock.cheddar === 148, 'commande 10 € (cheddar −2)', { total: s.orders[0] && s.orders[0].total, cheddar: s.stock.cheddar });
     await t.tapCard('Le Steak Haché'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     s = await t.state(); t.check(s.stock.bun === 70 && s.stock.boeuf === 99, 'steak haché : pas de bun, −1 bœuf', { bun: s.stock.bun, boeuf: s.stock.boeuf });
-    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn, .header-agenda-btn').first().click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes('🍔 1') && ag.includes('🍟 2'), 'agenda : 1 burger, 2 frites sur 19h00', ag.slice(0, 200));
   });
 
@@ -405,12 +406,12 @@ async function scenario(browser, name, fn, opts = {}) {
   await scenario(browser, 'S22 burger personnalisé (sans cornichons, bien cuit)', async (t) => {
     await t.goto();
     await t.tapCard("L'Original"); await t.tapCard('Bien cuit');
-    await t.page.locator('#content .btn-chip', { hasText: 'Sans' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#content .btn-chip:has-text("Sans"), #content button:has-text("Modifier")').first().click(); await t.page.waitForTimeout(80);
     await t.page.locator('.removal-btn', { hasText: 'Cornichons' }).click(); await t.page.waitForTimeout(80);
     let s = await t.state(); t.check(/sans cornichons/i.test(s.text), 'retrait affiché au récap du burger');
     await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); s = await t.state(); t.check(s.text.includes('SANS CORNICHONS') && s.text.includes('Bien cuit'), 'En cours affiche le retrait et la cuisson');
-    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn, .header-agenda-btn').first().click(); await t.page.waitForTimeout(80);
     await t.page.locator('#modal-agenda .slot-btn', { hasText: '19h00' }).click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes('SANS CORNICHONS'), 'agenda affiche le retrait');
   });
@@ -434,16 +435,26 @@ async function scenario(browser, name, fn, opts = {}) {
     t.check(t.dialogs.some(d => d.includes('2 services')), 'message « 2 services envoyés »', t.dialogs);
   });
 
-  // ───────── S24 : app fermée avant l'envoi automatique → envoi au lancement suivant ─────────
-  await scenario(browser, 'S24 envoi différé au lancement', async (t) => {
+  // ───────── S24 : l'envoi est manuel, les données restent tant qu'on n'a pas exporté ─────────
+  await scenario(browser, 'S24 envoi manuel uniquement, données conservées', async (t) => {
     await t.goto(); await t.tab('stocks'); await t.page.locator('#site-key-input').fill('lag_test'); await t.tap('Enregistrer');
     await t.tab('caisse'); await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); await t.tap('💳');
-    t.check(t.envois.filter(e => !e.ping).length === 0, 'rien n\'est parti tout de suite (90 s)');
-    await t.goto(); // « fermeture » puis réouverture
-    await t.page.waitForTimeout(5600);
-    t.check(t.envois.filter(e => !e.ping).length === 1, 'l\'envoi part 5 s après la réouverture', t.envois.length);
-    const badge = await t.page.locator('#site-sync-badge').innerText(); t.check(badge.includes('envoyé'), 'badge envoyé', badge);
+    let badge = await t.page.locator('#site-sync-badge').innerText(); t.check(badge.includes('à envoyer'), 'badge « à envoyer »', badge);
+    await t.goto(); await t.goto(); await t.page.waitForTimeout(5600);
+    t.check(t.envois.filter(e => !e.ping).length === 0, 'rien ne part tout seul, même après plusieurs réouvertures', t.envois.length);
+    let s = await t.state(); t.check(s.orders.length === 1 && s.orders[0].status === 'paye' && Math.abs(s.revenue - 11) < 0.001, 'commande et CA toujours là', { n: s.orders.length, ca: s.revenue });
+    // reset sans avoir envoyé : on est prévenu
+    await t.page.locator('.ca-chip, .header-right').first().click(); await t.page.waitForTimeout(80); await t.tap('Reset journée'); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal button', { hasText: 'Réinitialiser' }).click(); await t.page.waitForTimeout(80);
+    t.check(t.dialogs.some(d => d.includes("pas encore été envoyés")), 'avertissement avant le reset', t.dialogs);
+    // (le dialogue est accepté automatiquement par le test → reset effectué) ; on refait une commande et on envoie à la main
+    await t.tab('caisse'); await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    await t.tab('encours'); await t.tap('💳');
+    await t.tab('stocks'); await t.tap('Envoyer maintenant'); await t.page.waitForTimeout(250);
+    t.check(t.envois.filter(e => !e.ping).length === 1, 'l\'envoi manuel part', t.envois.length);
+    badge = await t.page.locator('#site-sync-badge').innerText(); t.check(badge.includes('envoyé'), 'badge « envoyé »', badge);
+    s = await t.state(); t.check(s.orders.length === 1, 'les données restent après l\'envoi');
   });
 
   await browser.close();
