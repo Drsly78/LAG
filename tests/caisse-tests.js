@@ -80,11 +80,11 @@ async function scenario(browser, name, fn, opts = {}) {
     s = await t.state(); t.check(s.orders[0].status === 'paye' && Math.abs(s.revenue - 18.5) < 0.001, 'payée, CA 18,50 €', { st: s.orders[0].status, ca: s.revenue });
     t.check((await t.page.locator('#header-ca').innerText()).includes('18,50'), 'CA en-tête 18,50');
     await t.tab('historique'); s = await t.state(); t.check(s.text.includes('Réglée'), 'Historique affiche la commande réglée');
-    await t.page.locator('.header-right').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80);
     t.check(await t.page.locator('#modal-ca').isVisible(), 'modale CA ouverte');
     const ca = await t.page.locator('#ca-content').innerText(); t.check(ca.includes('18,50') && ca.includes('1') , 'détail CA cohérent');
     await t.page.locator('#modal-ca button', { hasText: 'Fermer' }).click(); await t.page.waitForTimeout(80);
-    await t.page.locator('.header-agenda-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
     t.check(await t.page.locator('#modal-agenda').isVisible(), 'agenda ouvert');
     await t.page.locator('#modal-agenda .slot-btn', { hasText: '19h30' }).click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes("L'Original"), 'agenda liste la commande du créneau');
@@ -123,7 +123,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.page.locator('#modal-slot button', { hasText: 'Annuler' }).click(); await t.page.waitForTimeout(80);
     let s = await t.state();
     t.check(!(await t.page.locator('#modal-slot').isVisible()), 'modale fermée');
-    t.check(s.step === 'boissons' && s.text.includes('RÉCAPITULATIF'), 'on reste sur le récapitulatif (état et écran cohérents)', { step: s.step });
+    t.check(s.step === 'boissons' && /récapitulatif/i.test(s.text), 'on reste sur le récapitulatif (état et écran cohérents)', { step: s.step });
     await t.tapCard('Heineken');
     s = await t.state(); t.check(s.step === 'boissons' && s.items.length === 3, 'ajout d\'une boisson sans quitter le récap', { step: s.step, n: s.items.length });
     t.check(s.orders.length === 0, 'aucune commande créée');
@@ -133,7 +133,7 @@ async function scenario(browser, name, fn, opts = {}) {
   await scenario(browser, 'S5 modification d\'une commande', async (t) => {
     await t.goto();
     await t.tapCard('Le Myko'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Truffées'); await t.tap('Envoyer en cuisine'); await t.slot('19h10');
-    await t.tab('encours'); await t.tap('✏️ Modifier');
+    await t.tab('encours'); await t.tap('Modifier');
     let s = await t.state();
     t.check(s.tab === 'caisse' && s.step === 'boissons' && s.editing === 1 && s.orders.length === 0, 'commande #1 ouverte en modification', { tab: s.tab, step: s.step, editing: s.editing });
     t.check(s.stock.boeuf === 100 && s.stock.chevre === 20, 'stock restitué pendant la modification', { boeuf: s.stock.boeuf, chevre: s.stock.chevre });
@@ -145,7 +145,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tab('encours'); await t.tap('💳');
     s = await t.state(); t.check(Math.abs(s.revenue - (11 + 4.5 + 4)) < 0.001, 'CA 19,50 €', s.revenue);
     // modifier une commande réglée
-    await t.tap('✏️ Modifier');
+    await t.tap('Modifier');
     s = await t.state(); t.check(Math.abs(s.revenue) < 0.001 && s.orders.length === 0, 'CA retiré pendant la modification d\'une réglée', s.revenue);
     await t.page.locator('#content .remove-btn').last().click(); await t.page.waitForTimeout(80); // retire la Desperados
     await t.tap('Envoyer en cuisine'); await t.slot('19h20');
@@ -158,7 +158,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     await t.tapCard('Le Poulet'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('20h00');
     let s = await t.state(); t.check(s.stock.poulet === 5, 'poulet 5 après commande', s.stock.poulet);
-    await t.tab('encours'); await t.tap('✕ Annuler');
+    await t.tab('encours'); await t.tap('Annuler');
     s = await t.state(); t.check(s.orders[0].status === 'annule' && s.stock.poulet === 6, 'annulée : poulet restitué (6)', s.stock.poulet);
     await t.tap('Ré-ouvrir');
     s = await t.state(); t.check(s.stock.poulet === 6, 'ré-ouverture : stock NON restitué une 2e fois (6)', s.stock.poulet);
@@ -166,7 +166,7 @@ async function scenario(browser, name, fn, opts = {}) {
     s = await t.state(); t.check(s.stock.poulet === 5 && s.orders.length === 1 && s.orders[0].status === 'encours', 're-confirmée : poulet 5, une seule commande', { poulet: s.stock.poulet, n: s.orders.length });
     // annuler une réglée : CA retiré
     await t.tab('encours'); await t.tap('💳'); s = await t.state(); t.check(Math.abs(s.revenue - 12) < 0.001, 'payée 12 €');
-    await t.tap('✕ Annuler'); s = await t.state(); t.check(Math.abs(s.revenue) < 0.001 && s.stock.poulet === 6, 'réglée annulée : CA 0, stock restitué');
+    await t.tap('Annuler'); s = await t.state(); t.check(Math.abs(s.revenue) < 0.001 && s.stock.poulet === 6, 'réglée annulée : CA 0, stock restitué');
   });
 
   // ───────── S7 : fidélité ─────────
@@ -176,17 +176,17 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h40');
     await t.tab('encours');
     let s = await t.state(); const raw = s.orders[0].total; t.check(Math.abs(raw - (12 + 11 + 2.5 + 2.5)) < 0.001, 'total brut 28 €', raw);
-    await t.tap('🎫 Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 18) < 0.001 && s.orders[0].loyaltyCount === 1, '1 carte : 18 €', s.orders[0].total);
-    await t.tap('🎫 Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 8) < 0.001 && s.orders[0].loyaltyCount === 2, '2 cartes : 8 €', s.orders[0].total);
-    await t.page.locator('#content span', { hasText: '🎫 ×2' }).first().click(); await t.page.waitForTimeout(80);
+    await t.tap('Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 18) < 0.001 && s.orders[0].loyaltyCount === 1, '1 carte : 18 €', s.orders[0].total);
+    await t.tap('Fidélité'); s = await t.state(); t.check(Math.abs(s.orders[0].total - 8) < 0.001 && s.orders[0].loyaltyCount === 2, '2 cartes : 8 €', s.orders[0].total);
+    await t.page.locator('#content span', { hasText: 'Fidélité ×2' }).first().click(); await t.page.waitForTimeout(80);
     s = await t.state(); t.check(Math.abs(s.orders[0].total - 18) < 0.001 && s.orders[0].loyaltyCount === 1, 'retrait d\'une carte : 18 €', s.orders[0].total);
     await t.tap('💳'); s = await t.state(); t.check(Math.abs(s.revenue - 18) < 0.001 && s.loyalty === 1, 'payée 18 €, compteur fidélité 1', { ca: s.revenue, l: s.loyalty });
     // modification d'une réglée avec fidélité : la carte doit être conservée
-    await t.tap('✏️ Modifier'); await t.tap('Envoyer en cuisine'); await t.slot('19h40');
+    await t.tap('Modifier'); await t.tap('Envoyer en cuisine'); await t.slot('19h40');
     await t.tab('encours'); s = await t.state();
     t.check(s.orders[0].loyaltyCount === 1 && Math.abs(s.orders[0].total - 18) < 0.001, 'après modification la carte fidélité est conservée (18 €)', { lc: s.orders[0].loyaltyCount, total: s.orders[0].total });
     await t.tap('💳'); s = await t.state(); t.check(Math.abs(s.revenue - 18) < 0.001 && s.loyalty === 1, 'CA 18 €, fidélité 1 (pas de double comptage)', { ca: s.revenue, l: s.loyalty });
-    await t.tap('✕ Annuler'); s = await t.state(); t.check(s.loyalty === 0 && Math.abs(s.revenue) < 0.001, 'annulation : fidélité 0, CA 0', { ca: s.revenue, l: s.loyalty });
+    await t.tap('Annuler'); s = await t.state(); t.check(s.loyalty === 0 && Math.abs(s.revenue) < 0.001, 'annulation : fidélité 0, CA 0', { ca: s.revenue, l: s.loyalty });
   });
 
   // ───────── S8 : numéros de commande (collision) ─────────
@@ -212,7 +212,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     let s = await t.state(); t.check(s.items.length === 2, 'le ticket en cours survit à un rechargement', s.items.length);
     await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h50');
-    await t.tab('encours'); await t.tap('✏️ Modifier');
+    await t.tab('encours'); await t.tap('Modifier');
     await t.goto();
     s = await t.state();
     t.check(s.orders.length === 1 || (s.editing === 1 && s.items.length === 3), 'une commande en modification n\'est pas perdue au rechargement', { orders: s.orders.length, editing: s.editing, items: s.items.length });
@@ -253,7 +253,7 @@ async function scenario(browser, name, fn, opts = {}) {
   // ───────── S12 : ratés ─────────
   await scenario(browser, 'S12 ratés', async (t) => {
     await t.goto(); await t.tab('stocks');
-    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('Compter un raté');
+    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('Compter');
     let s = await t.state(); t.check(s.rates === 1 && s.stock.boeuf === 99 && s.stock.reblochon === 19 && s.stock.bun === 69, 'raté Montagnard : −1 bœuf, −1 reblochon, −1 bun', { r: s.rates, boeuf: s.stock.boeuf, rebl: s.stock.reblochon });
     await t.tap('↶'); s = await t.state(); t.check(s.rates === 0 && s.stock.boeuf === 100 && s.stock.reblochon === 20, 'raté annulé, stock restitué');
   });
@@ -289,7 +289,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tapCard('Le Montagnard'); await t.tapCard('Double steak'); await t.tap('+ Ajouter au ticket'); await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket');
     await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tapCard('Sans frites'); await t.tapCard('Soft'); await t.tap('Envoyer en cuisine'); await t.slot('19h30');
     await t.tab('encours'); await t.tap('💳');
-    await t.page.locator('.header-right').click(); await t.page.waitForTimeout(80); await t.tap('Envoyer au site'); await t.page.waitForTimeout(200);
+    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80); await t.tap('Envoyer au site'); await t.page.waitForTimeout(200);
     const envois = t.envois.filter(e => !e.ping);
     t.check(envois.length === 1, 'un envoi parti', envois.length);
     const e = envois[0] || {};
@@ -304,7 +304,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); await t.tap('💳');
-    await t.page.locator('.header-right').click(); await t.page.waitForTimeout(80); await t.tap('Reset journée'); await t.page.waitForTimeout(80);
+    await t.page.locator('.ca-chip').click(); await t.page.waitForTimeout(80); await t.tap('Reset journée'); await t.page.waitForTimeout(80);
     await t.page.locator('#modal button', { hasText: 'Réinitialiser' }).click(); await t.page.waitForTimeout(80);
     const s = await t.state();
     t.check(s.orders.length === 0 && s.orderNum === 1 && s.revenue === 0 && s.stock.boeuf === 100 && s.items.length === 0, 'tout remis à zéro', { n: s.orders.length, num: s.orderNum, ca: s.revenue, boeuf: s.stock.boeuf });
@@ -340,9 +340,9 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     for (const b of ["L'Original", 'Le BBQ', 'Le Dragon']) { await t.tapCard(b); await t.tap('+ Ajouter au ticket'); }
     await t.tap('Passer aux frites');
-    let s = await t.state(); t.check(s.text.includes('(1/3)'), 'frites 1/3');
-    await t.tapCard('Truffées'); s = await t.state(); t.check(s.text.includes('(2/3)'), 'frites 2/3');
-    await t.tapCard('Sans frites'); s = await t.state(); t.check(s.text.includes('(3/3)'), 'frites 3/3');
+    let s = await t.state(); t.check(s.text.includes('1/3'), 'frites 1/3');
+    await t.tapCard('Truffées'); s = await t.state(); t.check(s.text.includes('2/3'), 'frites 2/3');
+    await t.tapCard('Sans frites'); s = await t.state(); t.check(s.text.includes('3/3'), 'frites 3/3');
     await t.tapCard('Cheddar oignons'); s = await t.state(); t.check(s.step === 'boissons', 'récap après le 3e burger');
     let fm = s.items.filter(i => i.type === 'fries-menu'); t.check(fm.length === 2, '2 frites de menu', fm.map(f => f.fries.name));
     const total1 = await t.evaluate(() => state.currentItems.reduce((a, i) => a + itemTotal(i), 0)); t.check(Math.abs(total1 - (33 + 4.5 + 5)) < 0.001, 'total 42,50 €', total1);
@@ -362,14 +362,14 @@ async function scenario(browser, name, fn, opts = {}) {
   // ───────── S19 : sans burger (frites seules / boissons), steak haché ─────────
   await scenario(browser, 'S19 frites seules, boissons, steak haché', async (t) => {
     await t.goto();
-    await t.tapCard('Frites cheddar bacon'); await t.tapCard('Heineken');
+    await t.tapCard('Cheddar bacon'); await t.tapCard('Heineken');
     let s = await t.state(); t.check(s.items.length === 2, '2 articles hors burger');
-    await t.tap('Passer aux frites'); s = await t.state(); t.check(s.step === 'frites', 'étape frites sans burger (passage)');
-    await t.tap('Boissons'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    await t.tap('Passer aux frites'); s = await t.state(); t.check(s.step === 'boissons', 'sans burger : directement aux boissons', s.step);
+    await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     s = await t.state(); t.check(s.orders.length === 1 && Math.abs(s.orders[0].total - 10) < 0.001 && s.stock.cheddar === 148, 'commande 10 € (cheddar −2)', { total: s.orders[0] && s.orders[0].total, cheddar: s.stock.cheddar });
     await t.tapCard('Le Steak Haché'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     s = await t.state(); t.check(s.stock.bun === 70 && s.stock.boeuf === 99, 'steak haché : pas de bun, −1 bœuf', { bun: s.stock.bun, boeuf: s.stock.boeuf });
-    await t.page.locator('.header-agenda-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes('🍔 1') && ag.includes('🍟 2'), 'agenda : 1 burger, 2 frites sur 19h00', ag.slice(0, 200));
   });
 
@@ -377,7 +377,7 @@ async function scenario(browser, name, fn, opts = {}) {
   await scenario(browser, 'S20 modifier un burger depuis le récap', async (t) => {
     await t.goto();
     await t.tapCard("L'Original"); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Cheddar bacon');
-    await t.page.locator('#content button', { hasText: '✏️ Modifier' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#content button', { hasText: 'Modifier' }).first().click(); await t.page.waitForTimeout(80);
     let s = await t.state(); t.check(s.step === 'options', 'écran options du burger');
     await t.tapCard('Bacon'); await t.tap('✓ Mettre à jour');
     s = await t.state();
@@ -394,7 +394,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto();
     await t.tapCard("L'Original");
     await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Nature'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
-    await t.tab('encours'); await t.tap('💳'); await t.tap('✕ Annuler');
+    await t.tab('encours'); await t.tap('💳'); await t.tap('Annuler');
     let s = await t.state(); t.check(s.orders[0].status === 'annule' && s.revenue === 0 && s.stock.boeuf === 100, 'annulée après paiement : CA 0, stock rendu');
     await t.tap('Ré-ouvrir'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); await t.tap('💳');
@@ -405,12 +405,12 @@ async function scenario(browser, name, fn, opts = {}) {
   await scenario(browser, 'S22 burger personnalisé (sans cornichons, bien cuit)', async (t) => {
     await t.goto();
     await t.tapCard("L'Original"); await t.tapCard('Bien cuit');
-    await t.page.locator('#content button', { hasText: '✏️ Modifier' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#content .btn-chip', { hasText: 'Sans' }).first().click(); await t.page.waitForTimeout(80);
     await t.page.locator('.removal-btn', { hasText: 'Cornichons' }).click(); await t.page.waitForTimeout(80);
-    let s = await t.state(); t.check(s.text.includes('Sans Cornichons'), 'retrait affiché au récap du burger');
+    let s = await t.state(); t.check(/sans cornichons/i.test(s.text), 'retrait affiché au récap du burger');
     await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     await t.tab('encours'); s = await t.state(); t.check(s.text.includes('SANS CORNICHONS') && s.text.includes('Bien cuit'), 'En cours affiche le retrait et la cuisson');
-    await t.page.locator('.header-agenda-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.hdr-btn').click(); await t.page.waitForTimeout(80);
     await t.page.locator('#modal-agenda .slot-btn', { hasText: '19h00' }).click(); await t.page.waitForTimeout(80);
     const ag = await t.page.locator('#agenda-content').innerText(); t.check(ag.includes('SANS CORNICHONS'), 'agenda affiche le retrait');
   });

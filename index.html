@@ -10,677 +10,466 @@
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22short_name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0c10%22%2C%22theme_color%22%3A%22%230c0e13%22%2C%22orientation%22%3A%22portrait%22%7D">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
 <link rel="icon" type="image/png" href="data:image/png;base64,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">
-<title>🍔 L'Arrêt Gourmand v2</title>
+<title>L'Arrêt Gourmand · caisse</title>
+<script>try{if(localStorage.getItem("ft7_theme")==="light")document.documentElement.dataset.theme="light";}catch(e){}</script>
 <style>
+  /* ────────────────────────────────────────────────────────────────
+     L'Arrêt Gourmand · caisse — thème « Service du soir » (sombre, chaud)
+     Palette reprise du site : brun, cheddar, crème. Un seul accent (cheddar) pour les actions et
+     l'état « en cours » ; vert = réglé / confirmer ; rouge = annuler, épuisé.
+     ──────────────────────────────────────────────────────────────── */
   :root{
-    --bg:#0c0e13;
-    --bg-soft:#13161e;
-    --panel:#191d27;
-    --panel-2:#20242f;
-    --line:#2c313d;
-    --line-soft:#232732;
-    --gold:#f3a43a;
-    --gold-2:#ffc56b;
-    --text:#f4f6fa;
-    --text-soft:#9aa3b2;
-    --green:#34d399;
-    --red:#f87171;
-    --orange:#fb9b3a;
-    --shadow:0 14px 40px rgba(0,0,0,.45);
-    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --bg:#140f0b;
+    --surface:#1e1712;
+    --surface-2:#282019;
+    --line:#3b2f25;
+    --line-strong:#52412f;
+    --text:#f6eedf;
+    --text-2:#bfae98;
+    --text-3:#857462;
+    --accent:#f3ad3f;
+    --accent-ink:#2b1d0a;
+    --accent-soft:rgba(243,173,63,.15);
+    --accent-line:rgba(243,173,63,.45);
+    --ok:#3dbe7a;
+    --ok-ink:#06261a;
+    --ok-soft:rgba(61,190,122,.16);
+    --danger:#ef6a5b;
+    --danger-soft:rgba(239,106,91,.14);
+    --info:#5b8def;
+    --radius:14px;
+    --radius-s:10px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    /* anciens noms, encore utilisés çà et là */
+    --gold:var(--accent);--gold-2:var(--accent);--green:var(--ok);--red:var(--danger);--orange:var(--accent);
+    --text-soft:var(--text-2);--panel:var(--surface);--panel-2:var(--surface-2);--bg-soft:var(--surface-2);--bg-2:var(--surface-2);--line-soft:var(--line);
+    --shadow:none;
   }
-  html{background:#0a0c10} /* ce qui dépasse de la page (zones d'encoche / barre d'accueil) reste sombre */
+  /* thème « Ardoise claire » : même structure, surfaces papier, pour les services en plein jour */
+  html[data-theme="light"]{
+    --bg:#f1eadd;
+    --surface:#fffdf8;
+    --surface-2:#f4ede1;
+    --line:#e0d5c3;
+    --line-strong:#c9bba3;
+    --text:#2b1d14;
+    --text-2:#6f5b49;
+    --text-3:#9d8872;
+    --accent:#d4891a;
+    --accent-ink:#fff;
+    --accent-soft:rgba(212,137,26,.14);
+    --accent-line:rgba(212,137,26,.5);
+    --ok:#1f9d5c;
+    --ok-ink:#fff;
+    --ok-soft:rgba(31,157,92,.14);
+    --danger:#c9463a;
+    --danger-soft:rgba(201,70,58,.12);
+    --info:#2f6fd6;
+  }
+  html{background:var(--bg)}
+  html[data-theme="light"]{background:#f1eadd}
   /* pas d'overflow:hidden ici : sur iPhone (app installée, iOS 26) il fait rogner l'affichage à la hauteur annoncée,
      plus courte que l'écran ; overscroll-behavior empêche à la place le rebond de la page entière */
   html,body{height:100%;overscroll-behavior:none}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{
-    height:100%;
-    font-family:var(--font);
-    color:var(--text);
-    background:
-      radial-gradient(circle at top left, rgba(243,164,58,.10), transparent 32%),
-      radial-gradient(circle at bottom right, rgba(52,211,153,.05), transparent 36%),
-      linear-gradient(180deg,#0c0e13 0%, #0a0c10 100%);
-  }
-  button,input{font-family:var(--font)}
-  .app{
-    position:fixed;
-    top:0;left:0;right:0;bottom:0;
-    max-width:640px;margin:0 auto;
-    display:flex;flex-direction:column;overflow:hidden;
-  }
+  body{height:100%;font-family:var(--font);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.35}
+  button,input,select{font-family:var(--font);font-size:inherit;color:inherit}
+  button{cursor:pointer}
+  b,strong{font-weight:700}
+  .num,.ticket-total,.order-total,.ticket-item-price,.ca-total-value,.ca-stat-val,.ca-amount,.summary-value,.mini-price,.burger-card-price,.option-card-price,.recap-total span:last-child,.recap-row span:last-child,.ab-amount,.taxline b,.carte-price,.agenda-summary-num{font-variant-numeric:tabular-nums}
+  .app{position:fixed;top:0;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
 
-  /* HEADER */
+  /* ── EN-TÊTE ── */
   .header{
-    position:sticky;top:0;z-index:100;
-    padding:max(14px, env(safe-area-inset-top)) 16px 14px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;
-    background:linear-gradient(180deg,#000 0,rgba(12,14,19,.88) 100%);
-    backdrop-filter:blur(16px);
-    border-bottom:1px solid var(--line);
-    box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:10px;
+    padding:max(10px, env(safe-area-inset-top)) 14px 10px;
+    border-bottom:1px solid var(--line);background:var(--bg);
   }
-  .header-center{flex:1;text-align:center}
-  .header-title{font-size:24px;font-weight:bold;letter-spacing:1px;color:var(--gold)}
-  .header-right{
-    position:relative;overflow:hidden;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);
-    border-radius:16px;
-    padding:10px 14px;
-    min-width:132px;
-    cursor:pointer;
-    transition:transform .12s ease, border-color .18s ease, box-shadow .18s ease;
-    box-shadow:0 4px 14px rgba(0,0,0,.30);
+  .brand{flex:1;min-width:0}
+  .brand-name{font-size:17px;font-weight:800;letter-spacing:-.2px;color:var(--accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .site-sync{font-size:11px;color:var(--text-3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .site-sync.ok{color:var(--ok)}.site-sync.warn{color:var(--accent)}
+  .hdr-btn{
+    display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:var(--radius-s);
+    background:var(--surface);border:1px solid var(--line);color:var(--text);font-size:13px;font-weight:600;white-space:nowrap;
   }
-  .header-right::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(52,211,153,.4),transparent)}
-  .header-right:hover{border-color:rgba(52,211,153,.35);box-shadow:0 6px 18px rgba(0,0,0,.38)}
-  .header-right:active{transform:scale(.97)}
-  .header-ca-label{font-size:10px;color:var(--text-soft);text-align:right;letter-spacing:1.6px}
-  .header-ca-amount{font-size:22px;font-weight:bold;color:var(--green);text-align:right;margin-top:2px}
-  .header-ca-hint{font-size:9px;color:var(--gold);text-align:right;margin-top:1px;letter-spacing:.8px}
+  .hdr-btn svg{width:16px;height:16px;flex-shrink:0}
+  .hdr-btn:active,.ca-chip:active{background:var(--surface-2)}
+  .ca-chip{
+    display:flex;flex-direction:column;align-items:flex-end;justify-content:center;height:40px;padding:0 12px;border-radius:var(--radius-s);
+    background:var(--surface);border:1px solid var(--line);text-align:right;
+  }
+  .ca-label{font-size:10px;font-weight:600;color:var(--text-3);line-height:1}
+  .ca-amount{font-size:17px;font-weight:800;color:var(--text);line-height:1.15;white-space:nowrap}
 
-  /* TABS */
-  .tabs{
-    position:relative;z-index:99;
-    display:flex;gap:8px;padding:10px 12px;
-    background:rgba(12,14,19,.82);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
+  /* ── ONGLETS ── */
+  .tabs{display:flex;padding:0 6px;border-bottom:1px solid var(--line);background:var(--bg)}
   .tab-btn{
-    flex:1;cursor:pointer;padding:11px 4px;
-    border-radius:14px;font-size:11px;color:var(--text-soft);
-    background:rgba(255,255,255,.03);
-    border:1px solid var(--line);
-    transition:transform .12s ease, background .18s ease, color .18s ease, box-shadow .18s ease, border-color .18s ease;
-    text-align:center;
-    font-weight:700;
-    display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.2;
+    flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;
+    padding:12px 2px 10px;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;
+    background:none;font-size:13px;font-weight:600;color:var(--text-2);white-space:nowrap;
   }
-  .tab-btn:hover{background:rgba(255,255,255,.06);color:var(--text);border-color:var(--line-soft)}
-  .tab-btn:active{transform:scale(.96)}
-  .tab-btn .tab-icon{font-size:18px;line-height:1;transition:transform .18s ease}
-  .tab-btn.active{
-    color:#1a1206;
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    border-color:rgba(243,164,58,.6);
-    box-shadow:0 8px 22px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.35);
-  }
-  .tab-btn.active .tab-icon{transform:scale(1.08)}
-  .content{flex:1;overflow-y:auto;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
-  .app-error{display:none;margin:10px 12px 0;padding:10px 12px;border-radius:12px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.45);color:#fecaca;font-size:12px;line-height:1.45}
-  .pad{padding:16px}
-  .section-title{
-    font-size:11px;font-weight:bold;letter-spacing:2.4px;
-    color:var(--text-soft);text-transform:uppercase;margin:16px 0 10px;
-    padding-bottom:6px;border-bottom:1px solid var(--line);
-  }
-  .grid-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+  .tab-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:800}
+  .tab-icon{display:none}
+
+  /* ── CONTENU ── */
+  .content{flex:1;overflow-y:auto;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch}
+  .app-error{display:none;margin:10px 12px 0;padding:10px 12px;border-radius:var(--radius-s);background:var(--danger-soft);border:1px solid var(--danger);color:var(--text);font-size:12px;line-height:1.45}
+  .pad{padding:14px 14px 18px}
+  .section-title{font-size:13px;font-weight:700;color:var(--text-2);margin:18px 0 8px}
+  .section-title:first-child{margin-top:4px}
+  .section-title.between{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .help{font-size:12px;color:var(--text-2);line-height:1.45}
+  .muted{color:var(--text-3)}
+  .small{font-size:12px}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  @media(max-width:360px){
-    .grid-2{grid-template-columns:1fr 1fr}
-    .grid-4{grid-template-columns:1fr 1fr}
-  }
-  @media(min-width:600px){
-    .grid-2{grid-template-columns:repeat(4,1fr)}
-    .grid-4{grid-template-columns:repeat(4,1fr)}
-  }
-  @media(min-width:900px){
-    .grid-2{grid-template-columns:repeat(5,1fr)}
-  }
-  .burger-card,.option-card,.mini-card{
-    width:100%;cursor:pointer;position:relative;overflow:hidden;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);
-    border-radius:16px;
-    box-shadow:var(--shadow);
-    transition:transform .14s cubic-bezier(.2,.8,.2,1), border-color .18s ease, box-shadow .18s ease;
-    text-align:center;
-  }
-  .burger-card::before,.option-card::before,.mini-card::before{
-    content:"";position:absolute;inset:0 0 auto 0;height:1px;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);
-  }
-  .burger-card:hover,.mini-card:hover{border-color:rgba(243,164,58,.45);box-shadow:0 12px 28px rgba(0,0,0,.40), 0 0 0 1px rgba(243,164,58,.12)}
-  .option-card:hover{border-color:rgba(243,164,58,.40)}
-  .burger-card{padding:12px 8px;min-height:70px}
-  .option-card{padding:10px 6px;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .mini-card{padding:12px 8px;min-height:70px}
-  .combo-card{
-    width:100%;cursor:pointer;position:relative;
-    background:linear-gradient(135deg,#241a0c,#1c1408);
-    border:2px solid #e8c46a;
-    border-radius:18px;
-    box-shadow:var(--shadow);
-    transition:.18s ease;
-    text-align:center;
-    padding:18px 12px;
-    grid-column: span 2;
-    display:flex;align-items:center;justify-content:space-between;
-    gap:16px;
-  }
-  .combo-card-inner{flex:1;text-align:left}
-  .combo-card-badge{
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    color:#1a1206;border-radius:12px;padding:5px 12px;
-    font-size:12px;font-weight:bold;letter-spacing:1px;white-space:nowrap;
-  }
-  .burger-card:active,.option-card:active,.mini-card:active,.combo-card:active{transform:translateY(1px) scale(.97)}
-  .remove-btn:active{transform:scale(.90)}
-  .burger-card.unavailable,.option-card.unavailable,.mini-card.unavailable{
-    opacity:.40;cursor:not-allowed;background:var(--bg-soft);border-color:var(--line-soft);
-  }
-  .burger-card-name,.mini-name{font-size:15px;font-weight:bold;color:var(--text);line-height:1.2;text-align:center}
-  .burger-card-price,.mini-price{margin-top:6px;font-size:14px;font-weight:bold;color:var(--gold);text-align:center}
-  .mini-sub{font-size:12px;color:var(--text-soft);margin-top:4px;text-align:center}
-  .epuise-badge{
-    position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:1px;
-    padding:3px 6px;border-radius:999px;background:rgba(248,113,113,.15);color:var(--red);
-  }
+  @media(max-width:360px){.grid-2,.grid-3{grid-template-columns:1fr 1fr}.grid-4{grid-template-columns:1fr 1fr}}
+  @media(min-width:600px){.grid-2{grid-template-columns:repeat(4,1fr)}}
 
-  /* CUISSON COLORS */
-  .cuisson-bleu{background:linear-gradient(180deg,#16213a,#101830)!important;border-color:rgba(126,160,224,.50)!important}
-  .cuisson-saignant{background:linear-gradient(180deg,#0f2a1f,#0b2018)!important;border-color:rgba(52,211,153,.45)!important}
-  .cuisson-apoint{background:linear-gradient(180deg,#3a2a12,#2c2010)!important;border-color:rgba(243,164,58,.55)!important}
-  .cuisson-biencuit{background:linear-gradient(180deg,#3a1a12,#2c140c)!important;border-color:rgba(248,113,113,.55)!important}
-  .cuisson-bleu.selected{background:linear-gradient(180deg,#4a70d0,#2a50b0)!important;color:white!important}
-  .cuisson-saignant.selected{background:linear-gradient(180deg,#2db870,#1a9058)!important;color:white!important}
-  .cuisson-apoint.selected{background:linear-gradient(180deg,#e89030,#c06010)!important;color:white!important}
-  .cuisson-biencuit.selected{background:linear-gradient(180deg,#d84020,#b02010)!important;color:white!important}
-  .cuisson-dot{
-    display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;
-    vertical-align:middle;
+  /* ── CARTES PRODUIT ── */
+  .burger-card,.mini-card,.option-card{
+    width:100%;position:relative;overflow:hidden;text-align:center;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    transition:background .12s ease,border-color .12s ease;
   }
-  .dot-bleu{background:#2a50b0}
-  .dot-saignant{background:#1a9058}
-  .dot-apoint{background:#c06010}
-  .dot-biencuit{background:#b02010}
+  .burger-card{padding:14px 8px;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .mini-card{padding:12px 8px;min-height:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+  .option-card{padding:10px 6px;min-height:54px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+  .burger-card:active,.mini-card:active,.option-card:active{background:var(--surface-2);border-color:var(--line-strong)}
+  .burger-card.unavailable,.mini-card.unavailable,.option-card.unavailable{opacity:.45;cursor:not-allowed;background:transparent}
+  .burger-card-name,.mini-name{font-size:15px;font-weight:700;color:var(--text);line-height:1.15}
+  .burger-card-price,.mini-price{font-size:13px;font-weight:600;color:var(--text-2)}
+  .epuise-badge{position:absolute;top:6px;right:6px;font-size:9px;font-weight:700;letter-spacing:.4px;padding:2px 6px;border-radius:999px;background:var(--danger-soft);color:var(--danger)}
+  .option-card.selected{background:var(--accent-soft);border-color:var(--accent)}
+  .option-card-label{font-size:12px;color:var(--text);line-height:1.15}
+  .option-card.selected .option-card-label{font-weight:700;color:var(--text)}
+  .option-card-price{font-size:12px;color:var(--text-2)}
+  .option-card.selected .option-card-price{color:var(--accent);font-weight:700}
+  /* cuissons : la couleur porte un sens pour la cuisine, elle reste */
+  .cuisson-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px;vertical-align:middle}
+  .dot-bleu{background:#3a63d1}.dot-saignant{background:#1f9d5c}.dot-apoint{background:#d9831a}.dot-biencuit{background:#c5392b}
+  .cuisson-bleu.selected{background:#3a63d1;border-color:#3a63d1}
+  .cuisson-saignant.selected{background:#1f9d5c;border-color:#1f9d5c}
+  .cuisson-apoint.selected{background:#d9831a;border-color:#d9831a}
+  .cuisson-biencuit.selected{background:#c5392b;border-color:#c5392b}
+  .option-card[class*="cuisson-"].selected .option-card-label{color:#fff}
+  .option-card[class*="cuisson-"].selected .cuisson-dot{background:#fff}
 
-  /* TICKET */
-  .ticket,.order-card,.recap,.stock-card,.summary-card,.history-card{
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);
-    border-radius:22px;
-    box-shadow:var(--shadow);
+  /* ── TICKET / CARTES DE CONTENU ── */
+  .ticket,.order-card,.recap,.stock-card,.summary-card,.focus-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;
   }
-  .ticket,.order-card,.recap,.stock-card,.summary-card,.history-card{padding:16px}
-  .ticket{margin-top:16px;border-color:rgba(243,164,58,.40)}
-  .ticket-title{font-size:13px;font-weight:bold;color:var(--text);letter-spacing:1.3px;margin-bottom:10px}
-  .ticket-item,.order-item,.history-order-row{
-    display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
-    padding:10px 0;border-bottom:1px solid var(--line);
+  .ticket{margin-top:16px}
+  .ticket-title{font-size:13px;font-weight:700;color:var(--text-2);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .ticket-item,.order-item{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .ticket-item:last-child,.order-item:last-child{border-bottom:none}
+  .ticket-item-name,.order-item-name{font-size:15px;font-weight:700;color:var(--text)}
+  .ticket-item-sub,.order-item-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+  .sub-plus{color:var(--info);font-weight:600}
+  .sub-minus{color:var(--danger);font-weight:600}
+  .sub-fries{color:var(--text-2)}
+  .ticket-item-price{font-size:15px;font-weight:700;color:var(--text);min-width:58px;text-align:right}
+  .ticket-item-edit,.btn-chip{
+    display:inline-flex;align-items:center;gap:4px;height:28px;padding:0 10px;border-radius:999px;white-space:nowrap;
+    background:var(--surface-2);border:1px solid var(--line);color:var(--text);font-size:12px;font-weight:600;
   }
-  .ticket-item:last-child,.order-item:last-child,.history-order-row:last-child{border-bottom:none}
-  .ticket-item-name,.order-item-name{font-size:14px;font-weight:bold;color:var(--text)}
-  .ticket-item-sub,.order-item-sub,.history-order-sub{font-size:12px;color:var(--text-soft);margin-top:2px}
-  .ticket-item-price,.history-order-total{font-size:15px;color:var(--gold);font-weight:bold;min-width:60px;text-align:right}
-  .ticket-item-edit{
-    border:none;background:rgba(243,164,58,.14);color:var(--gold);
-    border-radius:10px;padding:4px 10px;font-size:11px;
-    cursor:pointer;white-space:nowrap;margin-top:4px;
-    border:1px solid rgba(243,164,58,.40);
-  }
-  .remove-btn{
-    border:none;width:30px;height:30px;border-radius:10px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    background:rgba(248,113,113,.15);color:var(--red);font-size:18px;
-  }
-  .ticket-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px}
-  .ticket-count{font-size:13px;color:var(--text-soft)}
-  .ticket-total{font-size:26px;font-weight:bold;color:var(--green);margin-top:2px}
-  /* ── BOUTONS D'ACTION ── */
+  .btn-chip.accent{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+  .btn-chip.danger{background:var(--danger-soft);border-color:transparent;color:var(--danger)}
+  .remove-btn{flex-shrink:0;width:30px;height:30px;border-radius:999px;border:0;display:flex;align-items:center;justify-content:center;background:var(--danger-soft);color:var(--danger);font-size:18px;line-height:1}
+  .ticket-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .ticket-count{font-size:12px;color:var(--text-2)}
+  .ticket-total{font-size:22px;font-weight:800;color:var(--text)}
+  .editing-tag{font-size:12px;color:var(--accent);font-weight:600}
+
+  /* ── BOUTONS ── */
   .btn{
-    position:relative;
-    border:1px solid transparent;cursor:pointer;
-    border-radius:14px;
-    padding:15px 20px;
-    font-size:14px;font-weight:700;
-    font-family:var(--font);
-    letter-spacing:.2px;
-    transition:transform .12s cubic-bezier(.2,.8,.2,1), box-shadow .18s ease, filter .18s ease, background .18s ease;
-    box-shadow:0 2px 8px rgba(0,0,0,.30);
+    display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    border:1px solid transparent;border-radius:12px;padding:0 16px;min-height:46px;
+    font-size:15px;font-weight:700;line-height:1.1;white-space:nowrap;
+    transition:filter .12s ease,background .12s ease;
   }
-  .btn:active{transform:translateY(1px) scale(.985)}
-  .btn-green,.btn-pay,.btn-primary,.btn-export{position:relative;overflow:hidden}
-  .btn-green::before,.btn-pay::before,.btn-primary::before,.btn-export::before{
-    content:"";position:absolute;inset:0 0 auto 0;height:1px;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
-  }
-  .btn-green,.btn-pay{
-    background:linear-gradient(180deg,#34d399,#0f9d63);
-    color:#04241a;
-    border-color:rgba(52,211,153,.5);
-    box-shadow:0 6px 20px rgba(16,157,99,.35), inset 0 1px 0 rgba(255,255,255,.18);
-    text-shadow:0 1px 0 rgba(255,255,255,.18);
-  }
-  .btn-green:hover,.btn-pay:hover{filter:brightness(1.06);box-shadow:0 8px 26px rgba(16,157,99,.45), inset 0 1px 0 rgba(255,255,255,.22)}
-  .btn-green:active,.btn-pay:active{box-shadow:0 2px 10px rgba(16,157,99,.30), inset 0 1px 0 rgba(255,255,255,.12)}
+  .btn:active{filter:brightness(.92)}
+  .btn-primary,.btn-export{background:var(--accent);color:var(--accent-ink)}
+  .btn-green,.btn-pay{background:var(--ok);color:var(--ok-ink)}
   .btn-pay{flex:2}
-  .btn-primary,.btn-export{
-    width:100%;
-    background:linear-gradient(180deg,#4d9bf0,#2566ad);
-    color:#fff;
-    border-color:rgba(77,155,240,.5);
-    box-shadow:0 6px 20px rgba(37,102,173,.38), inset 0 1px 0 rgba(255,255,255,.16);
+  .btn-cancel{flex:1;background:transparent;color:var(--danger);border-color:var(--danger-soft);background:var(--danger-soft)}
+  .btn-ghost{background:var(--surface-2);color:var(--text);border-color:var(--line)}
+  .btn-back{background:var(--surface);color:var(--text-2);border-color:var(--line);padding:0 12px;min-height:38px;font-size:13px;font-weight:600}
+  .btn-reset{background:transparent;color:var(--danger);border-color:var(--danger)}
+  .btn-sm{min-height:38px;padding:0 12px;font-size:13px}
+  .btn-block{width:100%}
+
+  /* ── BARRE D'ACTION (toujours sous le pouce) ── */
+  .actionbar{
+    display:none;align-items:center;gap:12px;
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));
+    background:var(--surface);border-top:1px solid var(--line);
   }
-  .btn-primary:hover,.btn-export:hover{filter:brightness(1.06);box-shadow:0 8px 26px rgba(37,102,173,.48), inset 0 1px 0 rgba(255,255,255,.2)}
-  .btn-primary:active,.btn-export:active{box-shadow:0 2px 10px rgba(37,102,173,.30), inset 0 1px 0 rgba(255,255,255,.1)}
-  .btn-export{margin-top:10px}
-  .btn-cancel{
-    flex:1;
-    background:rgba(248,113,113,.10);
-    color:var(--red);
-    border:1px solid rgba(248,113,113,.32);
-    box-shadow:none;
-  }
-  .btn-cancel:hover{background:rgba(248,113,113,.16);border-color:rgba(248,113,113,.5)}
-  .btn-back{
-    background:rgba(255,255,255,.04);
-    color:var(--text-soft);
-    border:1px solid var(--line);
-    box-shadow:none;
-    padding:11px 16px;
-    font-size:13px;
-  }
-  .btn-back:hover{background:rgba(255,255,255,.08);color:var(--text)}
-  .btn-reset{
-    width:100%;margin-top:14px;
-    background:transparent;
-    color:var(--red);
-    border:1px solid rgba(248,113,113,.32);
-    box-shadow:none;
-  }
-  .btn-reset:hover{background:rgba(248,113,113,.10);border-color:rgba(248,113,113,.5)}
-  /* Police montants */
-  .ticket-total,.order-total,.recap-total span:last-child,
-  .ticket-item-price,.history-order-total,.ca-total-value,
-  .ca-stat-val,.header-ca-amount,.summary-value{
-    font-family:'Courier New',Courier,monospace;
-    letter-spacing:-.5px;
-  }
-  .options-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-  .options-title{font-size:17px;font-weight:bold;color:var(--text)}
-  .option-card.selected{
-    background:linear-gradient(180deg,#2c2010,#241a0c);
-    border-color:rgba(243,164,58,.55);
-  }
-  .option-card-label{font-size:12px;color:var(--text);text-align:center}
-  .option-card.selected .option-card-label{font-weight:bold}
-  .option-card-price{margin-top:4px;font-size:13px;color:var(--text-soft);text-align:center}
-  .option-card.selected .option-card-price{color:var(--gold)}
-  .recap{margin-bottom:16px}
-  .recap-row,.recap-total{display:flex;justify-content:space-between;gap:12px}
+  .actionbar.on{display:flex}
+  .ab-total{display:flex;flex-direction:column;min-width:80px;line-height:1.15}
+  .ab-count{font-size:11px;color:var(--text-2)}
+  .ab-amount{font-size:22px;font-weight:800;color:var(--text);white-space:nowrap}
+  .actionbar .btn{flex:1;min-height:52px;font-size:16px}
+  .actionbar .btn-back{flex:0 0 auto;min-height:52px;font-size:14px}
+
+  /* ── OPTIONS / RÉCAP ── */
+  .options-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .options-title{font-size:17px;font-weight:800;color:var(--text)}
+  .recap{margin-top:18px}
+  .recap-row,.recap-total{display:flex;justify-content:space-between;gap:12px;align-items:center}
   .recap-row{font-size:14px;margin-bottom:6px;color:var(--text)}
-  .recap-row span:last-child{font-weight:bold;color:var(--green)}
-  .recap-row.sub{font-size:13px;color:var(--text-soft)}
-  .recap-row.sub span:last-child{color:var(--green)}
-  .recap-total{
-    border-top:1px solid var(--line);margin-top:8px;padding-top:10px;
-    color:var(--text);font-size:17px;font-weight:bold;
-  }
-  .order-header,.history-order-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px}
-  .order-num,.history-order-num{
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;
-    border-radius:12px;padding:5px 12px;font-weight:bold;font-size:18px;
-  }
-  .order-total{font-size:22px;font-weight:bold;color:var(--green)}
-  .order-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-  .history-label{font-size:13px;color:var(--text-soft);letter-spacing:2px;margin:22px 0 10px}
-  .history-item{
-    display:flex;justify-content:space-between;align-items:center;gap:10px;
-    background:var(--panel);border:1px solid var(--line);
-    border-radius:16px;padding:12px;margin-bottom:8px;opacity:.95;
-  }
-  .history-num{background:rgba(243,164,58,.14);color:var(--text);border-radius:10px;padding:4px 10px;font-size:14px;font-weight:bold}
-  .history-count{font-size:13px;color:var(--text-soft)}
-  .history-total{color:var(--green);font-size:16px;font-weight:bold}
+  .recap-row span:last-child{font-weight:600;color:var(--text-2)}
+  .recap-row.sub{font-size:13px;color:var(--text-2)}
+  .recap-total{border-top:1px solid var(--line);margin-top:8px;padding-top:10px;color:var(--text);font-size:17px;font-weight:800}
+  .focus-card{margin-bottom:14px}
+  .focus-name{font-size:16px;font-weight:800}
+  .steps-dots{display:flex;gap:6px;justify-content:center;margin-top:16px}
+  .steps-dots i{display:block;width:28px;height:5px;border-radius:3px;background:var(--line)}
+  .steps-dots i.cur{background:var(--accent)}.steps-dots i.done{background:var(--ok)}
+  .menu-block{margin-bottom:10px;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius-s);background:var(--surface-2)}
+  .menu-block.menu{border-color:var(--accent-line)}
+  .menu-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .menu-kind{font-size:11px;font-weight:700;color:var(--accent)}
+  .menu-row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px}
+  .menu-name{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:15px;font-weight:700}
+  .menu-fries{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px;padding:6px 8px;border-radius:8px;background:var(--accent-soft)}
+  .menu-fries.none{background:transparent;border:1px dashed var(--line);color:var(--text-2);font-size:12px}
+  .fries-picker{margin-top:8px;padding:8px;background:var(--surface);border-radius:8px;border:1px solid var(--line)}
+  .fries-picker .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .fries-pick{border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--surface-2);text-align:left;font-size:12px;color:var(--text)}
+  .fries-pick.sel{border-color:var(--accent);background:var(--accent-soft)}
+  .fries-pick.none{color:var(--danger);font-weight:700;text-align:center}
+  .fries-pick small{display:block;color:var(--text-2);font-size:11px;margin-top:1px}
+  .removal-btn{width:100%;border-radius:var(--radius-s);padding:9px 6px;text-align:center;font-size:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--text)}
+  .removal-btn.removed{background:var(--danger-soft);border-color:var(--danger);color:var(--danger);text-decoration:line-through}
+
+  /* ── COMMANDES (en cours / historique) ── */
+  .order-card{margin-bottom:10px;border-left:4px solid var(--accent)}
+  .order-card.paid{border-left-color:var(--ok)}
+  .order-card.cancelled{border-left-color:var(--line-strong);opacity:.6}
+  .order-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+  .order-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .order-num{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.3px}
+  .order-total{font-size:20px;font-weight:800;color:var(--text)}
+  .order-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .order-actions .btn{min-height:44px;font-size:14px;padding:0 10px}
+  .taxline{display:flex;justify-content:flex-end;gap:14px;padding:6px 0 2px;border-top:1px dashed var(--line);margin-top:4px;font-size:12px;color:var(--text-2)}
+  .taxline b{color:var(--text)}
+  .loyalty-line{font-size:12px;color:var(--danger);padding:6px 0 0;border-top:1px solid var(--line);margin-top:4px;font-weight:600}
+  .history-label{font-size:13px;font-weight:700;color:var(--text-2);margin:22px 0 8px}
   .summary-card{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-  .summary-label{color:var(--text);font-size:13px}
-  .summary-value{color:var(--green);font-size:24px;font-weight:bold}
-  .alert-box{
-    background:rgba(243,164,58,.08);
-    border:1px solid rgba(243,164,58,.28);
-    border-radius:18px;padding:14px;margin-bottom:16px;
-  }
-  .alert-out{color:var(--red);font-size:13px;font-weight:bold}
-  .alert-low{color:var(--orange);font-size:13px;margin-top:4px}
-  .stock-item{
-    display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:12px 0;border-bottom:1px solid var(--line);
-  }
+  .summary-label{font-size:13px;font-weight:600;color:var(--text-2)}
+  .summary-value{font-size:22px;font-weight:800;color:var(--text)}
+  .empty{text-align:center;color:var(--text-2);padding:40px 16px;font-size:14px}
+  .empty-icon{font-size:40px;margin-bottom:8px}
+  .chip{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--line);white-space:nowrap;line-height:1.3}
+  .chip-accent{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+  .chip-ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+  .chip-danger{background:var(--danger-soft);color:var(--danger);border-color:transparent}
+  .chip.tap{cursor:pointer}
+
+  /* ── RECHERCHE ── */
+  .search-bar{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:0 12px;margin-bottom:12px;height:44px}
+  .search-bar:focus-within{border-color:var(--accent)}
+  .search-icon{font-size:14px;opacity:.7;flex-shrink:0}
+  .search-input{flex:1;min-width:0;height:100%;border:none;background:transparent;outline:none;color:var(--text);font-size:15px;font-weight:600;-moz-appearance:textfield}
+  .search-input::-webkit-outer-spin-button,.search-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .search-input::placeholder{color:var(--text-3);font-weight:400}
+  .search-clear{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);color:var(--text-2);font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center}
+
+  /* ── STOCKS ── */
+  .stock-card{margin-bottom:12px}
+  .alert-box{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:var(--radius-s);padding:12px 14px;margin-bottom:12px}
+  .alert-out{color:var(--danger);font-size:13px;font-weight:700}
+  .alert-low{color:var(--accent);font-size:13px;margin-top:4px;font-weight:600}
+  .stock-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
   .stock-item:last-child{border-bottom:none}
-  .stock-name{flex:1;font-size:15px;color:var(--text)}
-  .stock-name.low{color:var(--orange)}
-  .stock-name.out{color:var(--red)}
-  .stock-inline{display:flex;align-items:center;gap:8px}
-  .stock-step,.stock-save{
-    cursor:pointer;border-radius:12px;
-    width:38px;height:38px;font-size:20px;font-weight:700;
-    transition:transform .12s ease, background .15s ease, box-shadow .15s ease;
-  }
-  .stock-step:active,.stock-save:active{transform:scale(.92)}
-  .stock-step{background:rgba(243,164,58,.12);color:var(--gold);border:1px solid rgba(243,164,58,.30)}
-  .stock-step:hover{background:rgba(243,164,58,.20)}
-  .stock-save{
-    width:auto;padding:0 14px;background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;font-size:12px;border:1px solid rgba(243,164,58,.5);
-    box-shadow:0 4px 14px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.25);
-  }
-  .edit-input{
-    width:74px;height:38px;border-radius:12px;border:1px solid var(--line);
-    background:var(--bg-soft);color:var(--text);text-align:center;font-size:16px;font-weight:700;
-    transition:border-color .15s ease, box-shadow .15s ease;outline:none;
-  }
-  .edit-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,164,58,.22)}
-
-  /* MODALS */
-  .modal-overlay{
-    position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;
-    background:rgba(0,0,0,.62);backdrop-filter:blur(4px);
-  }
-  .modal{
-    width:100%;max-width:340px;text-align:center;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);
-    border-radius:24px;padding:24px;box-shadow:var(--shadow);
-  }
-  .modal-wide{max-width:460px;text-align:left;max-height:80vh;overflow-y:auto}
-  .modal-icon{font-size:32px;margin-bottom:8px}
-  .modal-title{font-size:18px;font-weight:bold;color:var(--text);margin-bottom:8px;text-align:center}
-  .modal-text{font-size:13px;color:var(--text-soft);margin-bottom:20px;line-height:1.4;text-align:center}
-  .modal-actions{display:flex;gap:10px}
-  .modal-cancel,.modal-confirm{
-    flex:1;border:none;border-radius:14px;padding:12px;cursor:pointer;font-weight:bold;
-  }
-  .modal-cancel{background:var(--bg-soft);color:var(--text);border:1px solid var(--line)}
-  .modal-confirm{background:linear-gradient(180deg,#fb7185,#e0484c);color:#2a0808;font-weight:700;border:1px solid rgba(248,113,113,.5);box-shadow:0 4px 16px rgba(224,72,76,.34), inset 0 1px 0 rgba(255,255,255,.2)}
-
-  /* CA DETAIL MODAL */
-  .ca-detail-row{
-    display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
-    padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;
-  }
-  .ca-detail-row:last-child{border-bottom:none}
-  .ca-detail-num{
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));color:#1a1206;
-    border-radius:10px;padding:4px 12px;font-weight:bold;font-size:14px;white-space:nowrap;font-family:var(--font);letter-spacing:.3px;
-  }
-  .ca-detail-items{flex:1;margin-left:8px}
-  .ca-detail-item{font-size:12px;color:var(--text-soft);margin-top:2px}
-  .ca-detail-price{font-size:14px;font-weight:bold;color:var(--green);white-space:nowrap}
-  .ca-total-bar{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-top:14px;padding:14px;
-    background:linear-gradient(135deg,rgba(52,211,153,.14),rgba(52,211,153,.06));
-    border-radius:16px;border:1px solid rgba(52,211,153,.30);
-  }
-  .ca-total-label{font-size:13px;font-weight:bold;letter-spacing:1.5px;color:var(--text)}
-  .ca-total-value{font-size:24px;font-weight:bold;color:var(--green)}
-  .ca-stats{
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;
-  }
-  .ca-stat{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;
-    padding:12px 8px;text-align:center;
-  }
-  .ca-stat-val{font-size:24px;font-weight:bold;color:var(--gold);font-family:var(--font)}
-  .ca-stat-label{font-size:10px;color:var(--text-soft);letter-spacing:1.2px;margin-top:4px;font-weight:bold;text-transform:uppercase}
-  .ca-btn-row{display:flex;gap:10px;margin-top:14px}
-  .ca-btn-row button{flex:1;margin-top:0!important;width:auto!important}
-
-  /* REMOVAL BUTTONS */
-  .removal-btn{
-    width:100%;cursor:pointer;border-radius:12px;padding:10px 8px;
-    text-align:center;font-size:12px;transition:transform .12s ease, background .15s ease, border-color .15s ease;
-    background:rgba(255,255,255,.03);
-    border:1px solid var(--line);color:var(--text);
-  }
-  .removal-btn:hover{background:rgba(255,255,255,.06);border-color:var(--line-soft)}
-  .removal-btn:active{transform:scale(.97)}
-  .removal-btn.removed{
-    background:linear-gradient(180deg,#3a1818,#2c1212);
-    border-color:rgba(248,113,113,.40);color:var(--red);
-    text-decoration:line-through;
-  }
-  .menu-drop-zone{
-    transition:background .15s,border-color .15s;
-    border-radius:14px;
-  }
-  .menu-drop-zone.drag-over{
-    background:rgba(243,164,58,.12) !important;
-    border:2px dashed var(--gold) !important;
-    border-radius:14px;
-  }
-  .draggable-frite{
-    cursor:grab;display:flex;align-items:center;justify-content:space-between;
-    padding:6px 8px;border-radius:10px;border:1px dashed var(--line);
-    background:var(--bg-soft);touch-action:none;user-select:none;
-  }
-  .draggable-frite:active{ cursor:grabbing; }
-  .header-agenda-btn{
-    position:relative;overflow:hidden;
-    background:linear-gradient(180deg,var(--panel),var(--panel-2));
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:9px 12px;
-    cursor:pointer;
-    display:flex;flex-direction:column;align-items:center;gap:2px;
-    font-size:20px;
-    transition:transform .12s ease, border-color .18s ease, box-shadow .18s ease;
-    box-shadow:0 4px 14px rgba(0,0,0,.30);
-  }
-  .header-agenda-btn::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(243,164,58,.4),transparent)}
-  .header-agenda-btn:hover{border-color:rgba(243,164,58,.35);box-shadow:0 6px 18px rgba(0,0,0,.38)}
-  .header-agenda-btn:active{transform:scale(.96)}
-  .header-agenda-label{font-size:9px;color:var(--text-soft);letter-spacing:1.4px;font-weight:bold}
-  .agenda-slot-row{
-    padding:10px 0;border-bottom:1px solid var(--line);
-  }
-  .agenda-slot-row:last-child{border-bottom:none}
-  .agenda-slot-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-  .agenda-slot-time{
-    font-size:14px;font-weight:700;
-    background:linear-gradient(180deg,var(--gold-2),var(--gold));
-    color:#1a1206;border-radius:8px;padding:3px 10px;
-  }
-  .agenda-slot-counts{display:flex;gap:6px}
-  .agenda-slot-pill{
-    font-size:11px;border-radius:6px;padding:2px 8px;font-weight:bold;
-    background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);
-  }
-  .agenda-slot-pill.red{background:rgba(248,113,113,.15);color:var(--red);border-color:rgba(248,113,113,.40)}
-  .agenda-order-line{font-size:12px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:2px solid var(--line)}
-  .agenda-order-line.paye{border-left-color:var(--green)}
-  .agenda-order-line.encours{border-left-color:var(--gold)}
-  .empty-icon{font-size:44px;margin-bottom:10px}
-
-  /* BARRE DE RECHERCHE EN COURS */
-  .search-bar{
-    display:flex;align-items:center;gap:8px;
-    background:var(--bg-soft);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:0 12px;
-    margin-bottom:14px;
-    height:46px;
-    transition:border-color .15s ease, box-shadow .15s ease;
-  }
-  .search-bar:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(243,164,58,.18)}
-  .search-icon{font-size:15px;opacity:.7;flex-shrink:0}
-  .search-input{
-    flex:1;min-width:0;height:100%;
-    border:none;background:transparent;outline:none;
-    color:var(--text);font-size:15px;font-weight:600;
-    -moz-appearance:textfield;
-  }
-  .search-input::-webkit-outer-spin-button,
-  .search-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .search-input::placeholder{color:var(--text-soft);font-weight:400}
-  .search-clear{
-    flex-shrink:0;cursor:pointer;
-    width:26px;height:26px;border-radius:50%;
-    background:rgba(255,255,255,.06);border:1px solid var(--line);
-    color:var(--text-soft);font-size:13px;line-height:1;
-    display:flex;align-items:center;justify-content:center;
-    transition:background .15s ease, color .15s ease;
-  }
-  .search-clear:hover{background:rgba(248,113,113,.15);color:var(--red);border-color:rgba(248,113,113,.4)}
-
-  /* CARTE DU JOUR (toggles burgers) */
-  .carte-group-label{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-  .carte-list{display:flex;flex-direction:column;gap:2px}
-  .carte-row{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    padding:10px 2px;border-bottom:1px solid var(--line-soft);
-    transition:opacity .18s ease;
-  }
+  .stock-name{flex:1;font-size:15px;color:var(--text);font-weight:600}
+  .stock-name.low{color:var(--accent)}
+  .stock-name.out{color:var(--danger)}
+  .stock-inline{display:flex;align-items:center;gap:6px}
+  .stock-step,.stock-save{border-radius:var(--radius-s);width:38px;height:38px;font-size:20px;font-weight:700;background:var(--surface-2);color:var(--text);border:1px solid var(--line)}
+  .stock-step:active{background:var(--line)}
+  .stock-save{width:auto;padding:0 12px;background:var(--accent);color:var(--accent-ink);font-size:12px;border-color:transparent}
+  .edit-input{width:70px;height:38px;border-radius:var(--radius-s);border:1px solid var(--line);background:var(--surface-2);color:var(--text);text-align:center;font-size:16px;font-weight:700;outline:none}
+  .edit-input:focus{border-color:var(--accent)}
+  .carte-group-label{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+  .carte-list{display:flex;flex-direction:column}
+  .carte-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
   .carte-row:last-child{border-bottom:none}
   .carte-row.off{opacity:.5}
   .carte-info{min-width:0;flex:1}
   .carte-name{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
-  .carte-price{font-size:12px;color:var(--gold);font-family:'Courier New',monospace;font-weight:700}
-  .carte-compo{font-size:11px;color:var(--text-soft);margin-top:2px;line-height:1.3}
-  .carte-toggle{
-    flex-shrink:0;cursor:pointer;
-    width:46px;height:27px;border-radius:999px;
-    background:var(--bg-soft);border:1px solid var(--line);
-    position:relative;transition:background .2s ease, border-color .2s ease;
-    padding:0;
-  }
-  .carte-toggle.on{
-    background:linear-gradient(180deg,#34d399,#0f9d63);
-    border-color:rgba(52,211,153,.6);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
-  }
-  .carte-knob{
-    position:absolute;top:2px;left:2px;
-    width:21px;height:21px;border-radius:50%;
-    background:#cdd3dd;
-    box-shadow:0 1px 3px rgba(0,0,0,.4);
-    transition:transform .2s cubic-bezier(.3,1.4,.5,1), background .2s ease;
-  }
-  .carte-toggle.on .carte-knob{transform:translateX(19px);background:#fff}
+  .carte-price{font-size:12px;color:var(--text-2);font-weight:600}
+  .carte-compo{font-size:11px;color:var(--text-2);margin-top:2px;line-height:1.3}
+  .carte-toggle{flex-shrink:0;width:46px;height:27px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);position:relative;transition:background .2s ease;padding:0}
+  .carte-toggle.on{background:var(--ok);border-color:var(--ok)}
+  .carte-knob{position:absolute;top:2px;left:2px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s cubic-bezier(.3,1.4,.5,1)}
+  .carte-toggle.on .carte-knob{transform:translateX(19px)}
+  .carte-edit-btn{border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:var(--radius-s);width:34px;height:34px;font-size:14px;margin-right:8px;flex-shrink:0}
+  .cat-edit{display:grid;gap:10px}
+  .cat-edit label{display:grid;gap:4px;font-size:12px;color:var(--text-2);font-weight:600}
+  .cat-edit input,.cat-edit select{height:42px;border-radius:var(--radius-s);border:1px solid var(--line);background:var(--surface-2);color:var(--text);padding:0 10px;font-size:15px;outline:none;width:100%;font-weight:500}
+  .cat-edit input:focus,.cat-edit select:focus{border-color:var(--accent)}
+  .cat-ing{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+  .cat-ing .nm{font-size:13px}.cat-ing .qty{display:flex;align-items:center;gap:6px}.cat-ing .qty b{min-width:22px;text-align:center;font-size:15px}.cat-ing .qty b.zero{color:var(--text-3);font-weight:400}
+  .cat-grp{font-size:12px;color:var(--text-2);font-weight:700;margin:10px 0 2px}
+  .theme-seg{display:flex;gap:6px}
+  .theme-seg button{flex:1;min-height:40px;border-radius:var(--radius-s);border:1px solid var(--line);background:var(--surface-2);color:var(--text);font-weight:600;font-size:13px}
+  .theme-seg button.on{background:var(--accent);color:var(--accent-ink);border-color:transparent}
 
-  /* AGENDA SUMMARY */
-  .agenda-summary{
-    position:relative;overflow:hidden;
-    background:linear-gradient(180deg,rgba(243,164,58,.10),rgba(243,164,58,.03));
-    border:1px solid rgba(243,164,58,.28);
-    border-radius:13px;padding:9px 13px;margin-bottom:12px;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-  }
-  .agenda-summary::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(243,164,58,.45),transparent)}
+  /* ── VIP ── */
+  .vip-card{width:100%;display:flex;align-items:center;gap:14px;padding:16px;margin-bottom:10px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+  .vip-card:active{background:var(--surface-2)}
+  .vip-card.off{opacity:.45;cursor:not-allowed}
+  .vip-emoji{font-size:30px;line-height:1}
+  .vip-name{font-size:16px;font-weight:800;color:var(--text);margin-bottom:2px}
+  .vip-desc{font-size:12px;color:var(--text-2);line-height:1.45}
+  .vip-price{font-size:15px;font-weight:800;color:var(--text);white-space:nowrap}
+
+  /* ── FENÊTRES ── */
+  .modal-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.6)}
+  .modal{width:100%;max-width:340px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .modal-wide{max-width:460px;text-align:left;max-height:84vh;overflow-y:auto}
+  .modal-icon{font-size:30px;margin-bottom:6px}
+  .modal-title{font-size:17px;font-weight:800;color:var(--text);margin-bottom:6px;text-align:center}
+  .modal-text{font-size:13px;color:var(--text-2);margin-bottom:16px;line-height:1.4;text-align:center}
+  .modal-actions{display:flex;gap:10px}
+  .modal-cancel,.modal-confirm{flex:1;border:1px solid var(--line);border-radius:12px;min-height:46px;padding:0 12px;font-weight:700;font-size:15px}
+  .modal-cancel{background:var(--surface-2);color:var(--text)}
+  .modal-confirm{background:var(--danger);color:#fff;border-color:transparent}
+  .modal-close{width:100%;margin-top:12px}
+
+  /* ── DÉTAIL CA ── */
+  .ca-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+  .ca-stat{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-s);padding:10px 4px;text-align:center}
+  .ca-stat-val{font-size:20px;font-weight:800;color:var(--text)}
+  .ca-stat-val.red{color:var(--danger)}
+  .ca-stat-label{font-size:10px;color:var(--text-2);margin-top:2px;font-weight:600}
+  .ca-list{margin-top:12px}
+  .ca-order{padding:10px 0;border-bottom:1px solid var(--line)}
+  .ca-order:last-child{border-bottom:none}
+  .ca-order.cancelled{opacity:.5}
+  .ca-order-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .ca-order-num{font-size:15px;font-weight:800}
+  .ca-order-total{font-size:15px;font-weight:800;white-space:nowrap}
+  .ca-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:3px 0 3px 10px;border-left:3px solid var(--line);margin-top:4px;font-size:13px}
+  .ca-item.burger{border-left-color:var(--accent)}
+  .ca-item.fries{border-left-color:var(--line-strong)}
+  .ca-item.drink{border-left-color:var(--info)}
+  .ca-item .price{font-size:12px;color:var(--text-2);white-space:nowrap}
+  .ca-sub{display:flex;justify-content:space-between;gap:8px;padding:1px 0 1px 10px;font-size:12px;color:var(--text-2)}
+  .ca-sub .price{font-size:11px;color:var(--text-3)}
+  .ca-total-bar{margin-top:14px;padding:12px 14px;background:var(--ok-soft);border-radius:var(--radius-s);border:1px solid var(--ok);display:flex;flex-direction:column;gap:8px}
+  .ca-total-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .ca-total-label{font-size:13px;font-weight:700;color:var(--text)}
+  .ca-total-value{font-size:22px;font-weight:800;color:var(--text)}
+  .ca-total-value.ok{color:var(--ok)}
+  .ca-btn-row{display:flex;gap:8px;margin-top:14px}
+  .ca-btn-row .btn{flex:1;min-height:44px;font-size:14px;padding:0 10px}
+  .ca-btn-row .btn.icon{flex:0 0 46px;padding:0}
+
+  /* ── AGENDA ── */
+  .agenda-summary{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-s);padding:10px 12px;margin-bottom:12px}
   .agenda-summary-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
-  .agenda-summary-title{font-size:10px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold)}
-  .agenda-summary-orders{font-size:10px;color:var(--text-soft);font-weight:600}
+  .agenda-summary-title{font-size:12px;font-weight:700;color:var(--text)}
+  .agenda-summary-orders{font-size:12px;color:var(--text-2);font-weight:600}
   .agenda-summary-stats{display:flex;align-items:center;justify-content:center;gap:6px}
   .agenda-summary-stat{flex:1;display:flex;align-items:center;justify-content:center;gap:7px}
   .agenda-summary-emoji{font-size:15px;line-height:1}
-  .agenda-summary-num{font-size:19px;font-weight:700;color:var(--text);font-family:'Courier New',Courier,monospace;line-height:1}
-  .agenda-summary-lbl{font-size:10px;letter-spacing:.8px;text-transform:uppercase;color:var(--text-soft);font-weight:700}
+  .agenda-summary-num{font-size:19px;font-weight:800;color:var(--text);line-height:1}
+  .agenda-summary-lbl{font-size:12px;color:var(--text-2);font-weight:600}
   .agenda-summary-sep{width:1px;align-self:stretch;background:var(--line);margin:2px 0}
+  .agenda-slot-row{padding:10px 0}
+  .agenda-slot-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  .agenda-slot-time{font-size:14px;font-weight:800;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:3px 10px}
+  .agenda-slot-counts{display:flex;gap:6px}
+  .agenda-slot-pill{font-size:11px;border-radius:6px;padding:2px 8px;font-weight:700;background:var(--accent-soft);color:var(--accent)}
+  .agenda-slot-pill.red{background:var(--danger-soft);color:var(--danger)}
+  .agenda-order{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .agenda-order:last-child{border-bottom:none}
+  .agenda-order-num{flex-shrink:0;background:var(--accent);color:var(--accent-ink);border:none;border-radius:8px;padding:6px 10px;font-size:15px;font-weight:800;min-width:50px;text-align:center}
+  .agenda-order-num.paid{background:var(--ok);color:var(--ok-ink)}
+  .agenda-order-total{font-size:13px;font-weight:800;white-space:nowrap;padding-top:6px}
+  .agenda-line{padding:4px 0 4px 8px;border-left:3px solid var(--line);margin-bottom:4px;font-size:13px}
+  .agenda-line.burger{border-left-color:var(--accent);font-weight:700}
+  .agenda-line .sub{font-size:11px;font-weight:600;padding-left:4px}
+  .agenda-line.fries,.agenda-line.drink{font-size:12px;color:var(--text-2)}
 
-  /* SLOT PICKER */
-  .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
-  .slot-section-label{
-    font-size:10px;font-weight:bold;letter-spacing:2.5px;text-transform:uppercase;
-    color:var(--text-soft);text-align:center;
-    padding:8px 0 6px;margin-bottom:2px;
-    grid-column:span 3;
-    border-top:1px solid var(--line);
-  }
+  /* ── CRÉNEAUX ── */
+  .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .slot-section-label{font-size:12px;font-weight:700;color:var(--text-2);text-align:center;padding:10px 0 4px;grid-column:span 3;border-top:1px solid var(--line)}
   .slot-section-label:first-child{border-top:none;padding-top:0}
-  .slot-btn{
-    position:relative;overflow:hidden;
-    border:1.5px solid var(--line);cursor:pointer;
-    border-radius:14px;padding:11px 6px;
-    background:rgba(255,255,255,.03);
-    text-align:center;transition:transform .12s ease, border-color .15s ease, box-shadow .15s ease, background .15s ease;
-    box-shadow:0 2px 8px rgba(0,0,0,.25);
-  }
-  .slot-btn:hover{border-color:rgba(243,164,58,.4);background:rgba(255,255,255,.05)}
-  .slot-btn:active{transform:scale(.95)}
-  .slot-btn.selected{
-    background:linear-gradient(180deg,#34d399,#0f9d63);
-    border-color:rgba(52,211,153,.6);
-    box-shadow:0 6px 20px rgba(16,157,99,.4), inset 0 1px 0 rgba(255,255,255,.25);
-  }
-  .slot-btn.full{background:linear-gradient(180deg,#3a1818,#2c1212);border-color:rgba(248,113,113,.45)}
-  .slot-btn.busy{background:linear-gradient(180deg,#332a10,#28210c);border-color:rgba(243,164,58,.40)}
-  .slot-btn.light{background:linear-gradient(180deg,#103028,#0c2620);border-color:rgba(52,211,153,.40)}
-  .slot-time{font-size:16px;font-weight:bold;font-family:var(--font);color:var(--text);line-height:1}
-  .slot-btn.selected .slot-time{color:#04241a}
-  .slot-counts{margin-top:5px;font-size:11px;color:var(--text-soft);display:flex;justify-content:center;gap:6px}
-  .slot-btn.selected .slot-counts{color:rgba(4,36,26,.80)}
-  .slot-count-pill{background:rgba(255,255,255,.07);border-radius:6px;padding:1px 6px;font-weight:700}
-  .slot-btn.selected .slot-count-pill{background:rgba(4,36,26,.20);color:#04241a}
-  .site-sync{font-size:10px;letter-spacing:.3px;color:var(--text-soft);margin-top:2px;opacity:.85}.site-sync.ok{color:var(--green)}.site-sync.warn{color:var(--gold)}
-  .cat-edit{display:grid;gap:10px}.cat-edit label{display:grid;gap:4px;font-size:12px;color:var(--text-soft)}.cat-edit input,.cat-edit select{height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg-soft);color:var(--text);padding:0 10px;font-size:14px;outline:none;width:100%}
-  .cat-ing{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}.cat-ing .nm{font-size:13px}.cat-ing .nm small{display:block;color:var(--text-soft);font-size:11px}.cat-ing .qty{display:flex;align-items:center;gap:6px}.cat-ing .qty b{min-width:22px;text-align:center;font-size:15px}.cat-ing .qty b.zero{color:var(--text-soft);font-weight:400}
-  .cat-grp{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--gold);font-weight:700;margin:10px 0 2px}
-  .cat-new{background:var(--bg-soft);border:1px dashed var(--line);border-radius:12px;padding:10px;margin-top:8px}
-  .carte-edit-btn{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:14px;margin-right:8px;flex-shrink:0}
+  .slot-btn{border:1px solid var(--line);border-radius:12px;padding:10px 6px;background:var(--surface-2);text-align:center}
+  .slot-btn.light{background:var(--ok-soft);border-color:var(--ok)}
+  .slot-btn.busy{background:var(--accent-soft);border-color:var(--accent)}
+  .slot-btn.full{background:var(--danger-soft);border-color:var(--danger)}
+  .slot-btn.selected{background:var(--accent);border-color:var(--accent)}
+  .slot-time{font-size:16px;font-weight:800;color:var(--text);line-height:1}
+  .slot-btn.selected .slot-time{color:var(--accent-ink)}
+  .slot-counts{margin-top:5px;font-size:11px;color:var(--text-2);display:flex;justify-content:center;gap:6px}
+  .slot-btn.selected .slot-counts{color:var(--accent-ink)}
+  .slot-count-pill{font-weight:700}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div class="app" id="app">
   <div class="header">
-    <div class="header-center">
-      <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.5"></div>
+    <div class="brand">
+      <div class="brand-name">L'Arrêt Gourmand</div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.6"></div>
     </div>
-    <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
-      🕐<span class="header-agenda-label">AGENDA</span>
-    </button>
-    <div class="header-right" onclick="openCAModal()" title="Voir le détail du CA">
-      <div class="header-ca-label">CA DU JOUR</div>
-      <div class="header-ca-amount" id="header-ca">0,00 €</div>
-      <div class="header-ca-hint">▶ DÉTAIL</div>
-    </div>
+    <button class="hdr-btn" onclick="openAgendaModal()" title="Agenda des créneaux"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Agenda</button>
+    <button class="ca-chip" onclick="openCAModal()" title="Détail du CA"><span class="ca-label">CA du jour</span><span class="ca-amount" id="header-ca">0,00 €</span></button>
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('caisse')" id="tab-caisse"><span class="tab-icon">🧾</span><span>Caisse</span></button>
-    <button class="tab-btn" onclick="switchTab('encours')" id="tab-encours"><span class="tab-icon">⏳</span><span>En cours</span></button>
-    <button class="tab-btn" onclick="switchTab('historique')" id="tab-historique"><span class="tab-icon">📋</span><span>Historique</span></button>
-    <button class="tab-btn" onclick="switchTab('stocks')" id="tab-stocks"><span class="tab-icon">📦</span><span>Stocks</span></button>
-    <button class="tab-btn" onclick="switchTab('vip')" id="tab-vip"><span class="tab-icon">⭐</span><span>VIP</span></button>
+    <button class="tab-btn active" onclick="switchTab('caisse')" id="tab-caisse">Caisse</button>
+    <button class="tab-btn" onclick="switchTab('encours')" id="tab-encours">En cours</button>
+    <button class="tab-btn" onclick="switchTab('historique')" id="tab-historique">Historique</button>
+    <button class="tab-btn" onclick="switchTab('stocks')" id="tab-stocks">Stocks</button>
+    <button class="tab-btn" onclick="switchTab('vip')" id="tab-vip">VIP</button>
   </div>
 
   <div class="content" id="content"></div>
+  <div class="actionbar" id="actionbar"></div>
 
   <!-- Modal Agenda -->
   <div class="modal-overlay" id="modal-agenda" style="display:none" onclick="closeAgendaModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:500px">
-      <div class="modal-title">🕐 Agenda de la soirée</div>
+      <div class="modal-title">Agenda de la soirée</div>
       <div id="agenda-content"></div>
-      <button class="modal-cancel" style="width:100%;margin-top:14px;border:none;border-radius:14px;padding:12px;cursor:pointer;font-weight:bold" onclick="closeAgendaModal()">Fermer</button>
+      <button class="btn btn-ghost btn-block modal-close" onclick="closeAgendaModal()">Fermer</button>
     </div>
   </div>
 
   <!-- Modal Burger (création / modification) -->
   <div class="modal-overlay" id="modal-burger" style="display:none" onclick="closeBurgerModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:520px;max-height:92vh;overflow:auto">
-      <div class="modal-title" id="burger-modal-title">🍔 Nouveau burger</div>
+      <div class="modal-title" id="burger-modal-title">Nouveau burger</div>
       <div id="burger-modal-content"></div>
     </div>
   </div>
   <!-- Modal Composant (création) -->
   <div class="modal-overlay" id="modal-ingredient" style="display:none" onclick="closeIngredientModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
-      <div class="modal-title">🧀 Nouveau composant</div>
+      <div class="modal-title">Nouveau composant</div>
       <div class="cat-edit">
         <label>Nom<input id="ing-name" type="text" placeholder="Ex. Comté, Sauce truffe…"></label>
         <label>Catégorie<select id="ing-cat"></select></label>
         <label>Stock de départ (chaque journée)<input id="ing-qty" type="number" min="0" step="1" inputmode="numeric" value="20"></label>
         <label style="display:flex;align-items:center;gap:8px;flex-direction:row"><input id="ing-link" type="checkbox" style="width:auto;height:auto"><span>Propre à un burger du moment (visible en stock seulement quand ce burger est actif)</span></label>
         <select id="ing-link-burger" style="display:none"></select>
-        <div style="font-size:11px;color:var(--text-soft)">Catégorie « Production » = viandes (comptées comme steak pour l'option double) ; « Composants » = fromages (comptés comme fromage pour l'option double).</div>
+        <div class="help">Catégorie « Production » = viandes (comptées comme steak pour l'option double) ; « Composants » = fromages (comptés comme fromage pour l'option double).</div>
       </div>
       <div style="display:flex;gap:10px;margin-top:14px">
-        <button class="btn btn-cancel" onclick="closeIngredientModal()">Annuler</button>
-        <button class="btn btn-green" style="flex:2" onclick="saveIngredient()">✓ Créer</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="closeIngredientModal()">Annuler</button>
+        <button class="btn btn-green" style="flex:2" onclick="saveIngredient()">Créer</button>
       </div>
     </div>
   </div>
@@ -701,27 +490,26 @@
   <!-- Modal Détail CA -->
   <div class="modal-overlay" id="modal-ca" style="display:none" onclick="closeCAModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()">
-      <div class="modal-title">📊 Détail de la soirée</div>
+      <div class="modal-title">Détail de la soirée</div>
       <div id="ca-content"></div>
       <div class="ca-btn-row">
-        <button class="btn btn-export" style="margin-top:0" onclick="envoyerService()">🌐 Envoyer au site</button>
-        <button class="btn btn-cancel" style="margin-top:0;flex:unset;padding:10px 12px" onclick="exportExcel()" title="Fichier CSV">📥</button>
-        <button class="btn btn-reset" style="margin-top:0;flex:1;border-radius:16px;border-width:2px" onclick="closeCAModal();openModal()">🔄 Reset journée</button>
+        <button class="btn btn-primary" onclick="envoyerService()">Envoyer au site</button>
+        <button class="btn btn-ghost icon" onclick="exportExcel()" title="Télécharger le CSV">⬇</button>
+        <button class="btn btn-reset" onclick="closeCAModal();openModal()">Reset journée</button>
       </div>
-      <button class="modal-cancel" style="width:100%;margin-top:10px;border:none;border-radius:14px;padding:12px;cursor:pointer;font-weight:bold" onclick="closeCAModal()">Fermer</button>
+      <button class="btn btn-ghost btn-block modal-close" onclick="closeCAModal()">Fermer</button>
     </div>
   </div>
 
   <!-- Modal Créneau horaire -->
   <div class="modal-overlay" id="modal-slot" style="display:none" onclick="closeSlotModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
-      <div class="modal-icon">🕐</div>
       <div class="modal-title">Choisir un créneau</div>
-      <div class="modal-text" style="margin-bottom:12px">Pour quelle heure est cette commande ?</div>
+      <div class="modal-text">Pour quelle heure est cette commande ?</div>
       <div id="slot-content"></div>
-      <div style="display:flex;gap:10px;margin-top:18px">
-        <button class="btn btn-cancel" onclick="closeSlotModal()">Annuler</button>
-        <button class="btn btn-green" style="flex:2" id="slot-confirm-btn" onclick="confirmOrderWithSlot()" disabled>✓ Confirmer</button>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeSlotModal()">Annuler</button>
+        <button class="btn btn-green" style="flex:2" id="slot-confirm-btn" onclick="confirmOrderWithSlot()" disabled>Confirmer</button>
       </div>
     </div>
   </div>
@@ -933,6 +721,8 @@ function doubleIngredients(burger){
   const cheeses = [...new Set((burger.ing || []).filter(k => CHEESE_KEYS().includes(k)))];
   return [...(meats.length ? meats : ["boeuf"]), ...(cheeses.length ? cheeses : ["cheddar"])];
 }
+// « Frites cheddar bacon » → « Cheddar bacon » sur les cartes de la section Frites seules
+function friesShort(name){ const n = String(name || '').replace(/^Frites\s+/i, ''); return n.charAt(0).toUpperCase() + n.slice(1); }
 function slugify(str){ return String(str || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "").slice(0, 24) || ("x" + Date.now().toString(36)); }
 
 let state = {
@@ -1467,6 +1257,7 @@ function toggleOrderLoyalty(id){
 }
 function goToFritesStep(){
   if(state.currentItems.length === 0) return;
+  if(!state.currentItems.some(i => i.type === "burger")){ state.step = "boissons"; render(); return; }
   state.step = "frites";
   // Pré-sélectionner Frites Nature pour chaque burger jamais traité (clé absente).
   // Un burger explicitement « sans frites » (clé à null) garde ce choix.
@@ -1500,59 +1291,38 @@ function renderFritesStep(){
 
   let html = '<div class="pad">';
   html += `<div class="options-header">
-    <button class="btn-back" onclick="${idx === 0 ? "backToBurgerFromFrites()" : `state.friteStepIndex=${idx-1};render()`}">← Retour</button>
-    <div class="options-title">🍟 Frites ${burgers.length > 1 ? `(${idx+1}/${burgers.length})` : ''}</div>
+    <button class="btn btn-back" onclick="${idx <= 0 ? "backToBurgerFromFrites()" : `state.friteStepIndex=${idx-1};render()`}">← Retour</button>
+    <div class="options-title">Frites ${burgers.length > 1 ? `<span class="muted" style="font-weight:600">${idx+1}/${burgers.length}</span>` : ''}</div>
   </div>`;
-
-  // Bouton passer aux boissons en haut
-  html += `<button class="btn btn-primary" style="width:100%;margin-bottom:16px" onclick="state.step='boissons';render()">🥤 Passer aux boissons →</button>`;
 
   if(b){
     const pairedFriteKey = state.friteMenuPairing[b.key];
     const pairedFrite = pairedFriteKey ? state.currentItems.find(i => i.key === pairedFriteKey) : null;
     const selectedId = pairedFrite ? pairedFrite.fries.id : null;
 
-    html += `<div style="padding:12px 14px;background:var(--panel-2);border:1px solid var(--line);border-radius:14px;margin-bottom:16px">
-      <div style="font-weight:bold;font-size:15px;color:var(--text)">🍔 ${b.burger.name}</div>
-      ${b.cuisson ? `<div style="font-size:12px;color:var(--text-soft);margin-top:2px">${cuissonDot(b.cuisson)} ${cuissonLabel(b.cuisson)}</div>` : ''}
-    </div>`;
-
-    html += '<div class="section-title">Choisir les frites</div>';
-    html += '<div class="grid-2">';
-
-    // Bouton Sans frites
-    html += `<button class="mini-card${selectedId===null?' selected':''}" onclick="selectFriteForBurger(${b.key},'none')" style="${selectedId===null?'border:2px solid var(--gold);background:linear-gradient(180deg,#2c2414,#241c0e)':''}">
-      <div class="mini-name">Sans frites</div>
-      <div class="mini-price">0,00 €</div>
-    </button>`;
-
+    html += `<div class="focus-card"><div class="focus-name">${b.burger.name}</div>${b.cuisson ? `<div class="help">${cuissonDot(b.cuisson)}${cuissonLabel(b.cuisson)}</div>` : ''}</div>`;
+    html += '<div class="section-title">Avec quelles frites ?</div><div class="grid-2">';
+    html += `<button class="option-card${selectedId===null?' selected':''}" onclick="selectFriteForBurger(${b.key},'none')"><div class="option-card-label">Sans frites</div><div class="option-card-price">0,00 €</div></button>`;
     for(const f of BURGER_FRIES){
       const sel = selectedId === f.id;
       const avail = optionAvailable(f);
-      html += `<button class="mini-card${sel?' selected':''}${avail?'':' unavailable'}" onclick="${avail?`selectFriteForBurger(${b.key},'${f.id}')`:''}" style="${sel?'border:2px solid var(--gold);background:linear-gradient(180deg,#2c2414,#241c0e)':''}">
-        <div class="mini-name">${f.name}</div>
-        <div class="mini-price">${fmt(f.price)}</div>
-        ${!avail?'<div class="epuise-badge">ÉPUISÉ</div>':''}
+      html += `<button class="option-card${sel?' selected':''}${avail?'':' unavailable'}" onclick="${avail?`selectFriteForBurger(${b.key},'${f.id}')`:''}">
+        <div class="option-card-label">${f.name}</div><div class="option-card-price">${fmt(f.price)}</div>${!avail?'<div class="epuise-badge">Épuisé</div>':''}
       </button>`;
     }
     html += '</div>';
-
-    // Progression
     if(burgers.length > 1){
-      html += `<div style="display:flex;gap:6px;margin-top:16px;justify-content:center">`;
+      html += '<div class="steps-dots">';
       for(let i=0;i<burgers.length;i++){
         const done = state.friteMenuPairing[burgers[i].key] !== undefined;
-        html += `<div style="width:28px;height:6px;border-radius:3px;background:${i===idx?'var(--gold)':done?'var(--green)':'var(--line)'}"></div>`;
+        html += `<i class="${i===idx?'cur':done?'done':''}"></i>`;
       }
-      html += `</div>`;
+      html += '</div>';
     }
   }
-
-  html += `<button class="btn btn-primary" style="width:100%;margin-top:20px" onclick="state.step='boissons';render()">🥤 Boissons →</button>`;
   html += '</div>';
   return html;
 }
-
 function selectFriteForBurger(burgerKey, friteId){
   burgerKey = Number(burgerKey);
   const oldFriteKey = state.friteMenuPairing[burgerKey];
@@ -1700,172 +1470,88 @@ function addSoloFriesV2(id){
 
 function renderBoissonStep(){
   let html = '<div class="pad">';
+  const hasBurgers = state.currentItems.some(i => i.type === 'burger');
   html += `<div class="options-header">
-    <button class="btn-back" onclick="state.step='frites';render()">← Retour</button>
-    <div class="options-title">🍟🥤 Frites seules & Boissons</div>
+    <button class="btn btn-back" onclick="${hasBurgers ? "state.step='frites';render()" : "state.step='burger';render()"}">← Retour</button>
+    <div class="options-title">Frites seules & boissons</div>
   </div>`;
 
-  // Bouton haut
-  html += `<button class="btn btn-green" style="width:100%;margin-bottom:14px" onclick="openSlotModal()">✓ Envoyer en cuisine</button>`;
-
-  // Frites seules en premier
   html += '<div class="section-title">Frites seules</div><div class="grid-2">';
   for(const f of SOLO_FRIES){
     const avail = optionAvailable(f);
-    html += `<button class="mini-card${avail?'':' unavailable'}" onclick="${avail?`addSoloFriesV2('${f.id}')`:''}" >
-      <div class="mini-name">${f.name}</div>
-      <div class="mini-price">${fmt(f.price)}</div>
-      ${!avail?'<div class="epuise-badge">ÉPUISÉ</div>':''}
-    </button>`;
+    html += `<button class="mini-card${avail?'':' unavailable'}" onclick="${avail?`addSoloFriesV2('${f.id}')`:''}"><div class="mini-name">${friesShort(f.name)}</div><div class="mini-price">${fmt(f.price)}</div>${!avail?'<div class="epuise-badge">Épuisé</div>':''}</button>`;
   }
   html += '</div>';
-  const fritesSeul = state.currentItems.filter(i => i.type === 'fries');
-  if(fritesSeul.length > 0){
-    for(const item of fritesSeul){
-      html += `<div class="ticket-item"><div><div class="ticket-item-name">🍟 ${item.fries.name}</div></div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="ticket-item-price">${fmt(item.fries.price)}</div>
-          <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-        </div></div>`;
-    }
-  }
-
-  // Boissons
   html += '<div class="section-title">Boissons</div><div class="grid-2">';
   for(const d of DRINKS){
-    html += `<button class="mini-card" onclick="addDrinkV2('${d.id}')">
-      <div class="mini-name">${d.name}</div>
-      <div class="mini-price">${fmt(d.price)}</div>
-    </button>`;
+    html += `<button class="mini-card" onclick="addDrinkV2('${d.id}')"><div class="mini-name">${d.name}</div><div class="mini-price">${fmt(d.price)}</div></button>`;
   }
   html += '</div>';
-  const drinkItems = state.currentItems.filter(i => i.type === 'drink');
-  if(drinkItems.length > 0){
-    for(const item of drinkItems){
-      html += `<div class="ticket-item"><div><div class="ticket-item-name">🥤 ${item.drink.name}</div></div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="ticket-item-price">${fmt(item.drink.price)}</div>
-          <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-        </div></div>`;
-    }
-  }
-  const total = state.currentItems.reduce((sum, i) => sum + itemTotal(i), 0);
 
-  // Construction des menus via pairing explicite
   const burgers    = state.currentItems.filter(i => i.type === 'burger');
   const fritesMenu = state.currentItems.filter(i => i.type === 'fries-menu');
+  const fritesSeul = state.currentItems.filter(i => i.type === 'fries');
   const boissons   = state.currentItems.filter(i => i.type === 'drink');
+  const steaks     = state.currentItems.filter(i => i.type === 'steakfrites');
+  burgers.forEach(b => { if(!(b.key in state.friteMenuPairing)) state.friteMenuPairing[b.key] = null; });
 
-  // Reconstruire pairing si nécessaire (burgers sans frite assignée)
-  burgers.forEach(b => {
-    if(!(b.key in state.friteMenuPairing)){
-      state.friteMenuPairing[b.key] = null;
-    }
-  });
-
-  const pairedFriteKeys = new Set(Object.values(state.friteMenuPairing).filter(Boolean));
-
-  const editingLabel = state._editingOrderId
-    ? `<span style="color:var(--gold);font-size:12px;margin-left:6px">✏️ Commande #${state._editingOrderId}</span>`
-    : '';
-  html += `<div class="ticket" style="margin-top:16px"><div class="ticket-title" style="display:flex;justify-content:space-between;align-items:center">
-    <span>🧾 RÉCAPITULATIF${editingLabel}</span>
-    <button onclick="state.step='burger';render()" style="border:none;cursor:pointer;border-radius:8px;padding:4px 10px;font-size:12px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);white-space:nowrap">+ Burger</button>
-  </div>`;
+  const editingLabel = state._editingOrderId ? `<span class="editing-tag">Commande #${state._editingOrderId}</span>` : '';
+  html += `<div class="ticket"><div class="ticket-title"><span>Récapitulatif ${editingLabel}</span>
+    <button class="btn-chip accent" onclick="state.step='burger';render()">+ Burger</button></div>`;
 
   for(const b of burgers){
     const pairedFriteKey = state.friteMenuPairing[b.key];
     const pairedFrite = pairedFriteKey ? fritesMenu.find(f => f.key === pairedFriteKey) : null;
     const burgerPrice = b.burger.price + (b.supplements||[]).reduce((s,x)=>s+x.price,0);
     const menuTotal = burgerPrice + (pairedFrite ? pairedFrite.fries.price : 0);
-    const suppsDetail = (b.supplements||[]).map(s =>
-      `<div class="ticket-item-sub" style="padding-left:8px">+ ${s.name} <span style="color:var(--gold);font-family:'Courier New',monospace">+${fmt(s.price)}</span></div>`
-    ).join('');
-    const removalsDetail = (b.removals||[]).map(r =>
-      `<div class="ticket-item-sub" style="padding-left:8px;color:var(--red)">✕ Sans ${r}</div>`
-    ).join('');
     const isEditingFrite = state._editingFriteForBurgerKey === b.key;
-
-    html += `<div style="margin-bottom:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:${pairedFrite?'rgba(243,164,58,.06)':'var(--panel)'}">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <div style="font-weight:bold;color:var(--gold);font-size:12px">${pairedFrite ? '🍽️ MENU' : '🍔 BURGER'}</div>
-        <div class="ticket-item-price">${fmt(menuTotal)}</div>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;gap:8px">
+    html += `<div class="menu-block${pairedFrite ? ' menu' : ''}">
+      <div class="menu-head"><span class="menu-kind">${pairedFrite ? 'Menu' : 'Burger seul'}</span><span class="ticket-item-price">${fmt(menuTotal)}</span></div>
+      <div class="menu-row">
         <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-            <div class="ticket-item-name">🍔 ${b.burger.name}${b.cuisson ? ` <span style="font-size:11px">[${cuissonLabel(b.cuisson)}]</span>` : ''}</div>
-            <button onclick="editItem(${b.key})" style="border:none;cursor:pointer;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);white-space:nowrap;flex-shrink:0">✏️ Modifier</button>
-            <button onclick="removeItem(${b.key})" class="remove-btn" style="flex-shrink:0">×</button>
+          <div class="menu-name">${b.burger.name}${b.cuisson ? `<span class="help">${cuissonDot(b.cuisson)}${cuissonLabel(b.cuisson)}</span>` : ''}
+            <button class="ticket-item-edit" onclick="editItem(${b.key})">Modifier</button>
+            <button class="remove-btn" onclick="removeItem(${b.key})">×</button>
           </div>
-          ${suppsDetail}${removalsDetail}
+          ${(b.supplements||[]).map(s => `<div class="ticket-item-sub sub-plus">+ ${s.name} <span class="muted">${fmt(s.price)}</span></div>`).join('')}
+          ${(b.removals||[]).map(r => `<div class="ticket-item-sub sub-minus">Sans ${r.toLowerCase()}</div>`).join('')}
         </div>
-        <div class="ticket-item-price" style="font-size:12px;color:var(--text-soft);flex-shrink:0">${fmt(burgerPrice)}</div>
+        <div class="help" style="flex-shrink:0">${fmt(burgerPrice)}</div>
       </div>`;
-
-    // Ligne frite pairée avec bouton Modifier
     if(pairedFrite){
-      html += `<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding:6px 8px;background:rgba(243,164,58,.14);border-radius:8px">
-        <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0">
-          <span style="font-size:13px">🍟 ${pairedFrite.fries.name}</span>
-          <button onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()" style="border:1px solid rgba(243,164,58,.40);cursor:pointer;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.12);color:var(--gold);white-space:nowrap">✏️ Changer</button>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-          <span class="ticket-item-price" style="font-size:12px">${fmt(pairedFrite.fries.price)}</span>
-          <button class="remove-btn" onclick="removeItem(${pairedFrite.key})" style="font-size:14px">×</button>
-        </div>
+      html += `<div class="menu-fries">
+        <span style="display:flex;align-items:center;gap:8px;min-width:0">🍟 ${pairedFrite.fries.name}
+          <button class="btn-chip" onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()">Changer</button></span>
+        <span style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span class="help">${fmt(pairedFrite.fries.price)}</span><button class="remove-btn" onclick="removeItem(${pairedFrite.key})">×</button></span>
       </div>`;
     } else {
-      html += `<div style="border:1px dashed var(--line);border-radius:8px;padding:6px;display:flex;justify-content:space-between;align-items:center;margin-top:4px">
-        <span style="font-size:11px;color:var(--text-soft)">Pas de frites pour ce burger</span>
-        <button onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()" style="border:1px solid rgba(243,164,58,.40);cursor:pointer;border-radius:8px;padding:2px 8px;font-size:11px;font-weight:bold;background:rgba(243,164,58,.14);color:var(--gold);white-space:nowrap">+ Ajouter frites</button>
-      </div>`;
+      html += `<div class="menu-fries none"><span>Pas de frites</span>
+        <button class="btn-chip accent" onclick="state._editingFriteForBurgerKey=(state._editingFriteForBurgerKey===${b.key}?null:${b.key});render()">+ Ajouter frites</button></div>`;
     }
-
-    // Sélecteur de frites inline si en cours d'édition
     if(isEditingFrite){
-      html += `<div style="margin-top:8px;padding:8px;background:var(--panel-2);border-radius:8px;border:1px solid var(--line)">
-        <div style="font-size:11px;color:var(--text-soft);margin-bottom:6px;font-weight:bold">Choisir les frites :</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-          <button onclick="changeFriteForBurger(${b.key},null)" style="border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:rgba(255,255,255,.04);cursor:pointer;font-size:11px;color:var(--red);font-weight:bold">✕ Sans frites</button>`;
+      html += `<div class="fries-picker"><div class="help" style="margin-bottom:6px;font-weight:700">Choisir les frites</div><div class="grid">
+        <button class="fries-pick none" onclick="changeFriteForBurger(${b.key},null)">Sans frites</button>`;
       for(const f of BURGER_FRIES){
         const isSelected = pairedFrite && pairedFrite.fries.id === f.id;
-        html += `<button onclick="changeFriteForBurger(${b.key},'${f.id}')" style="border:1px solid ${isSelected?'var(--gold)':'var(--line)'};border-radius:8px;padding:7px 8px;background:${isSelected?'rgba(243,164,58,.14)':'var(--panel)'};cursor:pointer;font-size:11px;color:${isSelected?'var(--gold)':'var(--text)'};text-align:left">
-          <div style="font-weight:bold">${f.name}</div>
-          <div style="font-size:10px;color:var(--text-soft)">${fmt(f.price)}</div>
-        </button>`;
+        html += `<button class="fries-pick${isSelected?' sel':''}" onclick="changeFriteForBurger(${b.key},'${f.id}')"><b>${f.name}</b><small>${fmt(f.price)}</small></button>`;
       }
       html += `</div></div>`;
     }
-
     html += `</div>`;
   }
-
-  // Frites seules
+  for(const st of steaks){
+    html += `<div class="ticket-item"><div class="ticket-item-name">Steak + Frites</div><div style="display:flex;align-items:center;gap:8px"><div class="ticket-item-price">${fmt(STEAK_FRITES.price)}</div><button class="remove-btn" onclick="removeItem(${st.key})">×</button></div></div>`;
+  }
   for(const f of fritesSeul){
-    html += `<div class="ticket-item"><div class="ticket-item-name">🍟 ${f.fries.name} <span style="font-size:10px;color:var(--text-soft)">(hors menu)</span></div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="ticket-item-price">${fmt(f.fries.price)}</div>
-        <button class="remove-btn" onclick="removeItem(${f.key})">×</button>
-      </div></div>`;
+    html += `<div class="ticket-item"><div class="ticket-item-name">🍟 ${f.fries.name} <span class="help">(hors menu)</span></div><div style="display:flex;align-items:center;gap:8px"><div class="ticket-item-price">${fmt(f.fries.price)}</div><button class="remove-btn" onclick="removeItem(${f.key})">×</button></div></div>`;
   }
-
-  // Boissons
   for(const d of boissons){
-    html += `<div class="ticket-item"><div class="ticket-item-name">🥤 ${d.drink.name}</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <div class="ticket-item-price">${fmt(d.drink.price)}</div>
-        <button class="remove-btn" onclick="removeItem(${d.key})">×</button>
-      </div></div>`;
+    html += `<div class="ticket-item"><div class="ticket-item-name">🥤 ${d.drink.name}</div><div style="display:flex;align-items:center;gap:8px"><div class="ticket-item-price">${fmt(d.drink.price)}</div><button class="remove-btn" onclick="removeItem(${d.key})">×</button></div></div>`;
   }
-
-  html += `<div class="ticket-footer">
-    <div><div class="ticket-count">${state.currentItems.length} articles</div><div class="ticket-total">${fmt(total)}</div></div>
-    <button class="btn btn-green" style="flex:1" onclick="openSlotModal()">✓ Envoyer en cuisine</button>
-  </div></div></div>`;
+  if(!state.currentItems.length) html += `<div class="help" style="padding:8px 0">Le ticket est vide.</div>`;
+  html += `</div></div>`;
   return html;
 }
-
 function changeFriteForBurger(burgerKey, friteId){
   burgerKey = Number(burgerKey);
   // Supprimer l'ancienne frite pairée si elle existe
@@ -2144,124 +1830,59 @@ function confirmOrderWithSlot(){
 function openCAModal(){
   const paidOrders = state.orders.filter(o => o.status === 'paye');
   const allPaidItems = paidOrders.flatMap(o => o.items);
-  const pairedFriteKeys = new Set(
-    paidOrders.flatMap(o => Object.values(o.friteMenuPairing || {}).filter(Boolean))
-  );
   const nbBurgers  = allPaidItems.filter(i => i.type === "burger").length;
-  const nbFritesSolo = allPaidItems.filter(i => i.type === "fries").length;
-  const nbFritesMenu = allPaidItems.filter(i => i.type === "fries-menu" && pairedFriteKeys.has(i.key)).length;
-  const nbFritesUnpaired = allPaidItems.filter(i => i.type === "fries-menu" && !pairedFriteKeys.has(i.key)).length;
-  const nbFrites = nbFritesSolo + nbFritesMenu + nbFritesUnpaired;
+  const nbFrites   = allPaidItems.filter(i => i.type === "fries" || i.type === "fries-menu").length;
   const nbBoissons = allPaidItems.filter(i => i.type === "drink").length;
 
-  let html = `<div class="ca-stats" style="grid-template-columns:1fr 1fr 1fr 1fr">
-    <div class="ca-stat"><div class="ca-stat-val">${nbBurgers}</div><div class="ca-stat-label">BURGERS</div></div>
-    <div class="ca-stat"><div class="ca-stat-val">${nbFrites}</div><div class="ca-stat-label">FRITES</div></div>
-    <div class="ca-stat"><div class="ca-stat-val">${nbBoissons}</div><div class="ca-stat-label">BOISSONS</div></div>
-    <div class="ca-stat"><div class="ca-stat-val" style="color:var(--red)">${state.loyaltyCount}</div><div class="ca-stat-label">FIDÉLITÉ</div></div>
+  let html = `<div class="ca-stats">
+    <div class="ca-stat"><div class="ca-stat-val">${nbBurgers}</div><div class="ca-stat-label">Burgers</div></div>
+    <div class="ca-stat"><div class="ca-stat-val">${nbFrites}</div><div class="ca-stat-label">Frites</div></div>
+    <div class="ca-stat"><div class="ca-stat-val">${nbBoissons}</div><div class="ca-stat-label">Boissons</div></div>
+    <div class="ca-stat"><div class="ca-stat-val red">${state.loyaltyCount}</div><div class="ca-stat-label">Fidélité</div></div>
   </div>`;
 
   if(state.orders.length === 0){
-    html += '<div style="text-align:center;color:var(--text-soft);padding:24px 0;font-size:14px">Aucune commande enregistrée pour le moment</div>';
+    html += '<div class="empty" style="padding:24px 0">Aucune commande enregistrée pour le moment</div>';
   } else {
-    html += '<div style="margin-top:14px">';
+    html += '<div class="ca-list">';
     for(const order of state.orders){
-      const statusBadge = order.status === 'paye'
-        ? '<span style="font-size:10px;background:#d8f5e8;color:#1a9058;border-radius:6px;padding:2px 6px;margin-left:6px">✓ Réglée</span>'
-        : order.status === 'annule'
-          ? '<span style="font-size:10px;background:rgba(248,113,113,.15);color:var(--red);border-radius:6px;padding:2px 6px;margin-left:6px">✕ Annulée</span>'
-          : '<span style="font-size:10px;background:rgba(243,164,58,.14);color:var(--gold);border-radius:6px;padding:2px 6px;margin-left:6px">⏳ En cours</span>';
+      const statusChip = order.status === 'paye' ? '<span class="chip chip-ok">Réglée</span>' : order.status === 'annule' ? '<span class="chip">Annulée</span>' : '<span class="chip chip-accent">En cours</span>';
       const orderPairing = order.friteMenuPairing || {};
       const orderPairedFriteKeys = new Set(Object.values(orderPairing).filter(Boolean));
-      html += `<div class="ca-detail-row" style="flex-direction:column;align-items:stretch;gap:6px${order.status==='annule'?';opacity:.5':''}">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="display:flex;align-items:center;flex-wrap:wrap;gap:4px">
-            <div class="ca-detail-num">#${order.id}</div>${statusBadge}
-            ${order.loyalty ? `<span style="font-size:10px;background:rgba(248,113,113,.15);color:var(--red);border-radius:6px;padding:2px 6px">🎫 ×${order.loyaltyCount||1}</span>` : ''}
-            ${order.slot ? `<span style="font-size:10px;background:rgba(243,164,58,.14);color:var(--gold);border-radius:6px;padding:2px 6px">🕐 ${order.slot}</span>` : ''}
-          </div>
-          <div class="ca-detail-price">${fmt(order.total)}</div>
-        </div>`;
-
+      html += `<div class="ca-order${order.status==='annule' ? ' cancelled' : ''}">
+        <div class="ca-order-head"><div class="order-meta"><span class="ca-order-num">#${order.id}</span>${statusChip}
+          ${order.loyalty ? `<span class="chip chip-danger">Fidélité ×${order.loyaltyCount||1}</span>` : ''}${order.slot ? `<span class="chip">${order.slot}</span>` : ''}</div>
+          <div class="ca-order-total">${fmt(order.total)}</div></div>`;
       for(const item of order.items){
-        if(item.type === "fries-menu" && orderPairedFriteKeys.has(item.key)) continue; // affiché sous son burger
+        if(!itemValide(item)) continue;
+        if(item.type === "fries-menu" && orderPairedFriteKeys.has(item.key)) continue;
         if(item.type === "steakfrites"){
-          html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0 3px 8px;border-left:3px solid #e8c46a">
-            <div class="ca-detail-item" style="margin:0">🥩 Steak + Frites</div>
-            <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(STEAK_FRITES.price)}</div>
-          </div>`;
+          html += `<div class="ca-item burger"><span>Steak + Frites</span><span class="price">${fmt(STEAK_FRITES.price)}</span></div>`;
         } else if(item.type === "fries" || item.type === "fries-menu"){
-          html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0 3px 8px;border-left:3px solid #f1d7b7">
-            <div class="ca-detail-item" style="margin:0">🍟 ${item.fries.name}</div>
-            <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.fries.price)}</div>
-          </div>`;
+          html += `<div class="ca-item fries"><span>🍟 ${item.fries.name}</span><span class="price">${fmt(item.fries.price)}</span></div>`;
         } else if(item.type === "drink"){
-          html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0 3px 8px;border-left:3px solid #c0d8f0">
-            <div class="ca-detail-item" style="margin:0">🥤 ${item.drink.name}</div>
-            <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.drink.price)}</div>
-          </div>`;
+          html += `<div class="ca-item drink"><span>🥤 ${item.drink.name}</span><span class="price">${fmt(item.drink.price)}</span></div>`;
         } else if(item.type === "burger"){
-          const cuisson = item.cuisson ? ` (${cuissonLabel(item.cuisson)})` : '';
-          const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
           const pairedFriteKey = orderPairing[item.key];
           const pairedFrite = pairedFriteKey ? order.items.find(i => i.key === pairedFriteKey) : null;
-          html += `<div style="padding:3px 0 3px 8px;border-left:3px solid ${nameColor}">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <div class="ca-detail-item" style="margin:0;font-weight:bold;color:${nameColor}">🍔 ${item.burger.name}${cuisson}</div>
-              <div style="font-size:12px;color:var(--gold);font-weight:bold">${fmt(item.burger.price)}</div>
-            </div>`;
-          for(const s of (item.supplements||[])){
-            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px">
-              <div class="ca-detail-item" style="margin:0;padding-left:8px;color:#2a7abf;font-weight:bold">+ ${s.name}</div>
-              <div style="font-size:11px;color:var(--text-soft)">${fmt(s.price)}</div>
-            </div>`;
-          }
-          for(const r of (item.removals||[])){
-            html += `<div style="padding-top:2px;padding-left:8px">
-              <div class="ca-detail-item" style="margin:0;color:var(--red)">✕ Sans ${r}</div>
-            </div>`;
-          }
-          if(pairedFrite){
-            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding-top:2px;padding-left:8px">
-              <div class="ca-detail-item" style="margin:0;color:var(--gold)">🍟 ${pairedFrite.fries.name}</div>
-              <div style="font-size:11px;color:var(--text-soft)">${fmt(pairedFrite.fries.price)}</div>
-            </div>`;
-          }
-          html += '</div>';
+          html += `<div class="ca-item burger"><span><b>${item.burger.name}</b>${item.cuisson ? ` <span class="help">${cuissonDot(item.cuisson)}${cuissonLabel(item.cuisson)}</span>` : ''}</span><span class="price">${fmt(item.burger.price)}</span></div>`;
+          for(const s of (item.supplements||[])) html += `<div class="ca-sub"><span class="sub-plus">+ ${s.name}</span><span class="price">${fmt(s.price)}</span></div>`;
+          for(const r of (item.removals||[])) html += `<div class="ca-sub"><span class="sub-minus">Sans ${r.toLowerCase()}</span><span></span></div>`;
+          if(pairedFrite) html += `<div class="ca-sub"><span>🍟 ${pairedFrite.fries.name}</span><span class="price">${fmt(pairedFrite.fries.price)}</span></div>`;
         }
       }
       if(order.status !== 'annule'){
-        const ht  = order.total / 1.10;
-        const tva = order.total - ht;
-        html += `<div style="display:flex;justify-content:flex-end;gap:14px;padding:5px 0 2px;border-top:1px dashed var(--line);margin-top:4px">
-          <span style="font-size:12px;color:var(--text-soft)">HT <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--text)">${fmt(ht)}</span></span>
-          <span style="font-size:12px;color:var(--text-soft)">TVA 10% <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--orange)">${fmt(tva)}</span></span>
-        </div>`;
+        html += `<div class="taxline"><span>HT <b>${fmt(order.total / 1.10)}</b></span><span>TVA 10 % <b>${fmt(order.total - order.total / 1.10)}</b></span></div>`;
       }
       html += '</div>';
     }
     html += '</div>';
   }
-
-  html += `<div class="ca-total-bar" style="flex-direction:column;align-items:stretch;gap:10px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div>
-        <div class="ca-total-label">CA BRUT TTC</div>
-        <div style="font-size:11px;color:var(--text-soft);margin-top:2px">TVA 10% incluse</div>
-      </div>
-      <div class="ca-total-value">${fmt(state.dailyRevenue)}</div>
-    </div>
-    <div style="height:1px;background:rgba(0,0,0,.08)"></div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div style="font-size:11px;font-weight:bold;letter-spacing:1.5px;color:var(--text-soft)">DONT TVA (10%)</div></div>
-      <div style="font-size:16px;font-weight:bold;color:var(--orange);font-family:'Courier New',monospace">${fmt(state.dailyRevenue - state.dailyRevenue / 1.10)}</div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div class="ca-total-label" style="color:var(--green)">CA NET HT</div></div>
-      <div class="ca-total-value" style="color:var(--green)">${fmt(state.dailyRevenue / 1.10)}</div>
-    </div>
+  html += `<div class="ca-total-bar">
+    <div class="ca-total-row"><div><div class="ca-total-label">CA brut TTC</div><div class="help">TVA 10 % incluse</div></div><div class="ca-total-value">${fmt(state.dailyRevenue)}</div></div>
+    <div class="ca-total-row"><div class="help">dont TVA</div><div style="font-weight:700">${fmt(state.dailyRevenue - state.dailyRevenue / 1.10)}</div></div>
+    <div class="ca-total-row"><div class="ca-total-label">CA net HT</div><div class="ca-total-value ok">${fmt(state.dailyRevenue / 1.10)}</div></div>
   </div>`;
-
   document.getElementById("ca-content").innerHTML = html;
   document.getElementById("modal-ca").style.display = "flex";
 }
@@ -2358,61 +1979,34 @@ function renderAgendaModal(){
 }
 
 function renderAgendaSlotDetail(slot){
-  if(!slot){
-    return '<div style="text-align:center;color:var(--text-soft);padding:18px 0;font-size:13px">Sélectionnez un créneau pour voir ses commandes</div>';
-  }
+  if(!slot) return '<div class="help" style="text-align:center;padding:16px 0">Touche un créneau pour voir ses commandes</div>';
   const slotOrders = state.orders.filter(o => o.slot === slot && o.status !== "annule");
-  if(slotOrders.length === 0){
-    return `<div style="text-align:center;color:var(--text-soft);padding:18px 0;font-size:13px">Aucune commande sur le créneau ${slot}</div>`;
-  }
+  if(slotOrders.length === 0) return `<div class="help" style="text-align:center;padding:16px 0">Aucune commande sur le créneau ${slot}</div>`;
   const {burgers, frites} = slotStats(slot);
   const isFull = burgers >= 6;
-  let html = `<div class="agenda-slot-row">
-    <div class="agenda-slot-head">
-      <div class="agenda-slot-time">${slot}</div>
-      <div class="agenda-slot-counts">
-        <span class="agenda-slot-pill${isFull ? ' red' : ''}">🍔 ${burgers}${isFull ? ' ⚠' : ''}</span>
-        <span class="agenda-slot-pill">🍟 ${frites}</span>
-      </div>
-    </div>`;
+  let html = `<div class="agenda-slot-row"><div class="agenda-slot-head"><div class="agenda-slot-time">${slot}</div>
+    <div class="agenda-slot-counts"><span class="agenda-slot-pill${isFull ? ' red' : ''}">🍔 ${burgers}${isFull ? ' ⚠' : ''}</span><span class="agenda-slot-pill">🍟 ${frites}</span></div></div>`;
   for(const order of slotOrders){
     const pairing = order.friteMenuPairing || {};
-    const burgerItems = order.items.filter(i => i.type === "burger" || i.type === "steakfrites");
-    const drinkItems  = order.items.filter(i => i.type === "drink");
-    const fritesSolo  = order.items.filter(i => i.type === "fries");
-
     let detailHtml = '';
-    for(const i of burgerItems){
-      if(i.type === "steakfrites"){
-        detailHtml += `<div style="padding:5px 0 5px 8px;border-left:3px solid #e8c46a;margin-bottom:4px">
-          <div style="font-size:13px;font-weight:bold">🥩 Steak + Frites</div>
-        </div>`;
-      } else {
-        const nameColor = i.cuisson ? cuissonColor(i.cuisson) : 'var(--text)';
+    for(const i of order.items){
+      if(!itemValide(i)) continue;
+      if(i.type === "steakfrites") detailHtml += `<div class="agenda-line burger">Steak + Frites</div>`;
+      else if(i.type === "burger"){
         const pairedFriteKey = pairing[i.key];
         const pairedFrite = pairedFriteKey ? order.items.find(x => x.key === pairedFriteKey) : null;
-        detailHtml += `<div style="padding:5px 0 5px 8px;border-left:3px solid ${nameColor};margin-bottom:4px">
-          <div style="font-size:13px;font-weight:bold;color:${nameColor}">🍔 ${i.burger.name}${i.cuisson ? ` <span style="font-size:11px">[${cuissonLabel(i.cuisson)}]</span>` : ''}</div>
-          ${(i.supplements||[]).map(s => `<div style="font-size:11px;color:#2a7abf;font-weight:bold;padding-left:6px">+ ${s.name}</div>`).join('')}
-          ${(i.removals||[]).map(r => `<div style="font-size:11px;color:var(--red);padding-left:6px;font-weight:bold">✕ SANS ${r.toUpperCase()}</div>`).join('')}
-          ${pairedFrite ? `<div style="font-size:11px;color:var(--gold);padding-left:6px">🍟 ${pairedFrite.fries.name}</div>` : ''}
-        </div>`;
+        detailHtml += `<div class="agenda-line burger">${i.burger.name}${i.cuisson ? ` <span class="help">${cuissonDot(i.cuisson)}${cuissonLabel(i.cuisson)}</span>` : ''}
+          ${(i.supplements||[]).map(s => `<div class="sub sub-plus">+ ${s.name}</div>`).join('')}
+          ${(i.removals||[]).map(r => `<div class="sub sub-minus">SANS ${r.toUpperCase()}</div>`).join('')}
+          ${pairedFrite ? `<div class="sub sub-fries">🍟 ${pairedFrite.fries.name}</div>` : ''}</div>`;
       }
+      else if(i.type === "fries") detailHtml += `<div class="agenda-line fries">🍟 ${i.fries.name} (seule)</div>`;
+      else if(i.type === "drink") detailHtml += `<div class="agenda-line drink">🥤 ${i.drink.name}</div>`;
     }
-    for(const f of fritesSolo){
-      detailHtml += `<div style="font-size:11px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:3px solid #f1d7b7;margin-bottom:4px">🍟 ${f.fries.name} <span style="font-size:10px">(seule)</span></div>`;
-    }
-    for(const d of drinkItems){
-      detailHtml += `<div style="font-size:11px;color:var(--text-soft);padding:2px 0 2px 8px;border-left:3px solid #c0d8f0;margin-bottom:4px">🥤 ${d.drink.name}</div>`;
-    }
-
-    html += `<div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)">
-      <button onclick="goToOrder(${order.id})" style="flex-shrink:0;background:${order.status==='paye'?'#0f6e44':'var(--gold)'};color:white;border:none;border-radius:10px;padding:7px 14px;font-size:15px;font-weight:bold;cursor:pointer;min-width:52px;text-align:center;font-family:var(--font);letter-spacing:.5px">#${order.id}</button>
-      <div style="flex:1;min-width:0">
-        ${detailHtml || '<div style="font-size:12px;color:var(--text-soft)">—</div>'}
-        ${order.loyalty ? `<div style="font-size:11px;color:var(--red);margin-top:2px">🎫 Fidélité ×${order.loyaltyCount||1}</div>` : ''}
-      </div>
-      <div style="font-size:13px;font-weight:bold;color:var(--gold);font-family:'Courier New',monospace;white-space:nowrap;padding-top:4px">${fmt(order.total)}</div>
+    html += `<div class="agenda-order">
+      <button class="agenda-order-num${order.status==='paye' ? ' paid' : ''}" onclick="goToOrder(${order.id})">#${order.id}</button>
+      <div style="flex:1;min-width:0">${detailHtml || '<div class="help">—</div>'}${order.loyalty ? `<div class="help sub-minus">Fidélité ×${order.loyaltyCount||1}</div>` : ''}</div>
+      <div class="agenda-order-total">${fmt(order.total)}</div>
     </div>`;
   }
   html += '</div>';
@@ -2494,14 +2088,14 @@ function marquerAEnvoyer(){
 let _siteSyncTimer = null, _siteSyncEtat = JSON.parse(localStorage.getItem("ft7_site_sync") || "null") || { quand:"", ok:null, msg:"" };
 function siteSyncLabel(){
   if(!getSiteKey()) return { txt:"site : clé non renseignée", cls:"warn" };
-  if(_siteSyncEtat.ok === true) return { txt:"site : envoyé " + _siteSyncEtat.quand, cls:"ok" };
+  if(_siteSyncEtat.ok === true) return { txt:"site : envoyé à " + _siteSyncEtat.quand, cls:"ok" };
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.5";
+const APP_VERSION = "3.6";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
-  const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
+  const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " — " + l.txt.replace(/^site : /, ""); el.className = "site-sync " + l.cls;
 }
 // Envoi (ou renvoi) de la synthèse : le site remplace les chiffres du même soir, on peut donc envoyer plusieurs fois
 function envoyerService(silencieux){
@@ -2703,12 +2297,7 @@ window.addEventListener("error", (ev) => { montrerErreur(ev.error || ev.message)
 function renderInner(){
   document.getElementById("header-ca").textContent = fmt(state.dailyRevenue);
   const encours = state.orders.filter(o => o.status === "encours");
-  const encoursTab = document.getElementById("tab-encours");
-  if(encours.length){
-    encoursTab.innerHTML = `<span class="tab-icon">⏳</span><span>En cours (${encours.length})</span>`;
-  } else {
-    encoursTab.innerHTML = `<span class="tab-icon">⏳</span><span>En cours</span>`;
-  }
+  document.getElementById("tab-encours").innerHTML = `En cours${encours.length ? `<span class="tab-count">${encours.length}</span>` : ''}`;
 
   const content = document.getElementById("content");
   if(state.tab === "caisse"){
@@ -2725,7 +2314,37 @@ function renderInner(){
   }else{
     content.innerHTML = renderStocks();
   }
+  renderActionBar();
 }
+// Barre du bas : l'étape suivante, toujours au même endroit, avec le total du ticket
+function renderActionBar(){
+  const bar = document.getElementById("actionbar"); if(!bar) return;
+  let html = "";
+  if(state.tab === "caisse"){
+    const n = state.currentItems.length;
+    const total = state.currentItems.reduce((sum, i) => sum + itemTotal(i), 0);
+    const tot = `<div class="ab-total"><span class="ab-count">${n} article${n > 1 ? "s" : ""}</span><span class="ab-amount">${fmt(total)}</span></div>`;
+    if(state.step === "options" && state.pendingBurger){
+      const t = state.pendingBurger.price + state.pendingSupps.reduce((sum, x) => sum + x.price, 0);
+      html = `<div class="ab-total"><span class="ab-count">${state.pendingBurger.name}</span><span class="ab-amount">${fmt(t)}</span></div><button class="btn btn-primary" onclick="addBurgerItem()">${state.editingItemKey ? "✓ Mettre à jour" : "+ Ajouter au ticket"}</button>`;
+    } else if(state.step === "frites"){
+      html = `${tot}<button class="btn btn-primary" onclick="state.step='boissons';render()">Passer aux boissons →</button>`;
+    } else if(state.step === "boissons"){
+      html = `${tot}<button class="btn btn-green" onclick="openSlotModal()">Envoyer en cuisine</button>`;
+    } else if(n > 0){
+      html = `${tot}<button class="btn btn-primary" onclick="goToFritesStep()">Passer aux frites →</button>`;
+    }
+  }
+  bar.innerHTML = html;
+  bar.classList.toggle("on", !!html);
+}
+function setTheme(t){
+  try{ localStorage.setItem("ft7_theme", t === "light" ? "light" : "dark"); }catch(e){}
+  if(t === "light") document.documentElement.dataset.theme = "light"; else delete document.documentElement.dataset.theme;
+  const meta = document.querySelector('meta[name="theme-color"]'); if(meta) meta.content = t === "light" ? "#f1eadd" : "#140f0b";
+  render();
+}
+function currentTheme(){ return document.documentElement.dataset.theme === "light" ? "light" : "dark"; }
 
 // ---- VIP PRESETS ----
 const VIP_ORDERS = [
@@ -2839,37 +2458,22 @@ function loadVipOrder(vipId){
 
 function renderVIP(){
   let html = '<div class="pad">';
-  html += '<div class="section-title" style="margin-bottom:16px">⭐ Commandes VIP</div>';
-  html += '<div style="font-size:12px;color:var(--text-soft);margin-bottom:18px">Appuyer sur une commande pour la charger directement sur l\'écran des horaires.</div>';
-
+  html += '<div class="section-title">Commandes VIP</div><div class="help" style="margin-bottom:12px">Touche une commande pour la charger directement sur le choix du créneau.</div>';
   for(const vip of VIP_ORDERS){
     const built = vip.build();
     const complet = built.items.every(itemValide);
     const rawTotal = built.items.reduce((s,i) => s + itemTotal(i), 0);
-    html += `<button onclick="${complet ? `loadVipOrder('${vip.id}')` : ''}" ${complet ? '' : 'title="Un produit de cette commande n\'est plus à la carte"'} style="${complet ? '' : 'opacity:.45;cursor:not-allowed;'}"width:100%;background:rgba(243,164,58,.10);border:1.5px solid rgba(243,164,58,.40);border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:16px">
-      <div style="font-size:36px;line-height:1">${vip.emoji}</div>
-      <div style="flex:1">
-        <div style="font-size:17px;font-weight:bold;color:var(--gold);font-family:var(--font);margin-bottom:4px">${vip.name}</div>
-        <div style="font-size:12px;color:var(--text-soft);line-height:1.5">${vip.description}</div>
-      </div>
-      <div style="font-size:15px;font-weight:bold;color:var(--gold);font-family:'Courier New',monospace;white-space:nowrap">${fmt(rawTotal)}</div>
+    html += `<button class="vip-card${complet ? '' : ' off'}" onclick="${complet ? `loadVipOrder('${vip.id}')` : ''}" ${complet ? '' : 'title="Un produit de cette commande n\'est plus à la carte"'}>
+      <div class="vip-emoji">${vip.emoji}</div>
+      <div style="flex:1;min-width:0"><div class="vip-name">${vip.name}</div><div class="vip-desc">${vip.description}</div></div>
+      <div class="vip-price">${fmt(rawTotal)}</div>
     </button>`;
   }
-
   html += '</div>';
   return html;
 }
-
 function renderCaisse(){
   let html = '<div class="pad">';
-
-  // Bouton haut si items en cours
-  const hasBurgers = state.currentItems.filter(i => i.type === 'burger').length > 0;
-  if(hasBurgers){
-    const total = state.currentItems.reduce((sum, i) => sum + itemTotal(i), 0);
-    html += `<button class="btn btn-primary" style="width:100%;margin-bottom:14px" onclick="goToFritesStep()">🍟 Passer aux frites → <span style="opacity:.8;font-size:13px">${fmt(total)}</span></button>`;
-  }
-
   html += '<div class="section-title">Burgers</div><div class="grid-2">';
   for(const b of BURGERS){
     if(!isBurgerActive(b.id)) continue;
@@ -2877,7 +2481,7 @@ function renderCaisse(){
     html += `<button class="burger-card${avail ? '' : ' unavailable'}" onclick="${avail ? `selectBurger('${b.id}')` : ''}">
       <div class="burger-card-name">${b.name}</div>
       <div class="burger-card-price">${fmt(b.price)}</div>
-      ${!avail ? '<div class="epuise-badge">ÉPUISÉ</div>' : ''}
+      ${!avail ? '<div class="epuise-badge">Épuisé</div>' : ''}
     </button>`;
   }
   html += '</div>';
@@ -2886,9 +2490,9 @@ function renderCaisse(){
   for(const f of SOLO_FRIES){
     const avail = optionAvailable(f);
     html += `<button class="mini-card${avail ? '' : ' unavailable'}" onclick="${avail ? `addSoloFries('${f.id}')` : ''}">
-      <div class="mini-name">${f.name}</div>
+      <div class="mini-name">${friesShort(f.name)}</div>
       <div class="mini-price">${fmt(f.price)}</div>
-      ${!avail ? '<div class="epuise-badge">ÉPUISÉ</div>' : ''}
+      ${!avail ? '<div class="epuise-badge">Épuisé</div>' : ''}
     </button>`;
   }
   html += '</div>';
@@ -2903,109 +2507,65 @@ function renderCaisse(){
   html += '</div>';
 
   if(state.currentItems.length > 0){
-    const editingLabel = state._editingOrderId
-      ? `<span style="color:var(--gold);font-size:12px;margin-left:6px">✏️ Modification commande #${state._editingOrderId}</span>`
-      : '';
-    html += `<div class="ticket"><div class="ticket-title">🧾 TICKET EN COURS${editingLabel}</div>`;
+    const editingLabel = state._editingOrderId ? `<span class="editing-tag">Modification de la commande #${state._editingOrderId}</span>` : '';
+    html += `<div class="ticket"><div class="ticket-title"><span>Ticket en cours</span>${editingLabel}</div>`;
     for(const item of state.currentItems){
       if(item.type === "fries" || item.type === "fries-menu"){
         html += `<div class="ticket-item">
-          <div>
-            <div class="ticket-item-name">${item.fries.name}</div>
-            <div class="ticket-item-sub">Portion seule</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="ticket-item-price">${fmt(itemTotal(item))}</div>
-            <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-          </div>
+          <div><div class="ticket-item-name">${item.type === "fries" ? item.fries.name : 'Frites ' + item.fries.name.toLowerCase()}</div><div class="ticket-item-sub">${item.type === "fries" ? 'Portion seule' : 'Frites de menu'}</div></div>
+          <div style="display:flex;align-items:center;gap:10px"><div class="ticket-item-price">${fmt(itemTotal(item))}</div><button class="remove-btn" onclick="removeItem(${item.key})">×</button></div>
         </div>`;
       } else if(item.type === "drink"){
         html += `<div class="ticket-item">
-          <div>
-            <div class="ticket-item-name">${item.drink.name}</div>
-            <div class="ticket-item-sub">Boisson</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="ticket-item-price">${fmt(itemTotal(item))}</div>
-            <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-          </div>
+          <div><div class="ticket-item-name">${item.drink.name}</div><div class="ticket-item-sub">Boisson</div></div>
+          <div style="display:flex;align-items:center;gap:10px"><div class="ticket-item-price">${fmt(itemTotal(item))}</div><button class="remove-btn" onclick="removeItem(${item.key})">×</button></div>
         </div>`;
       } else if(item.type === "steakfrites"){
         html += `<div class="ticket-item">
-          <div>
-            <div class="ticket-item-name">🥩 Steak + Frites</div>
-            <div class="ticket-item-sub">Formule</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px">
-            <div class="ticket-item-price">${fmt(itemTotal(item))}</div>
-            <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-          </div>
+          <div><div class="ticket-item-name">Steak + Frites</div><div class="ticket-item-sub">Formule</div></div>
+          <div style="display:flex;align-items:center;gap:10px"><div class="ticket-item-price">${fmt(itemTotal(item))}</div><button class="remove-btn" onclick="removeItem(${item.key})">×</button></div>
         </div>`;
       } else {
-        const cuissonInfo = item.cuisson ? `${cuissonDot(item.cuisson)}<span>${cuissonLabel(item.cuisson)}</span>` : '';
-        const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
-        html += `<div class="ticket-item" style="align-items:flex-start">
+        html += `<div class="ticket-item">
           <div style="flex:1;min-width:0">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-              <div class="ticket-item-name" style="color:${nameColor};flex:1;min-width:0">${item.burger.name}</div>
-              <button class="ticket-item-edit" onclick="editItem(${item.key})" style="flex-shrink:0">✏️ Modifier</button>
+              <div class="ticket-item-name">${item.burger.name}</div>
+              <button class="ticket-item-edit" onclick="editItem(${item.key})">Modifier</button>
             </div>
-            ${item.cuisson ? `<div class="ticket-item-sub">${cuissonInfo}</div>` : ''}
-            ${(item.supplements || []).map(s => `<div class="ticket-item-sub">+ ${s.name}</div>`).join('')}
-            ${(item.removals || []).map(r => `<div class="ticket-item-sub" style="color:var(--red)">✕ Sans ${r}</div>`).join('')}
+            ${item.cuisson ? `<div class="ticket-item-sub">${cuissonDot(item.cuisson)}${cuissonLabel(item.cuisson)}</div>` : ''}
+            ${(item.supplements || []).map(s => `<div class="ticket-item-sub sub-plus">+ ${s.name}</div>`).join('')}
+            ${(item.removals || []).map(r => `<div class="ticket-item-sub sub-minus">Sans ${r.toLowerCase()}</div>`).join('')}
           </div>
-          <div style="display:flex;align-items:flex-start;gap:10px;padding-top:2px">
-            <div class="ticket-item-price">${fmt(itemTotal(item))}</div>
-            <button class="remove-btn" onclick="removeItem(${item.key})">×</button>
-          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding-top:2px"><div class="ticket-item-price">${fmt(itemTotal(item))}</div><button class="remove-btn" onclick="removeItem(${item.key})">×</button></div>
         </div>`;
       }
     }
-    const rawTotal = state.currentItems.reduce((sum, item) => sum + itemTotal(item), 0);
-    const finalTotal = rawTotal;
-    html += `<div class="ticket-footer">
-      <div style="flex:1">
-        <div class="ticket-count">${state.currentItems.length} article${state.currentItems.length > 1 ? 's' : ''}</div>
-        <div class="ticket-total">${fmt(finalTotal)}</div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
-        <button class="btn btn-primary" style="width:100%;margin-top:4px" onclick="goToFritesStep()">🍟 Passer aux frites →</button>
-      </div>
-    </div></div>`;
+    html += `</div>`;
   }
   html += '</div>';
   return html;
 }
-
 function renderOptions(){
   const b = state.pendingBurger;
   const suppTotal = state.pendingSupps.reduce((sum, s) => sum + s.price, 0);
   const total = b.price + suppTotal;
-  const isEditing = !!state.editingItemKey;
 
   let html = '<div class="pad">';
   html += `<div class="options-header">
-    <button class="btn-back" onclick="goBackToBurger()">← Retour</button>
-    <div class="options-title">${b.name} — ${fmt(b.price)}</div>
+    <button class="btn btn-back" onclick="goBackToBurger()">← Retour</button>
+    <div class="options-title">${b.name} <span class="muted" style="font-weight:600">${fmt(b.price)}</span></div>
   </div>`;
 
-  // Bouton Ajouter au ticket en haut
-  html += `<button class="btn btn-primary" style="width:100%;margin-bottom:14px" onclick="addBurgerItem()">${isEditing ? '✓ Mettre à jour' : '+ Ajouter au ticket'}</button>`;
-
-  // Cuisson
   html += '<div class="section-title">Cuisson</div><div class="grid-4">';
   for(const c of CUISSONS){
     const sel = state.pendingCuisson === c.id;
     html += `<button class="option-card ${c.cssClass}${sel ? ' selected' : ''}" onclick="selectCuisson('${c.id}')">
-      <div class="option-card-label" style="display:flex;align-items:center;justify-content:center;gap:6px">
-        <span class="cuisson-dot ${c.dotClass}"></span>${c.name}
-      </div>
+      <div class="option-card-label"><span class="cuisson-dot ${c.dotClass}"></span>${c.name}</div>
     </button>`;
   }
   html += '</div>';
 
-  // Supplements
-  html += '<div class="section-title">Suppléments burger</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">';
+  html += '<div class="section-title">Suppléments</div><div class="grid-3">';
   for(const s of SUPPLEMENTS){
     const sel = state.pendingSupps.some(x => x.id === s.id);
     const avail = optionAvailable(s);
@@ -3016,236 +2576,162 @@ function renderOptions(){
   }
   html += '</div>';
 
-  // Personnalisation — retrait d'ingrédients (masqué par défaut)
   const customs = BURGER_CUSTOMS[b.id];
-  const hasCustoms = customs && [...customs.fromage, ...customs.sauces, ...customs.garnitures].length > 0;
+  const hasCustoms = customs && [...(customs.fromage||[]), ...(customs.sauces||[]), ...(customs.garnitures||[])].length > 0;
   const removalsCount = state.pendingRemovals.length;
 
-  // Recap
-  html += `<div class="recap" style="margin-top:20px">
-    <div class="section-title" style="margin-top:0">Récapitulatif</div>
-    <div class="recap-row" style="align-items:center">
-      <span style="display:flex;align-items:center;gap:8px;flex:1">
-        ${b.name}
-        ${hasCustoms ? `<button onclick="toggleCustomization()" style="border:none;cursor:pointer;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:bold;flex-shrink:0;${state.showCustomization ? 'background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40)' : 'background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)'}">
-          ✏️ Modifier${removalsCount > 0 ? ' (' + removalsCount + ')' : ''} ${state.showCustomization ? '▲' : '▼'}
-        </button>` : ''}
+  html += `<div class="recap">
+    <div class="recap-row">
+      <span style="display:flex;align-items:center;gap:8px;flex:1;font-weight:700">${b.name}
+        ${hasCustoms ? `<button class="btn-chip${state.showCustomization || removalsCount ? ' danger' : ''}" onclick="toggleCustomization()">Sans…${removalsCount > 0 ? ' (' + removalsCount + ')' : ''} ${state.showCustomization ? '▲' : '▼'}</button>` : ''}
       </span>
       <span>${fmt(b.price)}</span>
     </div>
-    ${state.pendingCuisson ? `<div class="recap-row sub"><span>${cuissonDot(state.pendingCuisson)} Cuisson : ${cuissonLabel(state.pendingCuisson)}</span><span></span></div>` : ''}
-    ${state.pendingRemovals.map(r => `<div class="recap-row sub"><span style="color:var(--red)">✕ Sans ${r}</span><span></span></div>`).join('')}
+    ${state.pendingCuisson ? `<div class="recap-row sub"><span>${cuissonDot(state.pendingCuisson)}${cuissonLabel(state.pendingCuisson)}</span><span></span></div>` : ''}
+    ${state.pendingRemovals.map(r => `<div class="recap-row sub"><span class="sub-minus">Sans ${r.toLowerCase()}</span><span></span></div>`).join('')}
     ${state.pendingSupps.map(s => `<div class="recap-row sub"><span>+ ${s.name}</span><span>${fmt(s.price)}</span></div>`).join('')}
     <div class="recap-total"><span>Total</span><span>${fmt(total)}</span></div>
   </div>`;
 
-  // Panneau de personnalisation (visible seulement si ouvert)
   if(hasCustoms && state.showCustomization){
     const allItems = [
-      ...customs.fromage.map(x => ({item:x, cat:"🧀"})),
-      ...customs.sauces.map(x => ({item:x, cat:"🫙"})),
-      ...customs.garnitures.map(x => ({item:x, cat:"🥗"}))
+      ...(customs.fromage||[]).map(x => ({item:x, cat:"🧀"})),
+      ...(customs.sauces||[]).map(x => ({item:x, cat:"🫙"})),
+      ...(customs.garnitures||[]).map(x => ({item:x, cat:"🥗"}))
     ];
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">';
+    html += '<div class="help" style="margin:12px 0 8px">Touche ce que le client ne veut pas :</div><div class="grid-3">';
     for(const {item, cat} of allItems){
       const removed = state.pendingRemovals.includes(item);
-      html += `<button class="removal-btn${removed ? ' removed' : ''}" onclick="toggleRemoval('${item.replace(/'/g,"\\'")}')">
-        <div style="font-size:11px;margin-bottom:2px">${cat}</div>
-        <div style="font-size:12px">${removed ? '✕ ' : ''}${item}</div>
-      </button>`;
+      html += `<button class="removal-btn${removed ? ' removed' : ''}" onclick="toggleRemoval('${item.replace(/'/g,"\\'")}')">${cat} ${item}</button>`;
     }
     html += '</div>';
   }
-
-  html += `<button class="btn btn-primary" onclick="addBurgerItem()">${isEditing ? '✓ Mettre à jour' : '+ Ajouter au ticket'}</button>`;
   html += '</div>';
   return html;
 }
-
 function renderOrderItems(order){
   let html = '';
   const pairing = order.friteMenuPairing || {};
   const pairedFriteKeys = new Set(Object.values(pairing).filter(Boolean));
-
   for(const item of order.items){
-    if(item.type === "fries-menu" && pairedFriteKeys.has(item.key)) continue; // affiché avec son burger
+    if(!itemValide(item)) continue;
+    if(item.type === "fries-menu" && pairedFriteKeys.has(item.key)) continue; // affichée avec son burger
     if(item.type === "fries" || item.type === "fries-menu"){
       html += `<div class="order-item"><div><div class="order-item-name">🍟 ${item.fries.name}</div><div class="order-item-sub">Portion seule</div></div></div>`;
     } else if(item.type === "drink"){
-      html += `<div class="order-item"><div><div class="order-item-name">${item.drink.name}</div><div class="order-item-sub">Boisson</div></div></div>`;
+      html += `<div class="order-item"><div><div class="order-item-name">🥤 ${item.drink.name}</div></div></div>`;
     } else if(item.type === "steakfrites"){
-      html += `<div class="order-item"><div><div class="order-item-name">🥩 Steak + Frites</div><div class="order-item-sub">Formule</div></div></div>`;
+      html += `<div class="order-item"><div><div class="order-item-name">Steak + Frites</div><div class="order-item-sub">Formule</div></div></div>`;
     } else if(item.type === "burger"){
-      const cuisson = item.cuisson ? `<div class="order-item-sub">${cuissonDot(item.cuisson)} Cuisson : ${cuissonLabel(item.cuisson)}</div>` : '';
-      const nameColor = item.cuisson ? cuissonColor(item.cuisson) : 'var(--text)';
       const pairedFriteKey = pairing[item.key];
       const pairedFrite = pairedFriteKey ? order.items.find(i => i.key === pairedFriteKey) : null;
-      html += `<div class="order-item">
-        <div>
-          <div class="order-item-name" style="color:${nameColor}">${item.burger.name}</div>
-          ${cuisson}
-          ${(item.supplements || []).map(s => `<div class="order-item-sub" style="color:#2a7abf;font-weight:bold">+ ${s.name}</div>`).join('')}
-          ${(item.removals || []).map(r => `<div class="order-item-sub" style="color:var(--red);font-weight:bold">✕ SANS ${r.toUpperCase()}</div>`).join('')}
-          ${pairedFrite ? `<div class="order-item-sub" style="color:var(--gold)">🍟 ${pairedFrite.fries.name}</div>` : ''}
-        </div>
-      </div>`;
+      html += `<div class="order-item"><div>
+          <div class="order-item-name">${item.burger.name}${item.cuisson ? ` <span class="help">${cuissonDot(item.cuisson)}${cuissonLabel(item.cuisson)}</span>` : ''}</div>
+          ${(item.supplements || []).map(s => `<div class="order-item-sub sub-plus">+ ${s.name}</div>`).join('')}
+          ${(item.removals || []).map(r => `<div class="order-item-sub sub-minus">SANS ${r.toUpperCase()}</div>`).join('')}
+          ${pairedFrite ? `<div class="order-item-sub sub-fries">🍟 ${pairedFrite.fries.name}</div>` : ''}
+        </div></div>`;
     }
   }
-  if(order.loyalty) html += `<div style="font-size:11px;color:var(--red);padding:4px 0;border-top:1px solid var(--line);margin-top:4px">🎫 Fidélité ×${order.loyaltyCount||1} — −${fmt((order.loyaltyCount||1)*10)} déduits</div>`;
+  if(order.loyalty) html += `<div class="loyalty-line">Fidélité ×${order.loyaltyCount||1} — ${fmt((order.loyaltyCount||1)*10)} déduits</div>`;
   return html;
 }
-
 function renderEnCours(){
-  const parseTime = h => {
-    if(!h) return 9999;
-    const [hh, mm] = h.split(':').map(Number);
-    return hh * 60 + (mm || 0);
-  };
-  const sortByTime = (a, b) => {
-    const ta = parseTime(a.heure), tb = parseTime(b.heure);
-    if(ta !== tb) return ta - tb;
-    if(a.slot && b.slot) return a.slot.localeCompare(b.slot);
-    return a.id - b.id;
-  };
+  const parseTime = h => { if(!h) return 9999; const [hh, mm] = h.split(':').map(Number); return hh * 60 + (mm || 0); };
+  const sortByTime = (a, b) => { const ta = parseTime(a.heure), tb = parseTime(b.heure); if(ta !== tb) return ta - tb; if(a.slot && b.slot) return a.slot.localeCompare(b.slot); return a.id - b.id; };
   const q = (state._encoursSearch || "").trim();
   const matchQ = o => q === "" || String(o.id).includes(q);
   const encours = state.orders.filter(o => o.status === "encours" && matchQ(o)).sort(sortByTime);
   const payes   = state.orders.filter(o => o.status === "paye" && matchQ(o)).sort(sortByTime);
   const annules = state.orders.filter(o => o.status === "annule" && matchQ(o));
+  const taxline = o => `<div class="taxline"><span>HT <b>${fmt(o.total/1.10)}</b></span><span>TVA 10 % <b>${fmt(o.total-o.total/1.10)}</b></span></div>`;
   let html = '<div class="pad">';
 
-  // Barre de recherche par numéro de commande
   const totalOngoing = state.orders.filter(o => o.status === "encours").length;
   if(totalOngoing > 0 || q !== ""){
-    html += `<div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input id="encours-search" class="search-input" type="text" inputmode="numeric" pattern="[0-9]*"
-        placeholder="Rechercher un n° de commande…" value="${q}"
-        oninput="setEncoursSearch(this.value)">
-      ${q !== "" ? `<button class="search-clear" onclick="setEncoursSearch('')" aria-label="Effacer">✕</button>` : ''}
-    </div>`;
+    html += `<div class="search-bar"><span class="search-icon">🔍</span>
+      <input id="encours-search" class="search-input" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="N° de commande…" value="${q}" oninput="setEncoursSearch(this.value)">
+      ${q !== "" ? `<button class="search-clear" onclick="setEncoursSearch('')" aria-label="Effacer">✕</button>` : ''}</div>`;
   }
-
   if(encours.length === 0){
     const noneAtAll = payes.length === 0 && annules.length === 0;
-    if(q !== "" && !noneAtAll){
-      html += `<div style="text-align:center;color:var(--text-soft);font-size:13px;padding:10px 0 4px">Aucune commande #${q} en cours — voir ci-dessous</div>`;
-    } else {
-      html += `<div class="empty"><div class="empty-icon">${q !== "" ? '🔍' : '🍳'}</div><div>${q !== "" ? `Aucune commande #${q}` : 'Aucune commande en cours'}</div></div>`;
-    }
+    if(q !== "" && !noneAtAll) html += `<div class="help" style="text-align:center;padding:8px 0">Aucune commande #${q} en cours — voir ci-dessous</div>`;
+    else html += `<div class="empty"><div class="empty-icon">${q !== "" ? '🔍' : '🍳'}</div><div>${q !== "" ? `Aucune commande #${q}` : 'Aucune commande en cours'}</div></div>`;
   }
-
   for(const order of encours){
     html += `<div class="order-card" id="order-card-${order.id}">
       <div class="order-header">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <div class="order-num">#${order.id}</div>
-          ${order.slot ? `<span style="font-size:12px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-          ${order.loyalty ? `<span onclick="removeOrderLoyalty(${order.id})" style="cursor:pointer;font-size:12px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:8px;padding:3px 10px;font-weight:bold" title="Cliquer pour retirer une carte">🎫 ×${order.loyaltyCount||1} −${fmt((order.loyaltyCount||1)*10)} ✕</span>` : ''}
+        <div class="order-meta"><span class="order-num">#${order.id}</span>
+          ${order.slot ? `<span class="chip chip-accent">${order.slot}</span>` : ''}
+          ${order.loyalty ? `<span class="chip chip-danger tap" onclick="removeOrderLoyalty(${order.id})" title="Retirer une carte">Fidélité ×${order.loyaltyCount||1} ✕</span>` : ''}
         </div>
         <div class="order-total">${fmt(order.total)}</div>
       </div>
       ${renderOrderItems(order)}
-      <div style="display:flex;justify-content:flex-end;gap:14px;padding:5px 0 8px;border-top:1px dashed var(--line);margin-top:4px">
-        <span style="font-size:12px;color:var(--text-soft)">HT <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--text)">${fmt(order.total/1.10)}</span></span>
-        <span style="font-size:12px;color:var(--text-soft)">TVA 10% <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--orange)">${fmt(order.total-order.total/1.10)}</span></span>
-      </div>
+      ${taxline(order)}
       <div class="order-actions">
-        <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">✕ Annuler</button>
-        <button class="btn" style="flex:1;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Modifier</button>
-        <button class="btn" style="background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);text-align:center" onclick="addOrderLoyalty(${order.id})">🎫 Fidélité</button>
+        <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">Annuler</button>
+        <button class="btn btn-ghost" onclick="editOrder(${order.id})">Modifier</button>
+        <button class="btn btn-ghost" onclick="addOrderLoyalty(${order.id})">Fidélité −10 €</button>
         <button class="btn btn-pay" onclick="payOrder(${order.id})">💳 ${fmt(order.total)}</button>
       </div></div>`;
   }
-
   if(payes.length > 0){
-    html += '<div class="history-label">COMMANDES RÉGLÉES</div>';
+    html += '<div class="history-label">Commandes réglées</div>';
     for(const order of payes){
-      html += `<div class="order-card" id="order-card-${order.id}" style="opacity:.8">
+      html += `<div class="order-card paid" id="order-card-${order.id}">
         <div class="order-header">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <div class="order-num" style="background:var(--green)">#${order.id}</div>
-            ${order.slot ? `<span style="font-size:12px;background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-            ${order.loyalty ? `<span style="font-size:12px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:8px;padding:3px 10px;font-weight:bold">🎫 Fidélité</span>` : ''}
+          <div class="order-meta"><span class="order-num">#${order.id}</span>
+            ${order.slot ? `<span class="chip chip-ok">${order.slot}</span>` : ''}
+            ${order.loyalty ? `<span class="chip chip-danger">Fidélité</span>` : ''}
           </div>
           <div class="order-total">${fmt(order.total)}</div>
         </div>
         ${renderOrderItems(order)}
-        <div style="display:flex;justify-content:flex-end;gap:14px;padding:5px 0 8px;border-top:1px dashed var(--line);margin-top:4px">
-          <span style="font-size:12px;color:var(--text-soft)">HT <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--text)">${fmt(order.total/1.10)}</span></span>
-          <span style="font-size:12px;color:var(--text-soft)">TVA 10% <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--orange)">${fmt(order.total-order.total/1.10)}</span></span>
-        </div>
+        ${taxline(order)}
         <div class="order-actions">
-          <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">✕ Annuler</button>
-          <button class="btn" style="flex:2;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Modifier</button>
+          <button class="btn btn-cancel" onclick="cancelOrder(${order.id})">Annuler</button>
+          <button class="btn btn-ghost" onclick="editOrder(${order.id})">Modifier</button>
         </div></div>`;
     }
-    html += `<div class="summary-card">
-      <div class="summary-label">CA TOTAL DU JOUR</div>
-      <div class="summary-value">${fmt(state.dailyRevenue)}</div>
-    </div>`;
+    html += `<div class="summary-card"><div class="summary-label">CA du jour</div><div class="summary-value">${fmt(state.dailyRevenue)}</div></div>`;
   }
-
   if(annules.length > 0){
-    html += '<div class="history-label">COMMANDES ANNULÉES</div>';
+    html += '<div class="history-label">Commandes annulées</div>';
     for(const order of annules){
-      html += `<div class="order-card" id="order-card-${order.id}" style="opacity:.45">
+      html += `<div class="order-card cancelled" id="order-card-${order.id}">
         <div class="order-header">
-          <div style="display:flex;align-items:center;gap:8px">
-            <div class="order-num">#${order.id}</div>
-            ${order.slot ? `<span style="font-size:12px;background:var(--bg-2);color:var(--text-soft);border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-          </div>
-          <div style="font-size:16px;color:var(--text-soft);font-weight:bold">${fmt(order.total)}</div>
+          <div class="order-meta"><span class="order-num">#${order.id}</span>${order.slot ? `<span class="chip">${order.slot}</span>` : ''}</div>
+          <div class="order-total muted">${fmt(order.total)}</div>
         </div>
         ${renderOrderItems(order)}
-        <div class="order-actions">
-          <button class="btn" style="flex:1;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40)" onclick="editOrder(${order.id})">✏️ Ré-ouvrir</button>
-        </div></div>`;
+        <div class="order-actions"><button class="btn btn-ghost" style="grid-column:span 2" onclick="editOrder(${order.id})">Ré-ouvrir</button></div></div>`;
     }
   }
-
   html += '</div>';
   return html;
 }
-
 function renderHistorique(){
   let html = '<div class="pad">';
-
   if(state.orders.length === 0){
     html += '<div class="empty"><div class="empty-icon">📋</div><div>Aucune commande enregistrée</div></div>';
   } else {
     for(const order of state.orders){
-      const isPaye = order.status === 'paye';
-      const isAnn  = order.status === 'annule';
-      const statusBadge = isPaye
-        ? `<span style="font-size:11px;background:rgba(52,211,153,.15);color:var(--green);border:1px solid rgba(52,211,153,.40);border-radius:6px;padding:2px 8px;font-weight:bold">✓ Réglée</span>`
-        : isAnn
-        ? `<span style="font-size:11px;background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.40);border-radius:6px;padding:2px 8px;font-weight:bold">✕ Annulée</span>`
-        : `<span style="font-size:11px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:6px;padding:2px 8px;font-weight:bold">⏳ En cours</span>`;
-
-      html += `<div class="order-card" style="margin-bottom:10px${isAnn ? ';opacity:.5' : ''}">
+      const isPaye = order.status === 'paye', isAnn = order.status === 'annule';
+      const statusChip = isPaye ? `<span class="chip chip-ok">Réglée</span>` : isAnn ? `<span class="chip">Annulée</span>` : `<span class="chip chip-accent">En cours</span>`;
+      html += `<div class="order-card${isPaye ? ' paid' : isAnn ? ' cancelled' : ''}">
         <div class="order-header">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <div class="order-num" style="${isPaye ? 'background:var(--green)' : isAnn ? 'background:var(--text-soft)' : ''}">#${order.id}</div>
-            ${statusBadge}
-            ${order.slot ? `<span style="font-size:11px;background:rgba(243,164,58,.14);color:var(--gold);border:1px solid rgba(243,164,58,.40);border-radius:6px;padding:2px 8px;font-weight:bold">🕐 ${order.slot}</span>` : ''}
-            ${order.loyalty ? `<span style="font-size:11px;color:var(--red)">🎫</span>` : ''}
-          </div>
-          <div class="order-total" style="${isAnn ? 'color:var(--text-soft)' : ''}">${fmt(order.total)}</div>
+          <div class="order-meta"><span class="order-num">#${order.id}</span>${statusChip}${order.slot ? `<span class="chip">${order.slot}</span>` : ''}${order.loyalty ? `<span class="chip chip-danger">Fidélité</span>` : ''}</div>
+          <div class="order-total${isAnn ? ' muted' : ''}">${fmt(order.total)}</div>
         </div>
         ${renderOrderItems(order)}
-        ${!isAnn ? `<div style="display:flex;justify-content:flex-end;gap:14px;padding:5px 0 2px;border-top:1px dashed var(--line);margin-top:4px">
-          <span style="font-size:12px;color:var(--text-soft)">HT <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--text)">${fmt(order.total/1.10)}</span></span>
-          <span style="font-size:12px;color:var(--text-soft)">TVA 10% <span style="font-family:'Courier New',monospace;font-weight:bold;color:var(--orange)">${fmt(order.total-order.total/1.10)}</span></span>
-        </div>` : ''}
+        ${!isAnn ? `<div class="taxline"><span>HT <b>${fmt(order.total/1.10)}</b></span><span>TVA 10 % <b>${fmt(order.total-order.total/1.10)}</b></span></div>` : ''}
       </div>`;
     }
   }
-
   html += '</div>';
   return html;
 }
-
 function burgerCompoLabel(b){
   const counts = {};
   for(const k of (b.ing || [])) counts[k] = (counts[k] || 0) + 1;
@@ -3259,128 +2745,100 @@ function renderStocks(){
   const categories = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
   const low = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty <= 5 && i.qty > 0).length;
   const out = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty === 0).length;
-  const sheetsUrl = getSheetsUrl();
   let html = '<div class="pad">';
-
-  // Envoi au site (remplace la feuille Google Sheets)
-  const siteKey = getSiteKey(), syncL = siteSyncLabel();
-  html += `<div class="stock-card" style="margin-bottom:14px">
-    <div class="section-title" style="margin-top:0">🌐 Envoi au site L'Arrêt Gourmand</div>
-    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">
-      ${siteKey
-        ? `<span style="color:var(--green);font-weight:bold">✓ Clé enregistrée</span> — la synthèse du service part toute seule après chaque encaissement (et avec le bouton « Envoyer au site » du détail CA). État : ${syncL.txt}.`
-        : `Colle la clé affichée dans l'admin du site (Réglages → Caisse) pour envoyer les chiffres de chaque service.`}
-    </div>
-    <div class="cat-edit">
-      <label>Adresse d'envoi<input id="site-url-input" type="url" value="${getSiteUrl()}"></label>
-      <label>Clé de la caisse<input id="site-key-input" type="text" autocomplete="off" placeholder="lag_…" value="${siteKey}"></label>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button class="btn btn-primary" style="padding:10px 14px;font-size:12px" onclick="saveSiteConfig()">Enregistrer</button>
-        <button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset" onclick="testerSite()">Tester</button>
-        ${siteKey ? `<button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset" onclick="envoyerService()">Envoyer maintenant</button>` : ''}
-      </div>
-    </div>
-  </div>`;
-
-  // Ratés : un burger loupé est refait, ses composants sortent du stock et il est compté dans la synthèse
-  const actifs = BURGERS.filter(b => isBurgerActive(b.id));
-  html += `<div class="stock-card" style="margin-bottom:14px">
-    <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center"><span>❌ Ratés</span><span style="font-size:11px;color:var(--gold);font-weight:700">${state.rates || 0} ce soir</span></div>
-    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">Un burger raté et refait : ses composants sont retirés du stock et le raté est compté dans la synthèse du soir.</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <select id="rate-burger" class="edit-input" style="flex:1;height:38px">${actifs.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}</select>
-      <button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset;white-space:nowrap" onclick="compterRate()">Compter un raté</button>
-      ${state.rates ? `<button class="btn btn-cancel" style="padding:10px 12px;font-size:12px;flex:unset" title="Annuler le dernier raté" onclick="annulerRate()">↶</button>` : ''}
-    </div>
-    ${state.ratesDetail && state.ratesDetail.length ? `<div style="font-size:11px;color:var(--text-soft);margin-top:8px">${state.ratesDetail.join(' · ')}</div>` : ''}
-  </div>`;
-
-  // Numéro de départ
-  html += `<div class="stock-card" style="margin-bottom:14px">
-    <div class="section-title" style="margin-top:0">🔢 Numéro de commande</div>
-    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">
-      Numéro de la prochaine commande (cycle 1 → 100 → 1).
-    </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button class="stock-step" onclick="adjustOrderNum(-1)">−</button>
-      <input id="order-num-input" class="edit-input" type="number" min="1" max="100" value="${state.orderNum}"
-        style="width:70px;text-align:center;font-size:18px;font-weight:bold;color:var(--gold)"
-        onchange="setOrderNum(this.value)">
-      <button class="stock-step" onclick="adjustOrderNum(1)">+</button>
-      <span style="font-size:12px;color:var(--text-soft);margin-left:4px">prochain numéro</span>
-    </div>
-  </div>`;
 
   if(low > 0 || out > 0){
     html += '<div class="alert-box">';
-    if(out > 0) html += `<div class="alert-out">⚠️ ${out} ingrédient${out > 1 ? 's' : ''} épuisé${out > 1 ? 's' : ''}</div>`;
-    if(low > 0) html += `<div class="alert-low">⚡ ${low} en stock faible (≤ 5)</div>`;
+    if(out > 0) html += `<div class="alert-out">${out} ingrédient${out > 1 ? 's' : ''} épuisé${out > 1 ? 's' : ''}</div>`;
+    if(low > 0) html += `<div class="alert-low">${low} en stock faible (5 ou moins)</div>`;
     html += '</div>';
   }
 
   for(const cat of categories){
-    // Ingrédients visibles de cette catégorie (les fromages propres aux burgers inactifs sont masqués)
     const entries = Object.entries(state.ingredients).filter(([key, ing]) => ing.category === cat && ingredientVisible(key));
-    if(entries.length === 0) continue; // ne pas afficher une catégorie vide
-    html += `<div class="stock-card" style="margin-bottom:14px">
-      <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center"><span>${cat}</span><button class="carte-edit-btn" style="margin:0;width:auto;padding:0 10px;font-size:12px" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}')">+ composant</button></div>`;
+    if(entries.length === 0) continue;
+    html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>${cat}</span><button class="btn-chip" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}')">+ composant</button></div>`;
     for(const [key, ing] of entries){
-      const isOut = ing.qty === 0;
-      const isLow = ing.qty > 0 && ing.qty <= 5;
-      html += `<div class="stock-item">
-        <div class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}">${ing.name}</div>
+      const isOut = ing.qty === 0, isLow = ing.qty > 0 && ing.qty <= 5;
+      html += `<div class="stock-item"><div class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}">${ing.name}</div>
         <div class="stock-inline">
           <button class="stock-step" onclick="adjustStock('${key}', -1)">−</button>
           <input class="edit-input" type="number" min="0" value="${ing.qty}" onchange="updateStock('${key}', this.value)">
           <button class="stock-step" onclick="adjustStock('${key}', 1)">+</button>
           <button class="stock-save" onclick="updateStock('${key}', this.previousElementSibling.previousElementSibling.value)">OK</button>
-        </div>
-      </div>`;
+        </div></div>`;
     }
     html += '</div>';
   }
 
-  // ── Ma carte du jour (en bas) : activer/désactiver les burgers ──
+  // Ma carte du jour
   const nbActive = activeBurgerCount();
   function carteGroup(title, sub, group){
-    let g = `<div class="carte-group-label">${title}</div>
-      <div style="font-size:11px;color:var(--text-soft);margin:-2px 0 8px">${sub}</div>
-      <div class="carte-list">`;
+    let g = `<div class="carte-group-label">${title}</div><div class="help" style="margin-bottom:4px">${sub}</div><div class="carte-list">`;
     for(const b of BURGERS){
       if(b.group !== group) continue;
       const on = isBurgerActive(b.id);
       g += `<div class="carte-row${on ? '' : ' off'}">
-        <div class="carte-info">
-          <div class="carte-name">${b.name} <span class="carte-price">${fmt(b.price)}</span></div>
-          <div class="carte-compo">${burgerCompoLabel(b)}</div>
-        </div>
+        <div class="carte-info"><div class="carte-name">${b.name} <span class="carte-price">${fmt(b.price)}</span></div><div class="carte-compo">${burgerCompoLabel(b)}</div></div>
         <button class="carte-edit-btn" onclick="openBurgerModal('${b.id}')" title="Modifier ${b.name}">✎</button>
-        <button class="carte-toggle${on ? ' on' : ''}" onclick="toggleBurgerActive('${b.id}')" aria-label="${on ? 'Désactiver' : 'Activer'} ${b.name}">
-          <span class="carte-knob"></span>
-        </button>
+        <button class="carte-toggle${on ? ' on' : ''}" onclick="toggleBurgerActive('${b.id}')" aria-label="${on ? 'Désactiver' : 'Activer'} ${b.name}"><span class="carte-knob"></span></button>
       </div>`;
     }
-    g += `</div>`;
-    return g;
+    return g + `</div>`;
   }
-  html += `<div class="stock-card" style="margin-bottom:14px">
-    <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center">
-      <span>🍔 Ma carte du jour</span>
-      <span style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.5px">${nbActive}/${BURGERS.length} actifs</span>
-    </div>
-    <div style="font-size:12px;color:var(--text-soft);margin-bottom:14px">
-      Active les burgers présents à ta carte. Seuls les actifs apparaissent en caisse.
-    </div>
-    ${carteGroup('Burgers fixes', 'Toujours disponibles à la carte', 'fixe')}
+  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>Ma carte du jour</span><span class="chip">${nbActive}/${BURGERS.length} actifs</span></div>
+    <div class="help" style="margin-bottom:12px">Seuls les burgers actifs apparaissent en caisse.</div>
+    ${carteGroup('Burgers fixes', 'Toujours à la carte', 'fixe')}
     <div style="height:14px"></div>
-    ${carteGroup('Burgers du moment', 'Éphémères — active-les selon la saison', 'moment')}
-    <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="openBurgerModal('')">+ Ajouter un burger</button>
+    ${carteGroup('Burgers du moment', 'À activer selon la saison', 'moment')}
+    <button class="btn btn-primary btn-block" style="margin-top:14px" onclick="openBurgerModal('')">+ Ajouter un burger</button>
   </div>`;
+
+  // Ratés
+  const actifs = BURGERS.filter(b => isBurgerActive(b.id));
+  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>Ratés</span><span class="chip${state.rates ? ' chip-danger' : ''}">${state.rates || 0} ce soir</span></div>
+    <div class="help" style="margin-bottom:10px">Un burger raté et refait : ses composants sortent du stock et le raté est compté dans la synthèse du soir.</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <select id="rate-burger" class="edit-input" style="flex:1;width:auto;text-align:left;font-weight:600;padding:0 8px">${actifs.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}</select>
+      <button class="btn btn-ghost btn-sm" onclick="compterRate()">Compter</button>
+      ${state.rates ? `<button class="btn btn-ghost btn-sm" title="Annuler le dernier raté" onclick="annulerRate()">↶</button>` : ''}
+    </div>
+    ${state.ratesDetail && state.ratesDetail.length ? `<div class="help" style="margin-top:8px">${state.ratesDetail.join(' · ')}</div>` : ''}
+  </div>`;
+
+  // Numéro de commande
+  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Prochain numéro de commande</div>
+    <div class="help" style="margin-bottom:10px">Les numéros tournent de 1 à 100 ; un numéro encore présent ce soir est sauté automatiquement.</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="stock-step" onclick="adjustOrderNum(-1)">−</button>
+      <input id="order-num-input" class="edit-input" type="number" min="1" max="100" value="${state.orderNum}" onchange="setOrderNum(this.value)">
+      <button class="stock-step" onclick="adjustOrderNum(1)">+</button>
+    </div></div>`;
+
+  // Envoi au site
+  const siteKey = getSiteKey(), syncL = siteSyncLabel();
+  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Envoi au site L'Arrêt Gourmand</div>
+    <div class="help" style="margin-bottom:10px">${siteKey
+      ? `<b style="color:var(--ok)">Clé enregistrée.</b> La synthèse part toute seule après chaque encaissement. État : ${syncL.txt}.`
+      : `Colle la clé affichée dans l'admin du site (Réglages → Caisse) pour envoyer les chiffres de chaque service.`}</div>
+    <div class="cat-edit">
+      <label>Adresse d'envoi<input id="site-url-input" type="url" value="${getSiteUrl()}"></label>
+      <label>Clé de la caisse<input id="site-key-input" type="text" autocomplete="off" placeholder="lag_…" value="${siteKey}"></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" onclick="saveSiteConfig()">Enregistrer</button>
+        <button class="btn btn-ghost btn-sm" onclick="testerSite()">Tester</button>
+        ${siteKey ? `<button class="btn btn-ghost btn-sm" onclick="envoyerService()">Envoyer maintenant</button>` : ''}
+      </div></div></div>`;
+
+  // Affichage
+  const th = currentTheme();
+  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Affichage</div>
+    <div class="theme-seg"><button class="${th === 'dark' ? 'on' : ''}" onclick="setTheme('dark')">Sombre</button><button class="${th === 'light' ? 'on' : ''}" onclick="setTheme('light')">Clair</button></div>
+    <div class="help" style="margin-top:8px">Sombre pour le soir, clair en plein jour.</div></div>`;
 
   html += '</div>';
   return html;
 }
-
 if('serviceWorker' in navigator){
   // Désactive tous les anciens service workers pour forcer le rechargement
   navigator.serviceWorker.getRegistrations().then(regs => {
@@ -3411,7 +2869,7 @@ function openBurgerModal(id){
   const counts = {}; for(const k of (b ? b.ing : ["bun","boeuf","cheddar"])) counts[k] = (counts[k] || 0) + 1;
   const c = (b && BURGER_CUSTOMS[b.id]) || { fromage:[], sauces:[], garnitures:[] };
   _editBurger = { id: b ? b.id : "", name: b ? b.name : "", price: b ? b.price : 12, group: b ? b.group : "moment", counts, customs:{ fromage:[...(c.fromage||[])], sauces:[...(c.sauces||[])], garnitures:[...(c.garnitures||[])] } };
-  document.getElementById("burger-modal-title").textContent = b ? "✎ " + b.name : "🍔 Nouveau burger";
+  document.getElementById("burger-modal-title").textContent = b ? b.name : "Nouveau burger";
   renderBurgerModal();
   document.getElementById("modal-burger").style.display = "flex";
 }
@@ -3429,22 +2887,22 @@ function renderBurgerModal(){
   for(const cat of cats){
     const keys = Object.keys(INGREDIENTS_DEFAULT).filter(k => INGREDIENTS_DEFAULT[k].category === cat);
     if(!keys.length) continue;
-    html += `<div style="font-size:11px;color:var(--text-soft);margin-top:6px">${cat}</div>`;
+    html += `<div class="cat-grp">${cat}</div>`;
     for(const k of keys){
       const n = e.counts[k] || 0;
       html += `<div class="cat-ing"><div class="nm">${INGREDIENTS_DEFAULT[k].name}</div><div class="qty"><button class="stock-step" onclick="bgQty('${k}',-1)">−</button><b class="${n?'':'zero'}">${n}</b><button class="stock-step" onclick="bgQty('${k}',1)">+</button></div></div>`;
     }
   }
-  html += `<button class="btn btn-cancel" style="margin-top:8px;padding:10px;font-size:12px" onclick="openIngredientModal('', true)">+ Nouveau composant</button>
+  html += `<button class="btn btn-ghost btn-sm btn-block" style="margin-top:8px" onclick="openIngredientModal('', true)">+ Nouveau composant</button>
     <div class="cat-grp">Garnitures que le client peut retirer</div>
     <label>Fromage<input type="text" value="${e.customs.fromage.join(', ')}" placeholder="Cheddar" oninput="_editBurger.customs.fromage=splitList(this.value)"></label>
     <label>Sauces<input type="text" value="${e.customs.sauces.join(', ')}" placeholder="Sauce BBQ" oninput="_editBurger.customs.sauces=splitList(this.value)"></label>
     <label>Garnitures<input type="text" value="${e.customs.garnitures.join(', ')}" placeholder="Oignons frits, Bacon, Mesclun" oninput="_editBurger.customs.garnitures=splitList(this.value)"></label>
   </div>
   <div style="display:flex;gap:10px;margin-top:14px">
-    ${e.id ? `<button class="btn btn-cancel" style="flex:unset;padding:10px 12px" title="Supprimer ce burger" onclick="deleteBurger()">🗑</button>` : ''}
-    <button class="btn btn-cancel" onclick="closeBurgerModal()">Annuler</button>
-    <button class="btn btn-green" style="flex:2" onclick="saveBurger()">✓ Enregistrer</button>
+    ${e.id ? `<button class="btn btn-cancel" style="flex:0 0 auto;padding:0 12px" title="Supprimer ce burger" onclick="deleteBurger()">🗑</button>` : ''}
+    <button class="btn btn-ghost" style="flex:1" onclick="closeBurgerModal()">Annuler</button>
+    <button class="btn btn-green" style="flex:2" onclick="saveBurger()">Enregistrer</button>
   </div>`;
   document.getElementById("burger-modal-content").innerHTML = html;
 }
