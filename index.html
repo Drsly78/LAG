@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="L'Arrêt Gourmand">
 <meta name="theme-color" content="#0c0e13">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22short_name%22%3A%22L%27Arr%C3%AAt%20Gourmand%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0c10%22%2C%22theme_color%22%3A%22%230c0e13%22%2C%22orientation%22%3A%22portrait%22%7D">
@@ -30,7 +30,7 @@
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
   html{background-color:#0a0c10}
-  html,body{height:100%;overflow:hidden}
+  html,body{height:100%;height:100dvh;overflow:hidden}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
     height:100%;
@@ -46,6 +46,7 @@
   .app{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
+    height:100dvh; /* iPhone installé sur l'écran d'accueil : évite le décalage d'une barre d'état en bas */
     max-width:640px;margin:0 auto;
     display:flex;flex-direction:column;overflow:hidden;
   }
@@ -82,7 +83,7 @@
 
   /* TABS */
   .tabs{
-    position:sticky;top:78px;z-index:99;
+    position:relative;z-index:99;
     display:flex;gap:8px;padding:10px 12px;
     background:rgba(12,14,19,.82);
     backdrop-filter:blur(10px);
