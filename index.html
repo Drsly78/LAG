@@ -48,12 +48,10 @@
     max-width:640px;margin:0 auto;
     display:flex;flex-direction:column;overflow:hidden;
   }
-  /* App installée sur l'écran d'accueil (iOS 26.1+) : iPhone annonce une hauteur d'écran amputée de la barre d'état,
-     ce qui laissait une bande vide de ~1 cm en bas. On cale donc la hauteur sur la « grande » hauteur d'écran (vh = lvh),
-     qui elle reste juste, plutôt que sur le bord bas que le système place au mauvais endroit. */
-  @media (display-mode:standalone){
-    .app,.modal-overlay{bottom:auto;height:100vh;height:100lvh}
-  }
+  /* App installée sur l'écran d'accueil (iOS 26.1+) : iPhone annonce une hauteur de page amputée de la barre d'état,
+     ce qui laissait une bande vide de ~1 cm en bas. Le script mesure l'écart (hauteur réelle de l'écran − hauteur annoncée)
+     et fixe --app-h : la boîte de l'app et les voiles des fenêtres prennent alors la vraie hauteur de l'écran. */
+  .app,.modal-overlay{height:var(--app-h,auto)}
 
   /* HEADER */
   .header{
@@ -113,7 +111,7 @@
     box-shadow:0 8px 22px rgba(243,164,58,.30), inset 0 1px 0 rgba(255,255,255,.35);
   }
   .tab-btn.active .tab-icon{transform:scale(1.08)}
-  .content{flex:1;overflow-y:auto;padding-bottom:calc(24px + env(safe-area-inset-bottom))}
+  .content{flex:1;overflow-y:auto;padding-bottom:calc(24px + max(env(safe-area-inset-bottom,0px), var(--sab-min,0px)))}
   .pad{padding:16px}
   .section-title{
     font-size:11px;font-weight:bold;letter-spacing:2.4px;
@@ -631,7 +629,7 @@
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.1"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.2"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -2419,10 +2417,22 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.1";
+const APP_VERSION = "3.2";
+let iosCorrige = false;
+// Contournement du bug iOS 26 (app installée) : la hauteur annoncée (innerHeight) est amputée de la barre d'état
+// alors que l'écran est bien complet. On donne à l'app la hauteur réelle de l'écran quand l'écart est celui d'une barre d'état.
+function corrigerHauteurIOS(){
+  const root = document.documentElement;
+  const installee = navigator.standalone === true || (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches);
+  const ecart = (window.screen && window.screen.height ? window.screen.height : 0) - window.innerHeight;
+  iosCorrige = installee && window.innerWidth === window.screen.width && ecart > 0 && ecart <= 120;
+  if(iosCorrige){ root.style.setProperty("--app-h", window.screen.height + "px"); root.style.setProperty("--sab-min", "34px"); }
+  else { root.style.removeProperty("--app-h"); root.style.removeProperty("--sab-min"); }
+  return iosCorrige;
+}
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
-  const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
+  const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + (iosCorrige ? "+" : "") + " · " + l.txt; el.className = "site-sync " + l.cls;
 }
 // Envoi (ou renvoi) de la synthèse : le site remplace les chiffres du même soir, on peut donc envoyer plusieurs fois
 function envoyerService(silencieux){
@@ -3420,9 +3430,12 @@ function clearSheetsUrl(){
   render();
 }
 
+corrigerHauteurIOS();
 loadState();
 render();
 majSiteBadge();
+window.addEventListener("resize", () => { const avant = iosCorrige; if(corrigerHauteurIOS() !== avant) majSiteBadge(); });
+window.addEventListener("orientationchange", () => setTimeout(() => { corrigerHauteurIOS(); majSiteBadge(); }, 300));
 // iPhone : après la fermeture du clavier, la page peut rester décalée vers le haut (bande vide en bas) → on la recale
 document.addEventListener("focusout", () => setTimeout(() => window.scrollTo(0, 0), 60));
 if(window.visualViewport) window.visualViewport.addEventListener("resize", () => { if(!document.activeElement || document.activeElement.tagName !== "INPUT") window.scrollTo(0, 0); });
