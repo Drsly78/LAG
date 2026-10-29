@@ -30,7 +30,8 @@
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
   html{background-color:#0a0c10}
-  html,body{height:100%;height:100dvh;overflow:hidden}
+  html{background:#0a0c10} /* ce qui dépasse de la page (zones d'encoche / barre d'accueil) reste sombre */
+  html,body{height:100%;overflow:hidden}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
     height:100%;
@@ -40,13 +41,11 @@
       radial-gradient(circle at top left, rgba(243,164,58,.10), transparent 32%),
       radial-gradient(circle at bottom right, rgba(52,211,153,.05), transparent 36%),
       linear-gradient(180deg,#0c0e13 0%, #0a0c10 100%);
-    background-attachment:fixed;
   }
   button,input{font-family:var(--font)}
   .app{
     position:fixed;
     top:0;left:0;right:0;bottom:0;
-    height:100dvh; /* iPhone installé sur l'écran d'accueil : évite le décalage d'une barre d'état en bas */
     max-width:640px;margin:0 auto;
     display:flex;flex-direction:column;overflow:hidden;
   }
@@ -627,7 +626,7 @@
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.0"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -2415,9 +2414,10 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
+const APP_VERSION = "3.0";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
-  const l = siteSyncLabel(); el.textContent = "● " + l.txt; el.className = "site-sync " + l.cls;
+  const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
 }
 // Envoi (ou renvoi) de la synthèse : le site remplace les chiffres du même soir, on peut donc envoyer plusieurs fois
 function envoyerService(silencieux){
@@ -3417,6 +3417,7 @@ function clearSheetsUrl(){
 
 loadState();
 render();
+majSiteBadge();
 </script>
 </body>
 </html>
