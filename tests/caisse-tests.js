@@ -486,6 +486,51 @@ async function scenario(browser, name, fn, opts = {}) {
     t.check(t.errors.length === 0, 'aucune erreur', t.errors);
   });
 
+  // ───────── S26 : recette modifiée alors que le burger est déjà au ticket (avec relance de l'app) ─────────
+  await scenario(browser, 'S26 composant ajouté à un burger déjà au ticket', async (t) => {
+    await t.goto();
+    await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket');
+    await t.goto(); // relance de l'app : le ticket est restauré
+    await t.tab('stocks');
+    await t.page.locator('.stock-card', { hasText: 'Composants' }).locator('.btn-chip', { hasText: '+ composant' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#ing-name').fill('Comté'); await t.page.locator('#ing-qty').fill('12'); await t.page.locator('#modal-ingredient button', { hasText: 'Créer' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.carte-row', { hasText: 'Le BBQ' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#burger-modal-content .cat-ing', { hasText: 'Comté' }).locator('.stock-step', { hasText: '+' }).click(); await t.page.waitForTimeout(50);
+    await t.page.locator('#bg-price').fill('13');
+    await t.page.locator('#modal-burger button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    await t.goto(); // encore une relance
+    let s = await t.state();
+    const total = await t.evaluate(() => state.currentItems.reduce((a, i) => a + itemTotal(i), 0));
+    t.check(Math.abs(total - 13) < 0.001, 'le ticket restauré prend le nouveau prix (13 €)', total);
+    await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.stock.comte === 11 && s.stock.boeuf === 99, 'le Comté ajouté à la recette est bien déduit', { comte: s.stock.comte, boeuf: s.stock.boeuf });
+    t.check(Math.abs(s.orders[0].total - 13) < 0.001, 'commande à 13 €', s.orders[0].total);
+    // annulation : rend exactement ce qui a été consommé, même si la recette change entre-temps
+    await t.tab('stocks'); await t.page.locator('.carte-row', { hasText: 'Le BBQ' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#burger-modal-content .cat-ing', { hasText: 'Comté' }).locator('.stock-step', { hasText: '−' }).click(); await t.page.waitForTimeout(50);
+    await t.page.locator('#modal-burger button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    await t.tab('encours'); await t.tap('Annuler');
+    s = await t.state(); t.check(s.stock.comte === 12 && s.stock.boeuf === 100, 'annulation : Comté restitué (12)', { comte: s.stock.comte, boeuf: s.stock.boeuf });
+  });
+
+  // ───────── S27 : modifier et supprimer un composant ─────────
+  await scenario(browser, 'S27 modifier / supprimer un composant', async (t) => {
+    await t.goto(); await t.tab('stocks');
+    await t.page.locator('.stock-name', { hasText: 'Chèvre' }).click(); await t.page.waitForTimeout(80);
+    t.check(await t.page.locator('#modal-ingredient').isVisible() && (await t.page.locator('#ing-usage').innerText()).includes('Le Myko'), 'fiche du Chèvre : utilisé par Le Myko');
+    await t.page.locator('#ing-name').fill('Chèvre frais'); await t.page.locator('#modal-ingredient button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    let s = await t.state(); t.check(s.text.includes('Chèvre frais'), 'renommé');
+    await t.page.locator('.stock-name', { hasText: 'Chèvre frais' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-ingredient button', { hasText: '🗑' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(!s.text.includes('Chèvre frais') && !('chevre' in s.stock), 'composant supprimé', Object.keys(s.stock));
+    t.check(t.dialogs.some(d => d.includes('Le Myko')), 'la confirmation prévient pour Le Myko', t.dialogs);
+    const myko = await t.evaluate(() => BURGERS.find(b => b.id === 'myko').ing); t.check(!myko.includes('chevre'), 'retiré de la recette du Myko', myko);
+    await t.goto(); await t.tab('stocks'); s = await t.state(); t.check(!('chevre' in s.stock), 'ne revient pas après rechargement', Object.keys(s.stock));
+    await t.tab('caisse'); await t.tapCard('Le Myko'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.orders.length === 1 && s.stock.boeuf === 99, 'le Myko se commande toujours', { n: s.orders.length, boeuf: s.stock.boeuf });
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
+  });
+
   await browser.close();
   // ───────── rapport ─────────
   let nOk = 0;
