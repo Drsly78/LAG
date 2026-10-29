@@ -2027,6 +2027,9 @@ function adjustStock(key, delta){
 function openModal(){ document.getElementById("modal").style.display = "flex"; }
 function closeModal(){ document.getElementById("modal").style.display = "none"; }
 function resetDay(){
+  if(getSiteKey() && aEnvoyer() && state.orders.some(o => o.status === "paye")){
+    if(!confirm("Les chiffres de ce soir n'ont pas encore été envoyés au site.\nRemettre à zéro quand même ? (Annuler pour envoyer d'abord.)")) return;
+  }
   state.ingredients = JSON.parse(JSON.stringify(INGREDIENTS_DEFAULT));
   state.orders = [];
   state.orderNum = 1;
@@ -2486,19 +2489,22 @@ function buildServiceSummary(dateFr, avecRates = true){
     commandes
   };
 }
-// Ce qui doit partir au site a changé (encaissement, annulation, raté…) : on le note, et on envoie 90 s plus tard
+// Ce qui doit partir au site a changé (encaissement, annulation, raté…) : on le note pour le badge.
+// L'envoi lui-même est toujours manuel (bouton « Envoyer au site »), en fin de service.
 function marquerAEnvoyer(){
   try{ localStorage.setItem("ft7_site_dirty", "1"); }catch(e){}
-  planifierEnvoi();
+  majSiteBadge();
 }
+const aEnvoyer = () => { try{ return !!localStorage.getItem("ft7_site_dirty"); }catch(e){ return false; } };
 let _siteSyncTimer = null, _siteSyncEtat = JSON.parse(localStorage.getItem("ft7_site_sync") || "null") || { quand:"", ok:null, msg:"" };
 function siteSyncLabel(){
   if(!getSiteKey()) return { txt:"site : clé non renseignée", cls:"warn" };
+  if(_siteSyncEtat.ok === false) return { txt:"site : dernier envoi refusé (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
+  if(aEnvoyer()) return { txt:"site : à envoyer en fin de service", cls:"warn" };
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé " + _siteSyncEtat.quand, cls:"ok" };
-  if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.5";
+const APP_VERSION = "3.5.1";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
@@ -2532,13 +2538,6 @@ function envoyerService(silencieux){
       return false;
     });
 }
-// Après chaque encaissement, la synthèse part toute seule 90 s plus tard (le site affiche le CA en direct)
-function planifierEnvoi(){
-  if(!getSiteKey()) return;
-  clearTimeout(_siteSyncTimer);
-  _siteSyncTimer = setTimeout(() => envoyerService(true), 90000);
-}
-window.addEventListener("online", () => { if(_siteSyncEtat.ok === false || localStorage.getItem("ft7_site_dirty")) envoyerService(true); });
 function testerSite(){
   const url = getSiteUrl(), key = getSiteKey();
   if(!key){ alert("Colle d'abord la clé."); return; }
@@ -3268,7 +3267,7 @@ function renderStocks(){
     <div class="section-title" style="margin-top:0">🌐 Envoi au site L'Arrêt Gourmand</div>
     <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">
       ${siteKey
-        ? `<span style="color:var(--green);font-weight:bold">✓ Clé enregistrée</span> — la synthèse du service part toute seule après chaque encaissement (et avec le bouton « Envoyer au site » du détail CA). État : ${syncL.txt}.`
+        ? `<span style="color:var(--green);font-weight:bold">✓ Clé enregistrée</span> — En fin de service, envoie la synthèse avec « Envoyer au site » (ici ou dans le détail du CA). État : ${syncL.txt}.`
         : `Colle la clé affichée dans l'admin du site (Réglages → Caisse) pour envoyer les chiffres de chaque service.`}
     </div>
     <div class="cat-edit">
@@ -3529,7 +3528,6 @@ function clearSheetsUrl(){
 loadState();
 render();
 majSiteBadge();
-if(getSiteKey() && localStorage.getItem("ft7_site_dirty")) setTimeout(() => envoyerService(true), 5000);
 // iPhone : après la fermeture du clavier, la page peut rester décalée vers le haut (bande vide en bas) → on la recale
 document.addEventListener("focusout", () => setTimeout(() => window.scrollTo(0, 0), 60));
 if(window.visualViewport) window.visualViewport.addEventListener("resize", () => { if(!document.activeElement || document.activeElement.tagName !== "INPUT") window.scrollTo(0, 0); });
