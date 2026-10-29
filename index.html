@@ -612,13 +612,21 @@
   .slot-counts{margin-top:5px;font-size:11px;color:var(--text-soft);display:flex;justify-content:center;gap:6px}
   .slot-btn.selected .slot-counts{color:rgba(4,36,26,.80)}
   .slot-count-pill{background:rgba(255,255,255,.07);border-radius:6px;padding:1px 6px;font-weight:700}
-  .slot-btn.selected .slot-count-pill{background:rgba(4,36,26,.20);color:#04241a}</style>
+  .slot-btn.selected .slot-count-pill{background:rgba(4,36,26,.20);color:#04241a}
+  .site-sync{font-size:10px;letter-spacing:.3px;color:var(--text-soft);margin-top:2px;opacity:.85}.site-sync.ok{color:var(--green)}.site-sync.warn{color:var(--gold)}
+  .cat-edit{display:grid;gap:10px}.cat-edit label{display:grid;gap:4px;font-size:12px;color:var(--text-soft)}.cat-edit input,.cat-edit select{height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg-soft);color:var(--text);padding:0 10px;font-size:14px;outline:none;width:100%}
+  .cat-ing{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}.cat-ing .nm{font-size:13px}.cat-ing .nm small{display:block;color:var(--text-soft);font-size:11px}.cat-ing .qty{display:flex;align-items:center;gap:6px}.cat-ing .qty b{min-width:22px;text-align:center;font-size:15px}.cat-ing .qty b.zero{color:var(--text-soft);font-weight:400}
+  .cat-grp{font-size:11px;letter-spacing:.6px;text-transform:uppercase;color:var(--gold);font-weight:700;margin:10px 0 2px}
+  .cat-new{background:var(--bg-soft);border:1px dashed var(--line);border-radius:12px;padding:10px;margin-top:8px}
+  .carte-edit-btn{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:14px;margin-right:8px;flex-shrink:0}
+</style>
 </head>
 <body>
 <div class="app" id="app">
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
+      <div class="site-sync" id="site-sync-badge"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -649,6 +657,32 @@
     </div>
   </div>
 
+  <!-- Modal Burger (création / modification) -->
+  <div class="modal-overlay" id="modal-burger" style="display:none" onclick="closeBurgerModal(event)">
+    <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:520px;max-height:92vh;overflow:auto">
+      <div class="modal-title" id="burger-modal-title">🍔 Nouveau burger</div>
+      <div id="burger-modal-content"></div>
+    </div>
+  </div>
+  <!-- Modal Composant (création) -->
+  <div class="modal-overlay" id="modal-ingredient" style="display:none" onclick="closeIngredientModal(event)">
+    <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
+      <div class="modal-title">🧀 Nouveau composant</div>
+      <div class="cat-edit">
+        <label>Nom<input id="ing-name" type="text" placeholder="Ex. Comté, Sauce truffe…"></label>
+        <label>Catégorie<select id="ing-cat"></select></label>
+        <label>Stock de départ (chaque journée)<input id="ing-qty" type="number" min="0" step="1" inputmode="numeric" value="20"></label>
+        <label style="display:flex;align-items:center;gap:8px;flex-direction:row"><input id="ing-link" type="checkbox" style="width:auto;height:auto"><span>Propre à un burger du moment (visible en stock seulement quand ce burger est actif)</span></label>
+        <select id="ing-link-burger" style="display:none"></select>
+        <div style="font-size:11px;color:var(--text-soft)">Catégorie « Production » = viandes (comptées comme steak pour l'option double) ; « Composants » = fromages (comptés comme fromage pour l'option double).</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-cancel" onclick="closeIngredientModal()">Annuler</button>
+        <button class="btn btn-green" style="flex:2" onclick="saveIngredient()">✓ Créer</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Reset Journée -->
   <div class="modal-overlay" id="modal" style="display:none">
     <div class="modal">
@@ -668,7 +702,8 @@
       <div class="modal-title">📊 Détail de la soirée</div>
       <div id="ca-content"></div>
       <div class="ca-btn-row">
-        <button class="btn btn-export" style="margin-top:0" onclick="exportExcel()">📥 Export Excel</button>
+        <button class="btn btn-export" style="margin-top:0" onclick="envoyerService()">🌐 Envoyer au site</button>
+        <button class="btn btn-cancel" style="margin-top:0;flex:unset;padding:10px 12px" onclick="exportExcel()" title="Fichier CSV">📥</button>
         <button class="btn btn-reset" style="margin-top:0;flex:1;border-radius:16px;border-width:2px" onclick="closeCAModal();openModal()">🔄 Reset journée</button>
       </div>
       <button class="modal-cancel" style="width:100%;margin-top:10px;border:none;border-radius:14px;padding:12px;cursor:pointer;font-weight:bold" onclick="closeCAModal()">Fermer</button>
@@ -691,7 +726,7 @@
 </div>
 
 <script>
-const INGREDIENTS_DEFAULT = {
+const INGREDIENTS_BASE = {
   bun:        { name:"Buns",             qty:70,  category:"Production" },
   boeuf:      { name:"Steak charolais",  qty:100, category:"Production" },
   poulet:     { name:"Poulet",           qty:6,   category:"Production" },
@@ -708,7 +743,7 @@ const INGREDIENTS_DEFAULT = {
   oeuf:       { name:"Œufs",             qty:0,   category:"Œufs" }
 };
 
-const BURGERS = [
+const BURGERS_BASE = [
   { id:"original",   name:"L'Original",   price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
   { id:"bbq",        name:"Le BBQ",        price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
   { id:"dragon",     name:"Le Dragon",     price:11,  cat:"Burger", group:"fixe",   ing:["bun","boeuf","cheddar"] },
@@ -726,7 +761,6 @@ const BURGERS = [
   { id:"noel",       name:"Le Noël",       price:15,  cat:"Burger", group:"moment", ing:["bun","boeuf","foiegras"] }
 ];
 
-const MOMENT_BURGER_IDS = BURGERS.filter(b => b.group === "moment").map(b => b.id);
 
 // CATALOGUE FIGÉ POUR L'EXPORT — ordre immuable de TOUS les burgers possibles.
 // Ne JAMAIS réordonner ni retirer une entrée : l'export et la feuille Suivi en dépendent.
@@ -738,7 +772,7 @@ const EXPORT_BURGER_ORDER = [
 ];
 
 // Ingrédients propres à un burger : visibles en stock seulement si le burger est actif
-const INGREDIENT_BURGER_LINK = {
+const INGREDIENT_BURGER_LINK_BASE = {
   raclette:   "winter",
   mozzarella: "summer",
   roquefort:  "roq",
@@ -748,7 +782,7 @@ const INGREDIENT_BURGER_LINK = {
 };
 
 // Garnitures retirables par burger — groupées par catégorie
-const BURGER_CUSTOMS = {
+const BURGER_CUSTOMS_BASE = {
   original:   {
     fromage:   ["Cheddar"],
     sauces:    [],
@@ -822,7 +856,7 @@ const BURGER_CUSTOMS = {
 };
 
 const SUPPLEMENTS = [
-  { id:"double",  name:"Double steak & fromage", price:5, ing:["boeuf","boeuf","cheddar","cheddar"] },
+  { id:"double",  name:"Double steak & fromage", price:5, ing:[] }, // ingrédients calculés selon le burger (doubleIngredients)
   { id:"fromage", name:"Cheddar",                 price:2, ing:["cheddar"] },
   { id:"bacon",   name:"Bacon",                   price:2, ing:[] },
   { id:"oeuf",    name:"Œuf",                     price:2, ing:["oeuf"] },
@@ -863,6 +897,42 @@ const CUISSONS = [
 // Combo Steak + Frites
 const STEAK_FRITES = { id:"steakfrites", name:"Steak + Frites", price:7.5, ing:["boeuf"] };
 
+// ---- CATALOGUE MODIFIABLE ----
+// Les listes de base ci-dessus servent au premier lancement. Ensuite le catalogue (burgers, composants,
+// garnitures retirables) vit dans l'appareil (ft7_catalog) et se modifie depuis l'onglet Stocks.
+let INGREDIENTS_DEFAULT = JSON.parse(JSON.stringify(INGREDIENTS_BASE));
+let BURGERS = JSON.parse(JSON.stringify(BURGERS_BASE));
+let BURGER_CUSTOMS = JSON.parse(JSON.stringify(BURGER_CUSTOMS_BASE));
+let INGREDIENT_BURGER_LINK = JSON.parse(JSON.stringify(INGREDIENT_BURGER_LINK_BASE));
+const CATALOG_KEY = "ft7_catalog";
+function loadCatalog(){
+  try{
+    const c = JSON.parse(localStorage.getItem(CATALOG_KEY) || "null");
+    if(!c || !c.burgers || !c.ingredients) return;
+    INGREDIENTS_DEFAULT = c.ingredients;
+    BURGERS = c.burgers;
+    BURGER_CUSTOMS = c.customs || {};
+    INGREDIENT_BURGER_LINK = c.links || {};
+    // les ingrédients ajoutés dans le code après la sauvegarde restent disponibles
+    for(const [k, v] of Object.entries(INGREDIENTS_BASE)) if(!INGREDIENTS_DEFAULT[k]) INGREDIENTS_DEFAULT[k] = JSON.parse(JSON.stringify(v));
+  }catch(e){}
+}
+function saveCatalog(){
+  try{ localStorage.setItem(CATALOG_KEY, JSON.stringify({ v:1, ingredients:INGREDIENTS_DEFAULT, burgers:BURGERS, customs:BURGER_CUSTOMS, links:INGREDIENT_BURGER_LINK })); }catch(e){}
+}
+loadCatalog();
+const MEAT_KEYS = () => Object.keys(INGREDIENTS_DEFAULT).filter(k => INGREDIENTS_DEFAULT[k].category === "Production" && k !== "bun");
+const CHEESE_KEYS = () => Object.keys(INGREDIENTS_DEFAULT).filter(k => INGREDIENTS_DEFAULT[k].category === "Composants");
+// Option « double steak & fromage » : un steak ET un fromage EN PLUS de la recette du burger
+// (donc 2 steaks et 2 fromages au total, du même fromage que le burger ; cheddar s'il n'en a pas).
+function doubleIngredients(burger){
+  if(!burger) return ["boeuf","cheddar"];
+  const meats = [...new Set((burger.ing || []).filter(k => MEAT_KEYS().includes(k)))];
+  const cheeses = [...new Set((burger.ing || []).filter(k => CHEESE_KEYS().includes(k)))];
+  return [...(meats.length ? meats : ["boeuf"]), ...(cheeses.length ? cheeses : ["cheddar"])];
+}
+function slugify(str){ return String(str || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "").slice(0, 24) || ("x" + Date.now().toString(36)); }
+
 let state = {
   tab:"caisse",
   ingredients: JSON.parse(JSON.stringify(INGREDIENTS_DEFAULT)),
@@ -886,7 +956,9 @@ let state = {
   dropTargetBurgerKey:null,
   friteStepIndex:0,
   activeBurgers:{},
-  _encoursSearch:""
+  _encoursSearch:"",
+  rates:0,
+  ratesDetail:[]
 };
 
 const STORAGE_KEYS = {
@@ -896,11 +968,15 @@ const STORAGE_KEYS = {
   revenue:"ft7_revenue",
   loyalty:"ft7_loyalty",
   sheetsUrl:"ft7_sheets_url",
-  activeBurgers:"ft7_active_burgers"
+  activeBurgers:"ft7_active_burgers",
+  siteUrl:"ft7_site_url",
+  siteKey:"ft7_site_key",
+  rates:"ft7_rates",
+  siteSync:"ft7_site_sync"
 };
 
 // ---- GOOGLE SHEETS SYNC ----
-const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycby4tCRyhgBESCDg6v-fbxBW0RYMUG3r1nAWdMXb9ezfgNv6c5hU7Lk4yS93u0jxC06t/exec"; // URL Apps Script par défaut
+const DEFAULT_SHEETS_URL = ""; // la feuille Google Sheets n'est plus utilisée : les chiffres partent vers le site (voir ENVOI AU SITE)
 // Migration : si une ancienne URL est stockée sur l'appareil, on la remplace par la nouvelle
 (function migrateSheetsUrl(){
   try{
@@ -911,7 +987,7 @@ const DEFAULT_SHEETS_URL = "https://script.google.com/macros/s/AKfycby4tCRyhgBES
       "AKfycbwVNkOijthroXPOcNJBHQgq9T-5CBgI1-b1B4U-B_w-elbLogV1noOV4xDYKsVQc7FO"
     ];
     const stored = localStorage.getItem(STORAGE_KEYS.sheetsUrl) || "";
-    if(OLD_IDS.some(id => stored.includes(id))) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL);
+    if(stored) localStorage.setItem(STORAGE_KEYS.sheetsUrl, DEFAULT_SHEETS_URL); // ancienne synchro désactivée
   }catch(e){}
 })();
 function getSheetsUrl(){ return localStorage.getItem(STORAGE_KEYS.sheetsUrl) || DEFAULT_SHEETS_URL; }
@@ -994,6 +1070,7 @@ function saveState(){
     localStorage.setItem(STORAGE_KEYS.revenue, JSON.stringify(state.dailyRevenue));
     localStorage.setItem(STORAGE_KEYS.loyalty, JSON.stringify(state.loyaltyCount));
     localStorage.setItem(STORAGE_KEYS.activeBurgers, JSON.stringify(state.activeBurgers));
+    localStorage.setItem(STORAGE_KEYS.rates, JSON.stringify({ n:state.rates, detail:state.ratesDetail }));
   }catch(e){}
 }
 function loadState(){
@@ -1020,6 +1097,7 @@ function loadState(){
     if(r) state.dailyRevenue = JSON.parse(r);
     if(l) state.loyaltyCount = JSON.parse(l);
     if(ab) state.activeBurgers = JSON.parse(ab);
+    const rt = JSON.parse(localStorage.getItem(STORAGE_KEYS.rates) || "null"); if(rt){ state.rates = rt.n || 0; state.ratesDetail = rt.detail || []; }
   }catch(e){}
   // Tout burger inconnu de l'état (nouveau ou 1er lancement) : fixe actif, du moment désactivé
   for(const b of BURGERS){
@@ -1069,7 +1147,7 @@ function getItemIngredients(item){
   if(item.type === "steakfrites") return ["boeuf"];
   return [
     ...item.burger.ing,
-    ...(item.supplements || []).flatMap(s => s.ing || []),
+    ...(item.supplements || []).flatMap(s => s.id === "double" ? doubleIngredients(item.burger) : (s.ing || [])),
     ...(item.frite?.ing || []),
     ...(item.drink?.ing || [])
   ];
@@ -1095,7 +1173,7 @@ function ingredientsAvailable(ingList){
   return Object.entries(needed).every(([k, qty]) => (stock[k] ?? 999999) >= qty);
 }
 function burgerAvailable(burger){ return ingredientsAvailable(burger.ing); }
-function optionAvailable(option){ return ingredientsAvailable(option.ing || []); }
+function optionAvailable(option){ return ingredientsAvailable(option.id === "double" ? doubleIngredients(state.pendingBurger) : (option.ing || [])); }
 function itemTotal(item){
   if(item.type === "fries" || item.type === "fries-menu") return item.fries.price;
   if(item.type === "drink") return item.drink.price;
@@ -1801,6 +1879,7 @@ function payOrder(id){
   state.dailyRevenue += order.total;
   saveState();
   syncOrderToSheets(order);
+  planifierEnvoi();
   playCashSound();
   render();
 }
@@ -1818,6 +1897,7 @@ function cancelOrder(id){
   order.status = "annule";
   saveState();
   syncOrderToSheets(order);
+  planifierEnvoi();
   // Forcer le rendu immédiat sans changer d'onglet
   state.tab = "encours";
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -1887,6 +1967,8 @@ function resetDay(){
   state.currentItems = [];
   state.dailyRevenue = 0;
   state.loyaltyCount = 0;
+  state.rates = 0;
+  state.ratesDetail = [];
   state.loyaltyActive = false;
   state.step = "burger";
   state.pendingBurger = null;
@@ -2280,6 +2362,104 @@ function goToOrder(id){
 }
 
 // ---- EXPORT EXCEL (CSV) ----
+// ---- ENVOI AU SITE (admin larretgourmand.com) ----
+const DEFAULT_SITE_URL = "https://www.larretgourmand.com/api/caisse";
+function getSiteUrl(){ return (localStorage.getItem(STORAGE_KEYS.siteUrl) || DEFAULT_SITE_URL).trim(); }
+function getSiteKey(){ return (localStorage.getItem(STORAGE_KEYS.siteKey) || "").trim(); }
+function setSiteConfig(url, key){ localStorage.setItem(STORAGE_KEYS.siteUrl, (url || "").trim() || DEFAULT_SITE_URL); localStorage.setItem(STORAGE_KEYS.siteKey, (key || "").trim()); }
+function dateISO(frOrNull){
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})/.exec(frOrNull || "");
+  if(m) return `${m[3]}-${m[2]}-${m[1]}`;
+  const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+// La synthèse du service telle que le site l'attend (une ligne = un soir). Date = celle de la première commande.
+function buildServiceSummary(){
+  const paidOrders = state.orders.filter(o => o.status === "paye");
+  const burgers = {};
+  let totalBurgers = 0, totalFrites = 0, totalDouble = 0;
+  for(const order of paidOrders){
+    for(const item of order.items){
+      if(item.type === "burger"){
+        burgers[item.burger.name] = (burgers[item.burger.name] || 0) + 1;
+        totalBurgers++;
+        if(item.frite) totalFrites++;
+        if((item.supplements || []).some(sup => sup.id === "double")) totalDouble++;
+      } else if(item.type === "steakfrites"){
+        burgers["Le Steak Haché"] = (burgers["Le Steak Haché"] || 0) + 1;
+        totalBurgers++; totalFrites++;
+      } else if(item.type === "fries" || item.type === "fries-menu"){
+        totalFrites++;
+      }
+    }
+  }
+  const first = state.orders[0];
+  const commandes = state.orders.filter(o => o.status === "paye" || o.status === "annule").map(o => ({
+    numero:o.id, heure:o.heure || "", creneau:o.slot || "", statut:o.status === "paye" ? "reglee" : "annulee",
+    articles:buildOrderItemsLabel(o), total_ttc:Number(o.total || 0), fidelite:!!o.loyalty
+  }));
+  return {
+    date: dateISO(first && first.date), moment:"soir",
+    burgers, total_burgers: totalBurgers, frites: totalFrites,
+    ca_ttc: Math.round(Number(state.dailyRevenue || 0) * 100) / 100,
+    doubles: totalDouble, rates: state.rates || 0,
+    notes: state.ratesDetail && state.ratesDetail.length ? "Ratés : " + state.ratesDetail.join(", ") : "",
+    extra:{ fidelite:state.loyaltyCount || 0, commandes_total:state.orders.length },
+    commandes
+  };
+}
+let _siteSyncTimer = null, _siteSyncEtat = JSON.parse(localStorage.getItem("ft7_site_sync") || "null") || { quand:"", ok:null, msg:"" };
+function siteSyncLabel(){
+  if(!getSiteKey()) return { txt:"site : clé non renseignée", cls:"warn" };
+  if(_siteSyncEtat.ok === true) return { txt:"site : envoyé " + _siteSyncEtat.quand, cls:"ok" };
+  if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
+  return { txt:"site : rien à envoyer", cls:"" };
+}
+function majSiteBadge(){
+  const el = document.getElementById("site-sync-badge"); if(!el) return;
+  const l = siteSyncLabel(); el.textContent = "● " + l.txt; el.className = "site-sync " + l.cls;
+}
+// Envoi (ou renvoi) de la synthèse : le site remplace les chiffres du même soir, on peut donc envoyer plusieurs fois
+function envoyerService(silencieux){
+  const url = getSiteUrl(), key = getSiteKey();
+  if(!key){ if(!silencieux) alert("Renseigne d'abord la clé de la caisse (onglet Stocks → Envoi au site)."); return Promise.resolve(false); }
+  const paid = state.orders.filter(o => o.status === "paye").length;
+  if(!paid){ if(!silencieux) alert("Aucune commande réglée à envoyer."); return Promise.resolve(false); }
+  const summary = buildServiceSummary();
+  return fetch(url, { method:"POST", headers:{ "Authorization":"Bearer " + key, "Content-Type":"application/json" }, body:JSON.stringify(summary) })
+    .then(r => r.json().then(j => ({ status:r.status, j })))
+    .then(({ status, j }) => {
+      if(!j || !j.ok) throw new Error((j && j.error) || ("réponse " + status));
+      _siteSyncEtat = { quand:new Date().toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit" }), ok:true, msg:"" };
+      localStorage.setItem("ft7_site_sync", JSON.stringify(_siteSyncEtat)); majSiteBadge();
+      if(!silencieux) alert(`✓ Service du ${summary.date.split("-").reverse().join("/")} envoyé au site : ${summary.total_burgers} burgers, ${fmt(summary.ca_ttc)}.`);
+      return true;
+    })
+    .catch(err => {
+      _siteSyncEtat = { quand:"", ok:false, msg:String(err && err.message || err) };
+      localStorage.setItem("ft7_site_sync", JSON.stringify(_siteSyncEtat)); majSiteBadge();
+      if(!silencieux) alert("✗ Envoi impossible : " + _siteSyncEtat.msg + "\nLes chiffres restent dans la caisse, réessaie quand le réseau revient.");
+      return false;
+    });
+}
+// Après chaque encaissement, la synthèse part toute seule 90 s plus tard (le site affiche le CA en direct)
+function planifierEnvoi(){
+  if(!getSiteKey()) return;
+  clearTimeout(_siteSyncTimer);
+  _siteSyncTimer = setTimeout(() => envoyerService(true), 90000);
+}
+window.addEventListener("online", () => { if(_siteSyncEtat.ok === false) envoyerService(true); });
+function testerSite(){
+  const url = getSiteUrl(), key = getSiteKey();
+  if(!key){ alert("Colle d'abord la clé."); return; }
+  fetch(url, { method:"POST", headers:{ "Authorization":"Bearer " + key, "Content-Type":"application/json" }, body:JSON.stringify({ ping:true }) })
+    .then(r => r.json()).then(j => alert(j && j.ok ? "✓ Le site répond, la clé est acceptée." : "✗ " + ((j && j.error) || "refusé")))
+    .catch(e => alert("✗ Pas de réponse du site : " + e.message));
+}
+function saveSiteConfig(){
+  setSiteConfig(document.getElementById("site-url-input")?.value, document.getElementById("site-key-input")?.value);
+  render(); majSiteBadge();
+}
+
 function exportExcel(){
   const url = getSheetsUrl();
 
@@ -2970,23 +3150,37 @@ function renderStocks(){
   const sheetsUrl = getSheetsUrl();
   let html = '<div class="pad">';
 
-  // Google Sheets config
+  // Envoi au site (remplace la feuille Google Sheets)
+  const siteKey = getSiteKey(), syncL = siteSyncLabel();
   html += `<div class="stock-card" style="margin-bottom:14px">
-    <div class="section-title" style="margin-top:0">📊 Sync Google Sheets</div>
+    <div class="section-title" style="margin-top:0">🌐 Envoi au site L'Arrêt Gourmand</div>
     <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">
-      ${sheetsUrl
-        ? `<span style="color:var(--green);font-weight:bold">✓ Connecté</span> — chaque encaissement est envoyé automatiquement.`
-        : `Colle l'URL de ton Apps Script pour activer la sync automatique.`}
+      ${siteKey
+        ? `<span style="color:var(--green);font-weight:bold">✓ Clé enregistrée</span> — la synthèse du service part toute seule après chaque encaissement (et avec le bouton « Envoyer au site » du détail CA). État : ${syncL.txt}.`
+        : `Colle la clé affichée dans l'admin du site (Réglages → Caisse) pour envoyer les chiffres de chaque service.`}
     </div>
+    <div class="cat-edit">
+      <label>Adresse d'envoi<input id="site-url-input" type="url" value="${getSiteUrl()}"></label>
+      <label>Clé de la caisse<input id="site-key-input" type="text" autocomplete="off" placeholder="lag_…" value="${siteKey}"></label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-primary" style="padding:10px 14px;font-size:12px" onclick="saveSiteConfig()">Enregistrer</button>
+        <button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset" onclick="testerSite()">Tester</button>
+        ${siteKey ? `<button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset" onclick="envoyerService()">Envoyer maintenant</button>` : ''}
+      </div>
+    </div>
+  </div>`;
+
+  // Ratés : un burger loupé est refait, ses composants sortent du stock et il est compté dans la synthèse
+  const actifs = BURGERS.filter(b => isBurgerActive(b.id));
+  html += `<div class="stock-card" style="margin-bottom:14px">
+    <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center"><span>❌ Ratés</span><span style="font-size:11px;color:var(--gold);font-weight:700">${state.rates || 0} ce soir</span></div>
+    <div style="font-size:12px;color:var(--text-soft);margin-bottom:10px">Un burger raté et refait : ses composants sont retirés du stock et le raté est compté dans la synthèse du soir.</div>
     <div style="display:flex;gap:8px;align-items:center">
-      <input id="sheets-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec"
-        value="${sheetsUrl}"
-        style="flex:1;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg-soft);color:var(--text);padding:0 10px;font-size:12px;outline:none">
-      <button class="btn btn-primary" style="white-space:nowrap;padding:10px 14px;font-size:12px"
-        onclick="saveSheetsUrl()">Enregistrer</button>
-      ${sheetsUrl ? `<button class="btn btn-cancel" style="padding:10px 12px;font-size:12px;flex:unset"
-        onclick="clearSheetsUrl()">✕</button>` : ''}
+      <select id="rate-burger" class="edit-input" style="flex:1;height:38px">${actifs.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}</select>
+      <button class="btn btn-cancel" style="padding:10px 14px;font-size:12px;flex:unset;white-space:nowrap" onclick="compterRate()">Compter un raté</button>
+      ${state.rates ? `<button class="btn btn-cancel" style="padding:10px 12px;font-size:12px;flex:unset" title="Annuler le dernier raté" onclick="annulerRate()">↶</button>` : ''}
     </div>
+    ${state.ratesDetail && state.ratesDetail.length ? `<div style="font-size:11px;color:var(--text-soft);margin-top:8px">${state.ratesDetail.join(' · ')}</div>` : ''}
   </div>`;
 
   // Numéro de départ
@@ -3017,7 +3211,7 @@ function renderStocks(){
     const entries = Object.entries(state.ingredients).filter(([key, ing]) => ing.category === cat && ingredientVisible(key));
     if(entries.length === 0) continue; // ne pas afficher une catégorie vide
     html += `<div class="stock-card" style="margin-bottom:14px">
-      <div class="section-title" style="margin-top:0">${cat}</div>`;
+      <div class="section-title" style="margin-top:0;display:flex;justify-content:space-between;align-items:center"><span>${cat}</span><button class="carte-edit-btn" style="margin:0;width:auto;padding:0 10px;font-size:12px" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}')">+ composant</button></div>`;
     for(const [key, ing] of entries){
       const isOut = ing.qty === 0;
       const isLow = ing.qty > 0 && ing.qty <= 5;
@@ -3048,6 +3242,7 @@ function renderStocks(){
           <div class="carte-name">${b.name} <span class="carte-price">${fmt(b.price)}</span></div>
           <div class="carte-compo">${burgerCompoLabel(b)}</div>
         </div>
+        <button class="carte-edit-btn" onclick="openBurgerModal('${b.id}')" title="Modifier ${b.name}">✎</button>
         <button class="carte-toggle${on ? ' on' : ''}" onclick="toggleBurgerActive('${b.id}')" aria-label="${on ? 'Désactiver' : 'Activer'} ${b.name}">
           <span class="carte-knob"></span>
         </button>
@@ -3067,6 +3262,7 @@ function renderStocks(){
     ${carteGroup('Burgers fixes', 'Toujours disponibles à la carte', 'fixe')}
     <div style="height:14px"></div>
     ${carteGroup('Burgers du moment', 'Éphémères — active-les selon la saison', 'moment')}
+    <button class="btn btn-primary" style="width:100%;margin-top:14px" onclick="openBurgerModal('')">+ Ajouter un burger</button>
   </div>`;
 
   html += '</div>';
@@ -3078,6 +3274,121 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.getRegistrations().then(regs => {
     regs.forEach(reg => reg.unregister());
   });
+}
+
+// ---- RATÉS ----
+function compterRate(){
+  const id = document.getElementById("rate-burger")?.value;
+  const b = BURGERS.find(x => x.id === id); if(!b) return;
+  for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty); }
+  state.rates = (state.rates || 0) + 1; state.ratesDetail = state.ratesDetail || []; state.ratesDetail.push(b.name);
+  saveState(); planifierEnvoi(); render();
+}
+function annulerRate(){
+  if(!state.ratesDetail || !state.ratesDetail.length) return;
+  const name = state.ratesDetail.pop(); const b = BURGERS.find(x => x.name === name);
+  if(b) for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty += qty; }
+  state.rates = Math.max(0, (state.rates || 0) - 1);
+  saveState(); planifierEnvoi(); render();
+}
+
+// ---- ÉDITEUR DE BURGER ----
+let _editBurger = null; // { id, name, price, group, counts:{key:n}, customs:{fromage,sauces,garnitures} }
+function openBurgerModal(id){
+  const b = BURGERS.find(x => x.id === id);
+  const counts = {}; for(const k of (b ? b.ing : ["bun","boeuf","cheddar"])) counts[k] = (counts[k] || 0) + 1;
+  const c = (b && BURGER_CUSTOMS[b.id]) || { fromage:[], sauces:[], garnitures:[] };
+  _editBurger = { id: b ? b.id : "", name: b ? b.name : "", price: b ? b.price : 12, group: b ? b.group : "moment", counts, customs:{ fromage:[...(c.fromage||[])], sauces:[...(c.sauces||[])], garnitures:[...(c.garnitures||[])] } };
+  document.getElementById("burger-modal-title").textContent = b ? "✎ " + b.name : "🍔 Nouveau burger";
+  renderBurgerModal();
+  document.getElementById("modal-burger").style.display = "flex";
+}
+function closeBurgerModal(e){ if(e && e.target !== e.currentTarget) return; document.getElementById("modal-burger").style.display = "none"; }
+function renderBurgerModal(){
+  const e = _editBurger; if(!e) return;
+  const cats = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
+  let html = `<div class="cat-edit">
+    <label>Nom<input id="bg-name" type="text" value="${(e.name||'').replace(/"/g,'&quot;')}" placeholder="Le Comtois" oninput="_editBurger.name=this.value"></label>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <label>Prix (€)<input id="bg-price" type="number" step="0.5" min="0" inputmode="decimal" value="${e.price}" oninput="_editBurger.price=Number(this.value)||0"></label>
+      <label>Type<select onchange="_editBurger.group=this.value"><option value="fixe"${e.group==='fixe'?' selected':''}>Burger fixe</option><option value="moment"${e.group==='moment'?' selected':''}>Burger du moment</option></select></label>
+    </div>
+    <div class="cat-grp">Composants (quantité retirée du stock à chaque vente)</div>`;
+  for(const cat of cats){
+    const keys = Object.keys(INGREDIENTS_DEFAULT).filter(k => INGREDIENTS_DEFAULT[k].category === cat);
+    if(!keys.length) continue;
+    html += `<div style="font-size:11px;color:var(--text-soft);margin-top:6px">${cat}</div>`;
+    for(const k of keys){
+      const n = e.counts[k] || 0;
+      html += `<div class="cat-ing"><div class="nm">${INGREDIENTS_DEFAULT[k].name}</div><div class="qty"><button class="stock-step" onclick="bgQty('${k}',-1)">−</button><b class="${n?'':'zero'}">${n}</b><button class="stock-step" onclick="bgQty('${k}',1)">+</button></div></div>`;
+    }
+  }
+  html += `<button class="btn btn-cancel" style="margin-top:8px;padding:10px;font-size:12px" onclick="openIngredientModal('', true)">+ Nouveau composant</button>
+    <div class="cat-grp">Garnitures que le client peut retirer</div>
+    <label>Fromage<input type="text" value="${e.customs.fromage.join(', ')}" placeholder="Cheddar" oninput="_editBurger.customs.fromage=splitList(this.value)"></label>
+    <label>Sauces<input type="text" value="${e.customs.sauces.join(', ')}" placeholder="Sauce BBQ" oninput="_editBurger.customs.sauces=splitList(this.value)"></label>
+    <label>Garnitures<input type="text" value="${e.customs.garnitures.join(', ')}" placeholder="Oignons frits, Bacon, Mesclun" oninput="_editBurger.customs.garnitures=splitList(this.value)"></label>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:14px">
+    ${e.id ? `<button class="btn btn-cancel" style="flex:unset;padding:10px 12px" title="Supprimer ce burger" onclick="deleteBurger()">🗑</button>` : ''}
+    <button class="btn btn-cancel" onclick="closeBurgerModal()">Annuler</button>
+    <button class="btn btn-green" style="flex:2" onclick="saveBurger()">✓ Enregistrer</button>
+  </div>`;
+  document.getElementById("burger-modal-content").innerHTML = html;
+}
+function splitList(v){ return String(v || "").split(",").map(x => x.trim()).filter(Boolean); }
+function bgQty(key, delta){ const e = _editBurger; e.counts[key] = Math.max(0, Math.min(9, (e.counts[key] || 0) + delta)); if(!e.counts[key]) delete e.counts[key]; renderBurgerModal(); }
+function saveBurger(){
+  const e = _editBurger; if(!e) return;
+  const name = (e.name || "").trim(); if(!name){ alert("Donne un nom au burger."); return; }
+  const ing = []; for(const [k, n] of Object.entries(e.counts)) for(let i = 0; i < n; i++) ing.push(k);
+  if(!ing.length){ alert("Ajoute au moins un composant (au minimum le bun et la viande)."); return; }
+  if(BURGERS.some(b => b.name.toLowerCase() === name.toLowerCase() && b.id !== e.id)){ alert("Un burger porte déjà ce nom."); return; }
+  if(e.id){
+    const b = BURGERS.find(x => x.id === e.id); b.name = name; b.price = Number(e.price) || 0; b.group = e.group; b.ing = ing;
+  } else {
+    let id = slugify(name); while(BURGERS.some(b => b.id === id)) id += "2";
+    BURGERS.push({ id, name, price:Number(e.price) || 0, cat:"Burger", group:e.group, ing });
+    state.activeBurgers[id] = true; e.id = id;
+  }
+  BURGER_CUSTOMS[e.id] = { fromage:e.customs.fromage, sauces:e.customs.sauces, garnitures:e.customs.garnitures };
+  saveCatalog(); saveState(); closeBurgerModal(); render();
+}
+function deleteBurger(){
+  const e = _editBurger; if(!e || !e.id) return;
+  const b = BURGERS.find(x => x.id === e.id); if(!b) return;
+  if(!confirm(`Supprimer « ${b.name} » de la carte ?\nLes ventes déjà enregistrées restent dans l'historique.`)) return;
+  if(BURGERS.length <= 1){ alert("Il faut garder au moins un burger."); return; }
+  BURGERS = BURGERS.filter(x => x.id !== e.id); delete BURGER_CUSTOMS[e.id]; delete state.activeBurgers[e.id];
+  for(const k of Object.keys(INGREDIENT_BURGER_LINK)) if(INGREDIENT_BURGER_LINK[k] === e.id) delete INGREDIENT_BURGER_LINK[k];
+  saveCatalog(); saveState(); closeBurgerModal(); render();
+}
+
+// ---- ÉDITEUR DE COMPOSANT ----
+let _ingFromBurger = false;
+function openIngredientModal(cat, fromBurger){
+  _ingFromBurger = !!fromBurger;
+  const cats = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
+  document.getElementById("ing-cat").innerHTML = cats.map(c => `<option value="${c}"${c===cat?' selected':''}>${c}</option>`).join('') + `<option value="__new">Autre catégorie…</option>`;
+  document.getElementById("ing-link-burger").innerHTML = BURGERS.filter(b => b.group === "moment").map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+  document.getElementById("ing-name").value = ""; document.getElementById("ing-qty").value = 20; document.getElementById("ing-link").checked = false; document.getElementById("ing-link-burger").style.display = "none";
+  document.getElementById("ing-link").onchange = function(){ document.getElementById("ing-link-burger").style.display = this.checked ? "" : "none"; };
+  document.getElementById("ing-cat").onchange = function(){ if(this.value === "__new"){ const c = prompt("Nom de la nouvelle catégorie :"); if(c && c.trim()){ const o = document.createElement("option"); o.value = o.textContent = c.trim(); o.selected = true; this.insertBefore(o, this.lastElementChild); } else this.selectedIndex = 0; } };
+  document.getElementById("modal-ingredient").style.display = "flex";
+  setTimeout(() => document.getElementById("ing-name").focus(), 50);
+}
+function closeIngredientModal(e){ if(e && e.target !== e.currentTarget) return; document.getElementById("modal-ingredient").style.display = "none"; }
+function saveIngredient(){
+  const name = document.getElementById("ing-name").value.trim(); if(!name){ alert("Donne un nom au composant."); return; }
+  const cat = document.getElementById("ing-cat").value; if(!cat || cat === "__new"){ alert("Choisis une catégorie."); return; }
+  const qty = Math.max(0, parseInt(document.getElementById("ing-qty").value, 10) || 0);
+  if(Object.values(INGREDIENTS_DEFAULT).some(i => i.name.toLowerCase() === name.toLowerCase())){ alert("Ce composant existe déjà."); return; }
+  let key = slugify(name); while(INGREDIENTS_DEFAULT[key]) key += "2";
+  INGREDIENTS_DEFAULT[key] = { name, qty, category:cat };
+  state.ingredients[key] = { name, qty, category:cat };
+  if(document.getElementById("ing-link").checked){ const b = document.getElementById("ing-link-burger").value; if(b) INGREDIENT_BURGER_LINK[key] = b; }
+  saveCatalog(); saveState(); closeIngredientModal();
+  if(_ingFromBurger && _editBurger){ _editBurger.counts[key] = 1; renderBurgerModal(); } else render();
 }
 
 function setOrderNum(val){
