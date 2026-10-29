@@ -29,7 +29,6 @@
     --shadow:0 14px 40px rgba(0,0,0,.45);
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
-  html{background-color:#0a0c10}
   html{background:#0a0c10} /* ce qui dépasse de la page (zones d'encoche / barre d'accueil) reste sombre */
   html,body{height:100%;overflow:hidden}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -48,6 +47,12 @@
     top:0;left:0;right:0;bottom:0;
     max-width:640px;margin:0 auto;
     display:flex;flex-direction:column;overflow:hidden;
+  }
+  /* App installée sur l'écran d'accueil (iOS 26.1+) : iPhone annonce une hauteur d'écran amputée de la barre d'état,
+     ce qui laissait une bande vide de ~1 cm en bas. On cale donc la hauteur sur la « grande » hauteur d'écran (vh = lvh),
+     qui elle reste juste, plutôt que sur le bord bas que le système place au mauvais endroit. */
+  @media (display-mode:standalone){
+    .app,.modal-overlay{bottom:auto;height:100vh;height:100lvh}
   }
 
   /* HEADER */
@@ -626,7 +631,7 @@
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.0"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.1"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -2414,7 +2419,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.0";
+const APP_VERSION = "3.1";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
@@ -3418,6 +3423,9 @@ function clearSheetsUrl(){
 loadState();
 render();
 majSiteBadge();
+// iPhone : après la fermeture du clavier, la page peut rester décalée vers le haut (bande vide en bas) → on la recale
+document.addEventListener("focusout", () => setTimeout(() => window.scrollTo(0, 0), 60));
+if(window.visualViewport) window.visualViewport.addEventListener("resize", () => { if(!document.activeElement || document.activeElement.tagName !== "INPUT") window.scrollTo(0, 0); });
 </script>
 </body>
 </html>
