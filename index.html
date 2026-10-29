@@ -110,6 +110,7 @@
   }
   .tab-btn.active .tab-icon{transform:scale(1.08)}
   .content{flex:1;overflow-y:auto;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+  .app-error{display:none;margin:10px 12px 0;padding:10px 12px;border-radius:12px;background:rgba(248,113,113,.14);border:1px solid rgba(248,113,113,.45);color:#fecaca;font-size:12px;line-height:1.45}
   .pad{padding:16px}
   .section-title{
     font-size:11px;font-weight:bold;letter-spacing:2.4px;
@@ -627,7 +628,7 @@
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.4"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.5"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -973,8 +974,39 @@ const STORAGE_KEYS = {
   siteUrl:"ft7_site_url",
   siteKey:"ft7_site_key",
   rates:"ft7_rates",
-  siteSync:"ft7_site_sync"
+  siteSync:"ft7_site_sync",
+  ticket:"ft7_ticket"
 };
+// Le ticket en cours est sauvegardé à chaque affichage : iPhone ferme l'app en arrière-plan sans prévenir
+function saveTicket(){
+  try{
+    if(!state.currentItems.length && !state._editingOrderId){ localStorage.removeItem(STORAGE_KEYS.ticket); return; }
+    localStorage.setItem(STORAGE_KEYS.ticket, JSON.stringify({ items:state.currentItems, pairing:state.friteMenuPairing, editing:state._editingOrderId || null, infos:state._editingInfos || null, step:state.step, friteStepIndex:state.friteStepIndex }));
+  }catch(e){}
+}
+function loadTicket(){
+  try{
+    const t = JSON.parse(localStorage.getItem(STORAGE_KEYS.ticket) || "null");
+    if(!t || !Array.isArray(t.items)) return;
+    state.currentItems = t.items.filter(itemValide);
+    state.friteMenuPairing = t.pairing && typeof t.pairing === "object" ? t.pairing : {};
+    state._editingOrderId = t.editing || null;
+    state._editingInfos = t.infos || null;
+    state.friteStepIndex = t.friteStepIndex || 0;
+    // l'écran « options » dépend d'un burger en cours de choix, non sauvegardé : on reprend à la liste
+    state.step = ["burger","frites","boissons"].includes(t.step) ? t.step : "burger";
+    if(state._editingOrderId && !state.currentItems.length) state.step = "boissons";
+  }catch(e){}
+}
+// Un article est exploitable s'il a bien ce que son type exige (protège l'affichage contre une donnée abîmée)
+function itemValide(item){
+  if(!item || typeof item !== "object") return false;
+  if(item.type === "burger") return !!(item.burger && item.burger.name);
+  if(item.type === "fries" || item.type === "fries-menu") return !!(item.fries && item.fries.name);
+  if(item.type === "drink") return !!(item.drink && item.drink.name);
+  if(item.type === "steakfrites") return true;
+  return false;
+}
 
 // ---- GOOGLE SHEETS SYNC ----
 const DEFAULT_SHEETS_URL = ""; // la feuille Google Sheets n'est plus utilisée : les chiffres partent vers le site (voir ENVOI AU SITE)
@@ -997,7 +1029,8 @@ function setSheetsUrl(url){ localStorage.setItem(STORAGE_KEYS.sheetsUrl, url.tri
 function buildOrderItemsLabel(order){
   return (order.items || []).map(i => {
     if(i.type === 'steakfrites') return 'Steak+Frites';
-    if(i.type === 'fries' || i.type === 'fries-menu') return i.fries.name;
+    if(i.type === 'fries') return i.fries.name;
+    if(i.type === 'fries-menu') return 'Frites ' + String(i.fries.name).toLowerCase();
     if(i.type === 'drink') return i.drink.name;
     const extras = [
       i.cuisson ? cuissonLabel(i.cuisson) : null,
@@ -1093,7 +1126,11 @@ function loadState(){
       }
       state.ingredients = merged;
     }
-    if(o) state.orders = JSON.parse(o);
+    if(o){
+      const orders = JSON.parse(o);
+      // on écarte ce qui est illisible plutôt que de bloquer tout l'affichage
+      state.orders = (Array.isArray(orders) ? orders : []).filter(x => x && typeof x === "object" && Array.isArray(x.items)).map(x => ({ ...x, id:Number(x.id) || 0, items:x.items.filter(itemValide), total:Number(x.total) || 0 }));
+    }
     if(n) state.orderNum = JSON.parse(n);
     if(r) state.dailyRevenue = JSON.parse(r);
     if(l) state.loyaltyCount = JSON.parse(l);
@@ -1104,6 +1141,7 @@ function loadState(){
   for(const b of BURGERS){
     if(!(b.id in state.activeBurgers)) state.activeBurgers[b.id] = (b.group !== "moment");
   }
+  loadTicket();
 }
 function setEncoursSearch(v){
   // Ne garder que les chiffres
@@ -1143,11 +1181,12 @@ function countNeeded(ingList){
   return counts;
 }
 function getItemIngredients(item){
+  if(!itemValide(item)) return [];
   if(item.type === "fries" || item.type === "fries-menu") return [...(item.fries.ing || [])];
   if(item.type === "drink") return [...(item.drink.ing || [])];
   if(item.type === "steakfrites") return ["boeuf"];
   return [
-    ...item.burger.ing,
+    ...(item.burger.ing || []),
     ...(item.supplements || []).flatMap(s => s.id === "double" ? doubleIngredients(item.burger) : (s.ing || [])),
     ...(item.frite?.ing || []),
     ...(item.drink?.ing || [])
@@ -1176,11 +1215,12 @@ function ingredientsAvailable(ingList){
 function burgerAvailable(burger){ return ingredientsAvailable(burger.ing); }
 function optionAvailable(option){ return ingredientsAvailable(option.id === "double" ? doubleIngredients(state.pendingBurger) : (option.ing || [])); }
 function itemTotal(item){
-  if(item.type === "fries" || item.type === "fries-menu") return item.fries.price;
-  if(item.type === "drink") return item.drink.price;
+  if(!itemValide(item)) return 0;
+  if(item.type === "fries" || item.type === "fries-menu") return Number(item.fries.price) || 0;
+  if(item.type === "drink") return Number(item.drink.price) || 0;
   if(item.type === "steakfrites") return STEAK_FRITES.price;
-  const suppTotal = (item.supplements || []).reduce((s, x) => s + x.price, 0);
-  return item.burger.price + suppTotal + (item.frite?.price || 0) + (item.drink?.price || 0);
+  const suppTotal = (item.supplements || []).reduce((s, x) => s + (Number(x && x.price) || 0), 0);
+  return (Number(item.burger.price) || 0) + suppTotal + (item.frite?.price || 0) + (item.drink?.price || 0);
 }
 function ticketTotal(){
   const raw = state.currentItems.reduce((sum, item) => sum + itemTotal(item), 0);
@@ -1229,6 +1269,7 @@ function editItem(key){
   state.pendingRemovals = [...(item.removals || [])];
   state.showCustomization = (item.removals||[]).length > 0;
   state.editingItemKey = key;
+  state._editReturnStep = state.step === "boissons" ? "boissons" : "burger";
   state.step = "options";
   render();
 }
@@ -1283,8 +1324,10 @@ function addBurgerItem(){
   state.pendingCuisson = null;
   state.pendingRemovals = [];
   state.showCustomization = false;
+  const retour = state.editingItemKey ? (state._editReturnStep || "burger") : "burger";
   state.editingItemKey = null;
-  state.step = "burger";
+  state._editReturnStep = null;
+  state.step = retour;
   render();
   const scrollTop = () => {
     const c = document.getElementById("content");
@@ -1323,7 +1366,8 @@ function removeItem(key){
   render();
 }
 function goBackToBurger(){
-  state.step = "burger";
+  state.step = (state.editingItemKey && state._editReturnStep) || "burger";
+  state._editReturnStep = null;
   state.pendingBurger = null;
   state.pendingSupps = [];
   state.pendingFrite = null;
@@ -1351,9 +1395,18 @@ function toggleCustomization(){
 function confirmOrder(slot){
   if(state.currentItems.length === 0) return;
   const rawTotal = state.currentItems.reduce((sum, item) => sum + itemTotal(item), 0);
-  const orderId = state._editingOrderId || state.orderNum;
   const _now = new Date();
-  const order = { id:orderId, items:[...state.currentItems], rawTotal, total:rawTotal, status:"encours", loyalty:false, slot: slot || null, date: _now.toLocaleDateString('fr-FR'), heure: _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
+  let orderId = state._editingOrderId;
+  if(!orderId){
+    // numéro suivant jamais déjà porté par une commande de la journée (le compteur boucle 1 → 100 → 1)
+    const pris = new Set(state.orders.map(o => o.id));
+    orderId = state.orderNum; let garde = 0;
+    while(pris.has(orderId) && garde++ < 100) orderId = orderId >= 100 ? 1 : orderId + 1;
+  }
+  const edit = state._editingOrderId ? (state._editingInfos || {}) : {};
+  const cartes = edit.loyaltyCount || 0;
+  const order = { id:orderId, items:[...state.currentItems], rawTotal, total:Math.max(0, rawTotal - cartes * 10), status:"encours", loyalty:cartes > 0, loyaltyCount:cartes, slot: slot || null,
+    date: edit.date || _now.toLocaleDateString('fr-FR'), heure: edit.heure || _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
 
   for(const item of state.currentItems){
     const needed = countNeeded(getItemIngredients(item));
@@ -1363,9 +1416,10 @@ function confirmOrder(slot){
   }
   state.orders.push(order);
   if(!state._editingOrderId){
-    state.orderNum = state.orderNum >= 100 ? 1 : state.orderNum + 1;
+    state.orderNum = orderId >= 100 ? 1 : orderId + 1;
   }
   state._editingOrderId = null;
+  state._editingInfos = null;
   state.loyaltyActive = false;
   state.currentItems = [];
   state.friteMenuPairing = {};
@@ -1413,18 +1467,26 @@ function toggleOrderLoyalty(id){
 }
 function goToFritesStep(){
   if(state.currentItems.length === 0) return;
-  state.friteStepIndex = 0;
   state.step = "frites";
-  // Pré-sélectionner Frites Nature pour chaque burger sans frite assignée
+  // Pré-sélectionner Frites Nature pour chaque burger jamais traité (clé absente).
+  // Un burger explicitement « sans frites » (clé à null) garde ce choix.
   const burgers = state.currentItems.filter(i => i.type === 'burger');
   const nature = BURGER_FRIES.find(x => x.id === 'bfNature');
-  burgers.forEach(b => {
-    if(!state.friteMenuPairing[b.key] && nature && optionAvailable(nature)){
-      const newItem = { type:"fries-menu", fries:nature, key:Date.now() + Math.random(), auto:true };
-      state.currentItems.push(newItem);
-      state.friteMenuPairing[b.key] = newItem.key;
+  let premierNouveau = -1;
+  burgers.forEach((b, idx) => {
+    if(!(b.key in state.friteMenuPairing)){
+      if(premierNouveau < 0) premierNouveau = idx;
+      if(nature && optionAvailable(nature)){
+        const newItem = { type:"fries-menu", fries:nature, key:Date.now() + Math.random(), auto:true };
+        state.currentItems.push(newItem);
+        state.friteMenuPairing[b.key] = newItem.key;
+      } else {
+        state.friteMenuPairing[b.key] = null;
+      }
     }
   });
+  // on reprend au premier burger pas encore traité (les autres gardent leur choix)
+  state.friteStepIndex = premierNouveau > 0 ? premierNouveau : 0;
   render();
   const scrollTop = () => { const c = document.getElementById("content"); if(c) c.scrollTop = 0; window.scrollTo(0,0); };
   requestAnimationFrame(() => requestAnimationFrame(scrollTop));
@@ -1644,7 +1706,7 @@ function renderBoissonStep(){
   </div>`;
 
   // Bouton haut
-  html += `<button class="btn btn-green" style="width:100%;margin-bottom:14px" onclick="state.step='burger';openSlotModal()">✓ Envoyer en cuisine</button>`;
+  html += `<button class="btn btn-green" style="width:100%;margin-bottom:14px" onclick="openSlotModal()">✓ Envoyer en cuisine</button>`;
 
   // Frites seules en premier
   html += '<div class="section-title">Frites seules</div><div class="grid-2">';
@@ -1762,7 +1824,7 @@ function renderBoissonStep(){
 
     // Sélecteur de frites inline si en cours d'édition
     if(isEditingFrite){
-      html += `<div style="margin-top:8px;padding:8px;background:#f9f9f9;border-radius:8px;border:1px solid var(--line)">
+      html += `<div style="margin-top:8px;padding:8px;background:var(--panel-2);border-radius:8px;border:1px solid var(--line)">
         <div style="font-size:11px;color:var(--text-soft);margin-bottom:6px;font-weight:bold">Choisir les frites :</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <button onclick="changeFriteForBurger(${b.key},null)" style="border:1px solid var(--line);border-radius:8px;padding:7px 8px;background:rgba(255,255,255,.04);cursor:pointer;font-size:11px;color:var(--red);font-weight:bold">✕ Sans frites</button>`;
@@ -1799,7 +1861,7 @@ function renderBoissonStep(){
 
   html += `<div class="ticket-footer">
     <div><div class="ticket-count">${state.currentItems.length} articles</div><div class="ticket-total">${fmt(total)}</div></div>
-    <button class="btn btn-green" style="flex:1" onclick="state.step='burger';openSlotModal()">✓ Envoyer en cuisine</button>
+    <button class="btn btn-green" style="flex:1" onclick="openSlotModal()">✓ Envoyer en cuisine</button>
   </div></div></div>`;
   return html;
 }
@@ -1879,8 +1941,7 @@ function payOrder(id){
   state.loyaltyCount += (order.loyaltyCount || (order.loyalty ? 1 : 0));
   state.dailyRevenue += order.total;
   saveState();
-  syncOrderToSheets(order);
-  planifierEnvoi();
+  marquerAEnvoyer();
   playCashSound();
   render();
 }
@@ -1897,8 +1958,7 @@ function cancelOrder(id){
   state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
   order.status = "annule";
   saveState();
-  syncOrderToSheets(order);
-  planifierEnvoi();
+  marquerAEnvoyer();
   // Forcer le rendu immédiat sans changer d'onglet
   state.tab = "encours";
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
@@ -1921,15 +1981,20 @@ function deleteOrder(id){
 function editOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
-  // Restore stock
-  for(const item of order.items){
-    const needed = countNeeded(getItemIngredients(item));
-    for(const [k, qty] of Object.entries(needed)){
-      if(state.ingredients[k]) state.ingredients[k].qty += qty;
+  if(state.currentItems.length && !confirm("Un ticket est déjà en cours. L'abandonner pour modifier la commande #" + id + " ?")) return;
+  // Une commande annulée a déjà rendu son stock et ses cartes : on ne les restitue pas une deuxième fois
+  if(order.status !== "annule"){
+    for(const item of order.items){
+      const needed = countNeeded(getItemIngredients(item));
+      for(const [k, qty] of Object.entries(needed)){
+        if(state.ingredients[k]) state.ingredients[k].qty += qty;
+      }
     }
+    state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
   }
-  if(order.status === "paye") state.dailyRevenue = Math.max(0, state.dailyRevenue - order.total);
-  state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
+  if(order.status === "paye"){ state.dailyRevenue = Math.max(0, state.dailyRevenue - order.total); marquerAEnvoyer(); }
+  // cartes fidélité, date et heure d'origine : reprises telles quelles à la re-confirmation
+  state._editingInfos = { loyaltyCount: order.loyaltyCount || (order.loyalty ? 1 : 0), date: order.date || "", heure: order.heure || "" };
   // Restore items with stable keys
   state.currentItems = order.items.map(i => ({...i, key: i.key || (Date.now() + Math.random())}));
   // Restore frite pairing
@@ -1978,6 +2043,11 @@ function resetDay(){
   state.pendingDrink = null;
   state.pendingCuisson = null;
   state.editingItemKey = null;
+  state.friteMenuPairing = {};
+  state._editingOrderId = null;
+  state._editingInfos = null;
+  state._encoursSearch = "";
+  state.friteStepIndex = 0;
   saveState();
   closeModal();
   render();
@@ -2373,12 +2443,19 @@ function dateISO(frOrNull){
   if(m) return `${m[3]}-${m[2]}-${m[1]}`;
   const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
-// La synthèse du service telle que le site l'attend (une ligne = un soir). Date = celle de la première commande.
-function buildServiceSummary(){
-  const paidOrders = state.orders.filter(o => o.status === "paye");
+// La synthèse d'un service telle que le site l'attend (une ligne = un soir).
+// `dateFr` (jj/mm/aaaa) limite aux commandes de ce jour ; si la caisse n'a pas été remise à zéro, chaque soir part séparément.
+function datesDesServices(){
+  return [...new Set(state.orders.filter(o => o.status === "paye" || o.status === "annule").map(o => o.date || ""))]
+    .sort((a, b) => dateISO(a).localeCompare(dateISO(b)));
+}
+function buildServiceSummary(dateFr, avecRates = true){
+  const concerne = o => dateFr === undefined || (o.date || "") === dateFr;
+  const paidOrders = state.orders.filter(o => o.status === "paye" && concerne(o));
   const burgers = {};
-  let totalBurgers = 0, totalFrites = 0, totalDouble = 0;
+  let totalBurgers = 0, totalFrites = 0, totalDouble = 0, cartes = 0;
   for(const order of paidOrders){
+    cartes += order.loyaltyCount || (order.loyalty ? 1 : 0);
     for(const item of order.items){
       if(item.type === "burger"){
         burgers[item.burger.name] = (burgers[item.burger.name] || 0) + 1;
@@ -2393,20 +2470,26 @@ function buildServiceSummary(){
       }
     }
   }
-  const first = state.orders[0];
-  const commandes = state.orders.filter(o => o.status === "paye" || o.status === "annule").map(o => ({
+  const first = state.orders.find(concerne);
+  const commandes = state.orders.filter(o => (o.status === "paye" || o.status === "annule") && concerne(o)).map(o => ({
     numero:o.id, heure:o.heure || "", creneau:o.slot || "", statut:o.status === "paye" ? "reglee" : "annulee",
     articles:buildOrderItemsLabel(o), total_ttc:Number(o.total || 0), fidelite:!!o.loyalty
   }));
+  const ca = paidOrders.reduce((t, o) => t + (Number(o.total) || 0), 0);
   return {
-    date: dateISO(first && first.date), moment:"soir",
+    date: dateISO(dateFr || (first && first.date)), moment:"soir",
     burgers, total_burgers: totalBurgers, frites: totalFrites,
-    ca_ttc: Math.round(Number(state.dailyRevenue || 0) * 100) / 100,
-    doubles: totalDouble, rates: state.rates || 0,
-    notes: state.ratesDetail && state.ratesDetail.length ? "Ratés : " + state.ratesDetail.join(", ") : "",
-    extra:{ fidelite:state.loyaltyCount || 0, commandes_total:state.orders.length },
+    ca_ttc: Math.round(ca * 100) / 100,
+    doubles: totalDouble, rates: avecRates ? (state.rates || 0) : 0,
+    notes: avecRates && state.ratesDetail && state.ratesDetail.length ? "Ratés : " + state.ratesDetail.join(", ") : "",
+    extra:{ fidelite:cartes, commandes_total:state.orders.filter(concerne).length },
     commandes
   };
+}
+// Ce qui doit partir au site a changé (encaissement, annulation, raté…) : on le note, et on envoie 90 s plus tard
+function marquerAEnvoyer(){
+  try{ localStorage.setItem("ft7_site_dirty", "1"); }catch(e){}
+  planifierEnvoi();
 }
 let _siteSyncTimer = null, _siteSyncEtat = JSON.parse(localStorage.getItem("ft7_site_sync") || "null") || { quand:"", ok:null, msg:"" };
 function siteSyncLabel(){
@@ -2415,7 +2498,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.4";
+const APP_VERSION = "3.5";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
@@ -2426,14 +2509,20 @@ function envoyerService(silencieux){
   if(!key){ if(!silencieux) alert("Renseigne d'abord la clé de la caisse (onglet Stocks → Envoi au site)."); return Promise.resolve(false); }
   const paid = state.orders.filter(o => o.status === "paye").length;
   if(!paid){ if(!silencieux) alert("Aucune commande réglée à envoyer."); return Promise.resolve(false); }
-  const summary = buildServiceSummary();
-  return fetch(url, { method:"POST", headers:{ "Authorization":"Bearer " + key, "Content-Type":"application/json" }, body:JSON.stringify(summary) })
+  // un envoi par soir présent dans la caisse (les ratés sont rattachés au dernier soir)
+  const dates = datesDesServices();
+  const services = dates.map((d, i) => buildServiceSummary(d, i === dates.length - 1));
+  const body = services.length === 1 ? services[0] : { services };
+  return fetch(url, { method:"POST", headers:{ "Authorization":"Bearer " + key, "Content-Type":"application/json" }, body:JSON.stringify(body) })
     .then(r => r.json().then(j => ({ status:r.status, j })))
     .then(({ status, j }) => {
       if(!j || !j.ok) throw new Error((j && j.error) || ("réponse " + status));
       _siteSyncEtat = { quand:new Date().toLocaleTimeString("fr-FR", { hour:"2-digit", minute:"2-digit" }), ok:true, msg:"" };
-      localStorage.setItem("ft7_site_sync", JSON.stringify(_siteSyncEtat)); majSiteBadge();
-      if(!silencieux) alert(`✓ Service du ${summary.date.split("-").reverse().join("/")} envoyé au site : ${summary.total_burgers} burgers, ${fmt(summary.ca_ttc)}.`);
+      localStorage.setItem("ft7_site_sync", JSON.stringify(_siteSyncEtat)); localStorage.removeItem("ft7_site_dirty"); majSiteBadge();
+      if(!silencieux){
+        const lib = services.map(sv => `${sv.date.split("-").reverse().join("/")} : ${sv.total_burgers} burgers, ${fmt(sv.ca_ttc)}`).join("\n");
+        alert((services.length > 1 ? `✓ ${services.length} services envoyés au site\n` : "✓ Service envoyé au site\n") + lib);
+      }
       return true;
     })
     .catch(err => {
@@ -2449,7 +2538,7 @@ function planifierEnvoi(){
   clearTimeout(_siteSyncTimer);
   _siteSyncTimer = setTimeout(() => envoyerService(true), 90000);
 }
-window.addEventListener("online", () => { if(_siteSyncEtat.ok === false) envoyerService(true); });
+window.addEventListener("online", () => { if(_siteSyncEtat.ok === false || localStorage.getItem("ft7_site_dirty")) envoyerService(true); });
 function testerSite(){
   const url = getSiteUrl(), key = getSiteKey();
   if(!key){ alert("Colle d'abord la clé."); return; }
@@ -2593,7 +2682,25 @@ function exportExcel(){
   URL.revokeObjectURL(url2);
 }
 
+let _rendering = false, _renderDemande = false;
 function render(){
+  if(_rendering){ _renderDemande = true; return; } // appel pendant un affichage (ex. événement blur) : on repasse juste après
+  _rendering = true;
+  try{ renderInner(); montrerErreur(null); }
+  catch(e){ console.error(e); montrerErreur(e); }
+  finally{ _rendering = false; }
+  saveTicket();
+  if(_renderDemande){ _renderDemande = false; setTimeout(render, 0); }
+}
+function montrerErreur(e){
+  let el = document.getElementById("app-error");
+  if(!e){ if(el) el.style.display = "none"; return; }
+  if(!el){ el = document.createElement("div"); el.id = "app-error"; el.className = "app-error"; document.querySelector(".app").insertBefore(el, document.getElementById("content")); }
+  el.style.display = "block";
+  el.innerHTML = `<b>⚠️ Problème d'affichage</b> : ${String(e && e.message || e).replace(/</g,"&lt;")}<br><span style="opacity:.8">Les commandes et le CA sont conservés.</span> <button onclick="location.reload()" style="margin-left:8px;border:1px solid currentColor;background:transparent;color:inherit;border-radius:8px;padding:3px 8px;font-weight:700;cursor:pointer">Recharger</button>`;
+}
+window.addEventListener("error", (ev) => { montrerErreur(ev.error || ev.message); });
+function renderInner(){
   document.getElementById("header-ca").textContent = fmt(state.dailyRevenue);
   const encours = state.orders.filter(o => o.status === "encours");
   const encoursTab = document.getElementById("tab-encours");
@@ -2720,6 +2827,7 @@ function loadVipOrder(vipId){
   const vip = VIP_ORDERS.find(v => v.id === vipId);
   if(!vip) return;
   const { items, pairing } = vip.build();
+  if(!items.every(itemValide)){ alert("Un produit de cette commande VIP n'est plus à la carte."); return; }
   state.currentItems = items;
   state.friteMenuPairing = pairing;
   state.friteStepIndex = 0;
@@ -2735,8 +2843,10 @@ function renderVIP(){
   html += '<div style="font-size:12px;color:var(--text-soft);margin-bottom:18px">Appuyer sur une commande pour la charger directement sur l\'écran des horaires.</div>';
 
   for(const vip of VIP_ORDERS){
-    const rawTotal = vip.build().items.reduce((s,i) => s + itemTotal(i), 0);
-    html += `<button onclick="loadVipOrder('${vip.id}')" style="width:100%;background:rgba(243,164,58,.10);border:1.5px solid rgba(243,164,58,.40);border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:16px">
+    const built = vip.build();
+    const complet = built.items.every(itemValide);
+    const rawTotal = built.items.reduce((s,i) => s + itemTotal(i), 0);
+    html += `<button onclick="${complet ? `loadVipOrder('${vip.id}')` : ''}" ${complet ? '' : 'title="Un produit de cette commande n\'est plus à la carte"'} style="${complet ? '' : 'opacity:.45;cursor:not-allowed;'}"width:100%;background:rgba(243,164,58,.10);border:1.5px solid rgba(243,164,58,.40);border-radius:16px;padding:18px 20px;margin-bottom:14px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:16px">
       <div style="font-size:36px;line-height:1">${vip.emoji}</div>
       <div style="flex:1">
         <div style="font-size:17px;font-weight:bold;color:var(--gold);font-family:var(--font);margin-bottom:4px">${vip.name}</div>
@@ -3284,14 +3394,14 @@ function compterRate(){
   const b = BURGERS.find(x => x.id === id); if(!b) return;
   for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty); }
   state.rates = (state.rates || 0) + 1; state.ratesDetail = state.ratesDetail || []; state.ratesDetail.push(b.name);
-  saveState(); planifierEnvoi(); render();
+  saveState(); marquerAEnvoyer(); render();
 }
 function annulerRate(){
   if(!state.ratesDetail || !state.ratesDetail.length) return;
   const name = state.ratesDetail.pop(); const b = BURGERS.find(x => x.name === name);
   if(b) for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty += qty; }
   state.rates = Math.max(0, (state.rates || 0) - 1);
-  saveState(); planifierEnvoi(); render();
+  saveState(); marquerAEnvoyer(); render();
 }
 
 // ---- ÉDITEUR DE BURGER ----
@@ -3419,6 +3529,7 @@ function clearSheetsUrl(){
 loadState();
 render();
 majSiteBadge();
+if(getSiteKey() && localStorage.getItem("ft7_site_dirty")) setTimeout(() => envoyerService(true), 5000);
 // iPhone : après la fermeture du clavier, la page peut rester décalée vers le haut (bande vide en bas) → on la recale
 document.addEventListener("focusout", () => setTimeout(() => window.scrollTo(0, 0), 60));
 if(window.visualViewport) window.visualViewport.addEventListener("resize", () => { if(!document.activeElement || document.activeElement.tagName !== "INPUT") window.scrollTo(0, 0); });
