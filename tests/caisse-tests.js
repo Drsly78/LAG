@@ -10,7 +10,7 @@ async function scenario(browser, name, fn, opts = {}) {
   const errors = [], dialogs = [];
   page.on('pageerror', e => errors.push('pageerror: ' + e.message));
   page.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
-  page.on('dialog', async d => { dialogs.push(d.type() + ': ' + d.message()); await d.accept(); });
+  page.on('dialog', async d => { dialogs.push(d.type() + ': ' + d.message()); await d.accept(d.type() === 'prompt' ? (d.defaultValue() || 'Client test') : undefined); });
   // serveur du site simulé
   const envois = [];
   await page.route('**/api/caisse', async route => {
@@ -239,7 +239,7 @@ async function scenario(browser, name, fn, opts = {}) {
   // ───────── S11 : VIP ─────────
   await scenario(browser, 'S11 commande VIP « Le G »', async (t) => {
     await t.goto();
-    await t.tab('vip'); await t.tap('Le G');
+    await t.tab('vip'); await t.page.locator('.vip-card, button', { hasText: 'Le G' }).first().click(); await t.page.waitForTimeout(80);
     await t.page.waitForTimeout(150);
     t.check(await t.page.locator('#modal-slot').isVisible(), 'modale créneau ouverte directement');
     await t.slot('20h30');
@@ -251,11 +251,11 @@ async function scenario(browser, name, fn, opts = {}) {
   });
 
   // ───────── S12 : ratés ─────────
-  await scenario(browser, 'S12 ratés', async (t) => {
+  await scenario(browser, 'S12 clients non servis', async (t) => {
     await t.goto(); await t.tab('stocks');
-    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('Compter');
-    let s = await t.state(); t.check(s.rates === 1 && s.stock.boeuf === 99 && s.stock.reblochon === 19 && s.stock.bun === 69, 'raté Montagnard : −1 bœuf, −1 reblochon, −1 bun', { r: s.rates, boeuf: s.stock.boeuf, rebl: s.stock.reblochon });
-    await t.tap('↶'); s = await t.state(); t.check(s.rates === 0 && s.stock.boeuf === 100 && s.stock.reblochon === 20, 'raté annulé, stock restitué');
+    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('+1');
+    let s = await t.state(); t.check(s.rates === 1 && s.stock.boeuf === 100 && s.stock.reblochon === 20 && s.ratesDetail[0] === 'Le Montagnard', 'non servi compté, stock intact', { r: s.rates, boeuf: s.stock.boeuf, d: s.ratesDetail });
+    await t.tap('↶'); s = await t.state(); t.check(s.rates === 0, 'retiré');
   });
 
   // ───────── S13 : nouveau burger + nouveau composant ─────────
@@ -455,6 +455,35 @@ async function scenario(browser, name, fn, opts = {}) {
     t.check(t.envois.filter(e => !e.ping).length === 1, 'l\'envoi manuel part', t.envois.length);
     badge = await t.page.locator('#site-sync-badge').innerText(); t.check(badge.includes('envoyé'), 'badge « envoyé »', badge);
     s = await t.state(); t.check(s.orders.length === 1, 'les données restent après l\'envoi');
+  });
+
+  // ───────── S25 : VIP modifiables ─────────
+  await scenario(browser, 'S25 commandes VIP : modifier, créer, supprimer', async (t) => {
+    await t.goto(); await t.tab('vip');
+    // modifier les articles de « Nephis » : ajouter un Soft
+    await t.page.locator('.vip-card', { hasText: 'Nephis' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    t.check(await t.page.locator('#modal-vip').isVisible(), 'fiche VIP ouverte');
+    await t.page.locator('#modal-vip button', { hasText: 'Modifier les articles' }).click(); await t.page.waitForTimeout(100);
+    let s = await t.state(); t.check(s.tab === 'caisse' && s.step === 'boissons' && s.items.length === 2, 'ticket chargé pour modification', { tab: s.tab, step: s.step, n: s.items.length });
+    await t.tapCard('Soft'); await t.tap('Enregistrer la VIP');
+    s = await t.state(); t.check(s.tab === 'vip' && s.items.length === 0, 'retour à l\'onglet VIP, ticket vidé', { tab: s.tab, n: s.items.length });
+    t.check(s.text.includes('Soft') && s.text.includes('Nephis'), 'la description de Nephis inclut le Soft');
+    await t.goto(); await t.tab('vip'); s = await t.state(); t.check(s.text.includes('1× Soft'), 'modification conservée après rechargement');
+    // la charger : la commande a bien 3 articles
+    await t.page.locator('.vip-card', { hasText: 'Nephis' }).click(); await t.page.waitForTimeout(150); await t.slot('19h00');
+    s = await t.state(); t.check(s.orders.length === 1 && s.orders[0].items.length === 3 && Math.abs(s.orders[0].total - (12 + 2 + 2.5 + 2)) < 0.001, 'commande VIP 3 articles 18,50 €', s.orders[0] && { n: s.orders[0].items.length, total: s.orders[0].total });
+    // créer une VIP depuis un ticket
+    await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Truffées');
+    await t.page.locator('.btn-chip', { hasText: 'VIP' }).click(); await t.page.waitForTimeout(150);
+    s = await t.state(); t.check(s.tab === 'vip' && s.text.includes('Client test') && s.text.includes('Le BBQ'), 'nouvelle VIP « Client test » créée', s.text.slice(0, 120));
+    // renommer puis supprimer
+    await t.page.locator('.vip-card', { hasText: 'Client test' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#vip-name').fill('Jean'); await t.page.locator('#modal-vip button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.text.includes('Jean') && !s.text.includes('Client test'), 'renommée');
+    await t.page.locator('.vip-card', { hasText: 'Jean' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-vip button', { hasText: '🗑' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(!s.text.includes('Jean'), 'supprimée');
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
   });
 
   await browser.close();

@@ -422,7 +422,7 @@
   <div class="header">
     <div class="brand">
       <div class="brand-name">L'Arrêt Gourmand</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.6.1"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.6.2"></div>
     </div>
     <button class="hdr-btn" onclick="openAgendaModal()" title="Agenda des créneaux"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Agenda</button>
     <button class="ca-chip" onclick="openCAModal()" title="Détail du CA"><span class="ca-label">CA du jour</span><span class="ca-amount" id="header-ca">0,00 €</span></button>
@@ -442,7 +442,7 @@
   <!-- Modal Agenda -->
   <div class="modal-overlay" id="modal-agenda" style="display:none" onclick="closeAgendaModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:500px">
-      <div class="modal-title">Agenda de la soirée</div>
+      <div class="modal-title">🕐 Agenda de la soirée</div>
       <div id="agenda-content"></div>
       <button class="btn btn-ghost btn-block modal-close" onclick="closeAgendaModal()">Fermer</button>
     </div>
@@ -451,14 +451,14 @@
   <!-- Modal Burger (création / modification) -->
   <div class="modal-overlay" id="modal-burger" style="display:none" onclick="closeBurgerModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:520px;max-height:92vh;overflow:auto">
-      <div class="modal-title" id="burger-modal-title">Nouveau burger</div>
+      <div class="modal-title" id="burger-modal-title">🍔 Nouveau burger</div>
       <div id="burger-modal-content"></div>
     </div>
   </div>
   <!-- Modal Composant (création) -->
   <div class="modal-overlay" id="modal-ingredient" style="display:none" onclick="closeIngredientModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
-      <div class="modal-title">Nouveau composant</div>
+      <div class="modal-title">🧀 Nouveau composant</div>
       <div class="cat-edit">
         <label>Nom<input id="ing-name" type="text" placeholder="Ex. Comté, Sauce truffe…"></label>
         <label>Catégorie<select id="ing-cat"></select></label>
@@ -470,6 +470,28 @@
       <div style="display:flex;gap:10px;margin-top:14px">
         <button class="btn btn-ghost" style="flex:1" onclick="closeIngredientModal()">Annuler</button>
         <button class="btn btn-green" style="flex:2" onclick="saveIngredient()">Créer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal VIP -->
+  <div class="modal-overlay" id="modal-vip" style="display:none" onclick="closeVipModal(event)">
+    <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
+      <div class="modal-title">⭐ Commande VIP</div>
+      <div class="cat-edit">
+        <div style="display:grid;grid-template-columns:1fr 80px;gap:10px">
+          <label>Nom<input id="vip-name" type="text" placeholder="Le client"></label>
+          <label>Emoji<input id="vip-emoji" type="text" maxlength="4" style="text-align:center;font-size:20px"></label>
+        </div>
+        <div class="help" id="vip-desc"></div>
+      </div>
+      <div style="display:grid;gap:8px;margin-top:14px">
+        <button class="btn btn-primary" onclick="editVipItems()">Modifier les articles</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-cancel" style="flex:0 0 auto;padding:0 14px" title="Supprimer" onclick="deleteVip()">🗑</button>
+          <button class="btn btn-ghost" style="flex:1" onclick="closeVipModal()">Fermer</button>
+          <button class="btn btn-green" style="flex:2" onclick="saveVipInfos()">Enregistrer</button>
+        </div>
       </div>
     </div>
   </div>
@@ -490,7 +512,7 @@
   <!-- Modal Détail CA -->
   <div class="modal-overlay" id="modal-ca" style="display:none" onclick="closeCAModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()">
-      <div class="modal-title">Détail de la soirée</div>
+      <div class="modal-title">📊 Détail de la soirée</div>
       <div id="ca-content"></div>
       <div class="ca-btn-row">
         <button class="btn btn-primary" onclick="envoyerService()">Envoyer au site</button>
@@ -504,7 +526,7 @@
   <!-- Modal Créneau horaire -->
   <div class="modal-overlay" id="modal-slot" style="display:none" onclick="closeSlotModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
-      <div class="modal-title">Choisir un créneau</div>
+      <div class="modal-title">🕐 Choisir un créneau</div>
       <div class="modal-text">Pour quelle heure est cette commande ?</div>
       <div id="slot-content"></div>
       <div style="display:flex;gap:10px;margin-top:16px">
@@ -770,8 +792,8 @@ const STORAGE_KEYS = {
 // Le ticket en cours est sauvegardé à chaque affichage : iPhone ferme l'app en arrière-plan sans prévenir
 function saveTicket(){
   try{
-    if(!state.currentItems.length && !state._editingOrderId){ localStorage.removeItem(STORAGE_KEYS.ticket); return; }
-    localStorage.setItem(STORAGE_KEYS.ticket, JSON.stringify({ items:state.currentItems, pairing:state.friteMenuPairing, editing:state._editingOrderId || null, infos:state._editingInfos || null, step:state.step, friteStepIndex:state.friteStepIndex }));
+    if(!state.currentItems.length && !state._editingOrderId && !state._vipEdit){ localStorage.removeItem(STORAGE_KEYS.ticket); return; }
+    localStorage.setItem(STORAGE_KEYS.ticket, JSON.stringify({ items:state.currentItems, pairing:state.friteMenuPairing, editing:state._editingOrderId || null, infos:state._editingInfos || null, vipEdit:state._vipEdit || null, step:state.step, friteStepIndex:state.friteStepIndex }));
   }catch(e){}
 }
 function loadTicket(){
@@ -782,6 +804,7 @@ function loadTicket(){
     state.friteMenuPairing = t.pairing && typeof t.pairing === "object" ? t.pairing : {};
     state._editingOrderId = t.editing || null;
     state._editingInfos = t.infos || null;
+    state._vipEdit = t.vipEdit || null;
     state.friteStepIndex = t.friteStepIndex || 0;
     // l'écran « options » dépend d'un burger en cours de choix, non sauvegardé : on reprend à la liste
     state.step = ["burger","frites","boissons"].includes(t.step) ? t.step : "burger";
@@ -1294,6 +1317,7 @@ function renderFritesStep(){
     <button class="btn btn-back" onclick="${idx <= 0 ? "backToBurgerFromFrites()" : `state.friteStepIndex=${idx-1};render()`}">← Retour</button>
     <div class="options-title">Frites ${burgers.length > 1 ? `<span class="muted" style="font-weight:600">${idx+1}/${burgers.length}</span>` : ''}</div>
   </div>`;
+  html += `<button class="btn btn-primary btn-block" style="margin-bottom:12px" onclick="state.step='boissons';render()">Passer aux boissons →</button>`;
 
   if(b){
     const pairedFriteKey = state.friteMenuPairing[b.key];
@@ -1301,7 +1325,7 @@ function renderFritesStep(){
     const selectedId = pairedFrite ? pairedFrite.fries.id : null;
 
     html += `<div class="focus-card"><div class="focus-name">${b.burger.name}</div>${b.cuisson ? `<div class="help">${cuissonDot(b.cuisson)}${cuissonLabel(b.cuisson)}</div>` : ''}</div>`;
-    html += '<div class="section-title">Avec quelles frites ?</div><div class="grid-2">';
+    html += '<div class="section-title">🍟 Avec quelles frites ?</div><div class="grid-2">';
     html += `<button class="option-card${selectedId===null?' selected':''}" onclick="selectFriteForBurger(${b.key},'none')"><div class="option-card-label">Sans frites</div><div class="option-card-price">0,00 €</div></button>`;
     for(const f of BURGER_FRIES){
       const sel = selectedId === f.id;
@@ -1476,13 +1500,20 @@ function renderBoissonStep(){
     <div class="options-title">Frites seules & boissons</div>
   </div>`;
 
-  html += '<div class="section-title">Frites seules</div><div class="grid-2">';
+  if(state._vipEdit){
+    const v = VIPS.find(x => x.id === state._vipEdit);
+    html += `<div class="alert-box" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><div style="flex:1;min-width:0"><b>⭐ Commande VIP « ${v ? v.name : ''} »</b><div class="help">Ajuste les articles, puis enregistre.</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="cancelVipEdit()">Annuler</button><button class="btn btn-primary btn-sm" onclick="saveVipFromTicket()">Enregistrer la VIP</button></div>`;
+  } else {
+    html += `<button class="btn btn-green btn-block" style="margin-bottom:12px" onclick="openSlotModal()">Envoyer en cuisine</button>`;
+  }
+  html += '<div class="section-title">🍟 Frites seules</div><div class="grid-2">';
   for(const f of SOLO_FRIES){
     const avail = optionAvailable(f);
     html += `<button class="mini-card${avail?'':' unavailable'}" onclick="${avail?`addSoloFriesV2('${f.id}')`:''}"><div class="mini-name">${friesShort(f.name)}</div><div class="mini-price">${fmt(f.price)}</div>${!avail?'<div class="epuise-badge">Épuisé</div>':''}</button>`;
   }
   html += '</div>';
-  html += '<div class="section-title">Boissons</div><div class="grid-2">';
+  html += '<div class="section-title">🥤 Boissons</div><div class="grid-2">';
   for(const d of DRINKS){
     html += `<button class="mini-card" onclick="addDrinkV2('${d.id}')"><div class="mini-name">${d.name}</div><div class="mini-price">${fmt(d.price)}</div></button>`;
   }
@@ -1496,8 +1527,8 @@ function renderBoissonStep(){
   burgers.forEach(b => { if(!(b.key in state.friteMenuPairing)) state.friteMenuPairing[b.key] = null; });
 
   const editingLabel = state._editingOrderId ? `<span class="editing-tag">Commande #${state._editingOrderId}</span>` : '';
-  html += `<div class="ticket"><div class="ticket-title"><span>Récapitulatif ${editingLabel}</span>
-    <button class="btn-chip accent" onclick="state.step='burger';render()">+ Burger</button></div>`;
+  html += `<div class="ticket"><div class="ticket-title"><span>🧾 Récapitulatif ${editingLabel}</span>
+    <span style="display:flex;gap:6px">${state._vipEdit || state._editingOrderId ? '' : `<button class="btn-chip" onclick="saveVipFromTicket()" title="Garder ce ticket comme commande habituelle d'un client">⭐ VIP</button>`}<button class="btn-chip accent" onclick="state.step='burger';render()">+ Burger</button></span></div>`;
 
   for(const b of burgers){
     const pairedFriteKey = state.friteMenuPairing[b.key];
@@ -1702,9 +1733,10 @@ function editOrder(id){
 }
 function updateStock(key, val){
   const v = Math.max(0, parseInt(val, 10) || 0);
-  if(state.ingredients[key]) state.ingredients[key].qty = v;
+  if(!state.ingredients[key] || state.ingredients[key].qty === v) return;
+  state.ingredients[key].qty = v;
   saveState();
-  render();
+  setTimeout(render, 0); // après la fin de l'événement du champ (évite un ré-affichage pendant la perte de focus)
 }
 function adjustStock(key, delta){
   const current = state.ingredients[key]?.qty ?? 0;
@@ -1735,6 +1767,7 @@ function resetDay(){
   state.friteMenuPairing = {};
   state._editingOrderId = null;
   state._editingInfos = null;
+  state._vipEdit = null;
   state._encoursSearch = "";
   state.friteStepIndex = 0;
   saveState();
@@ -1773,6 +1806,7 @@ let _pendingSlot = null;
 
 function openSlotModal(){
   if(state.currentItems.length === 0) return;
+  if(state._vipEdit){ saveVipFromTicket(); return; }
   _pendingSlot = null;
   renderSlotModal();
   document.getElementById("modal-slot").style.display = "flex";
@@ -2078,7 +2112,7 @@ function buildServiceSummary(dateFr, avecRates = true){
     burgers, total_burgers: totalBurgers, frites: totalFrites,
     ca_ttc: Math.round(ca * 100) / 100,
     doubles: totalDouble, rates: avecRates ? (state.rates || 0) : 0,
-    notes: avecRates && state.ratesDetail && state.ratesDetail.length ? "Ratés : " + state.ratesDetail.join(", ") : "",
+    notes: avecRates && state.ratesDetail && state.ratesDetail.length ? "Non servis (rupture) : " + state.ratesDetail.join(", ") : "",
     extra:{ fidelite:cartes, commandes_total:state.orders.filter(concerne).length },
     commandes
   };
@@ -2099,7 +2133,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé à " + _siteSyncEtat.quand, cls:"ok" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.6.1";
+const APP_VERSION = "3.6.2";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " — " + l.txt.replace(/^site : /, ""); el.className = "site-sync " + l.cls;
@@ -2331,6 +2365,8 @@ function renderActionBar(){
       html = `<div class="ab-total"><span class="ab-count">${state.pendingBurger.name}</span><span class="ab-amount">${fmt(t)}</span></div><button class="btn btn-primary" onclick="addBurgerItem()">${state.editingItemKey ? "✓ Mettre à jour" : "+ Ajouter au ticket"}</button>`;
     } else if(state.step === "frites"){
       html = `${tot}<button class="btn btn-primary" onclick="state.step='boissons';render()">Passer aux boissons →</button>`;
+    } else if(state.step === "boissons" && state._vipEdit){
+      html = `${tot}<button class="btn btn-primary" onclick="saveVipFromTicket()">⭐ Enregistrer la VIP</button>`;
     } else if(state.step === "boissons"){
       html = `${tot}<button class="btn btn-green" onclick="openSlotModal()">Envoyer en cuisine</button>`;
     } else if(n > 0){
@@ -2348,135 +2384,167 @@ function setTheme(t){
 }
 function currentTheme(){ return document.documentElement.dataset.theme === "light" ? "light" : "dark"; }
 
-// ---- VIP PRESETS ----
-const VIP_ORDERS = [
-  {
-    id: "leG",
-    name: "Le G",
-    emoji: "👑",
-    description: "2× Montagnard double steak · 2× Frites cheddar bacon · 1× Poulet · 2× Soft",
-    build: () => {
-      const items = [];
-      const montagnard = BURGERS.find(b => b.id === "montagnard");
-      const poulet     = BURGERS.find(b => b.id === "poulet");
-      const doubleSupp = SUPPLEMENTS.find(s => s.id === "double");
-      const bfChedBac  = BURGER_FRIES.find(f => f.id === "bfChedBac");
-      const softDrink  = DRINKS.find(d => d.id === "soft");
-
-      const key1 = Date.now();
-      const key2 = key1 + 1;
-      const key3 = key1 + 2;
-      const keyF1 = key1 + 10;
-      const keyF2 = key1 + 11;
-      const keyD1 = key1 + 20;
-      const keyD2 = key1 + 21;
-
-      // 2 Montagnard double steak
-      items.push({ type:"burger", key:key1, burger:montagnard, supplements:[doubleSupp], removals:[], cuisson:null });
-      items.push({ type:"burger", key:key2, burger:montagnard, supplements:[doubleSupp], removals:[], cuisson:null });
-      // 1 Poulet
-      items.push({ type:"burger", key:key3, burger:poulet, supplements:[], removals:[], cuisson:null });
-      // 2 frites cheddar bacon (menu)
-      items.push({ type:"fries-menu", key:keyF1, fries:bfChedBac });
-      items.push({ type:"fries-menu", key:keyF2, fries:bfChedBac });
-      // 2 Soft
-      items.push({ type:"drink", key:keyD1, drink:softDrink });
-      items.push({ type:"drink", key:keyD2, drink:softDrink });
-
-      const pairing = { [key1]: keyF1, [key2]: keyF2, [key3]: null };
-      return { items, pairing };
-    }
-  },
-  {
-    id: "pouletMyko",
-    name: "Poulet Myko Boy",
-    emoji: "🐔",
-    description: "1× Myko sans frites · 1× Poulet sans frites",
-    build: () => {
-      const myko   = BURGERS.find(b => b.id === "myko");
-      const poulet = BURGERS.find(b => b.id === "poulet");
-      const key1 = Date.now();
-      const key2 = key1 + 1;
-      const items = [
-        { type:"burger", key:key1, burger:myko,   supplements:[], removals:[], cuisson:null },
-        { type:"burger", key:key2, burger:poulet, supplements:[], removals:[], cuisson:null },
-      ];
-      return { items, pairing: { [key1]: null, [key2]: null } };
-    }
-  },
-  {
-    id: "starCity",
-    name: "Nephis",
-    emoji: "🌟",
-    description: "1× Poulet + bacon · 1× Frites nature",
-    build: () => {
-      const poulet   = BURGERS.find(b => b.id === "poulet");
-      const bacon    = SUPPLEMENTS.find(s => s.id === "bacon");
-      const bfNature = BURGER_FRIES.find(f => f.id === "bfNature");
-      const key1 = Date.now();
-      const keyF1 = key1 + 10;
-      const items = [
-        { type:"burger",     key:key1,  burger:poulet, supplements:[bacon], removals:[], cuisson:null },
-        { type:"fries-menu", key:keyF1, fries:bfNature },
-      ];
-      return { items, pairing: { [key1]: keyF1 } };
-    }
-  },
-  {
-    id: "dameSansCornichon",
-    name: "La dame sans cornichon",
-    emoji: "🥒",
-    description: "1× Original sans cornichon · 1× Frites nature",
-    build: () => {
-      const original = BURGERS.find(b => b.id === "original");
-      const bfNature = BURGER_FRIES.find(f => f.id === "bfNature");
-      const key1 = Date.now();
-      const keyF1 = key1 + 10;
-      const items = [
-        { type:"burger",     key:key1,  burger:original, supplements:[], removals:["Cornichons"], cuisson:null },
-        { type:"fries-menu", key:keyF1, fries:bfNature },
-      ];
-      return { items, pairing: { [key1]: keyF1 } };
-    }
-  }
+// ---- COMMANDES VIP (modifiables, gardées sur l'appareil) ----
+// Une VIP = la commande habituelle d'un client. Elle est décrite par ses lignes (références à la carte),
+// reconstruite au chargement avec les prix et composants du moment.
+const VIP_BASE = [
+  { id:"leG", name:"Le G", emoji:"👑", lines:[
+    { type:"burger", burger:"montagnard", supplements:["double"], removals:[], cuisson:null, fries:"bfChedBac" },
+    { type:"burger", burger:"montagnard", supplements:["double"], removals:[], cuisson:null, fries:"bfChedBac" },
+    { type:"burger", burger:"poulet", supplements:[], removals:[], cuisson:null, fries:null },
+    { type:"drink", drink:"soft" }, { type:"drink", drink:"soft" } ] },
+  { id:"pouletMyko", name:"Poulet Myko Boy", emoji:"🐔", lines:[
+    { type:"burger", burger:"myko", supplements:[], removals:[], cuisson:null, fries:null },
+    { type:"burger", burger:"poulet", supplements:[], removals:[], cuisson:null, fries:null } ] },
+  { id:"starCity", name:"Nephis", emoji:"🌟", lines:[ { type:"burger", burger:"poulet", supplements:["bacon"], removals:[], cuisson:null, fries:"bfNature" } ] },
+  { id:"dameSansCornichon", name:"La dame sans cornichon", emoji:"🥒", lines:[ { type:"burger", burger:"original", supplements:[], removals:["Cornichons"], cuisson:null, fries:"bfNature" } ] }
 ];
-
+let VIPS = JSON.parse(JSON.stringify(VIP_BASE));
+function loadVips(){ try{ const v = JSON.parse(localStorage.getItem("ft7_vips") || "null"); if(Array.isArray(v) && v.length) VIPS = v.filter(x => x && x.id && Array.isArray(x.lines)); }catch(e){} }
+function saveVips(){ try{ localStorage.setItem("ft7_vips", JSON.stringify(VIPS)); }catch(e){} }
+loadVips();
+// Reconstruit le ticket d'une VIP (clés neuves à chaque chargement)
+function buildVip(v){
+  const items = [], pairing = {}; let k = Date.now() + Math.floor(Math.random() * 1000);
+  for(const l of v.lines || []){
+    if(l.type === "burger"){
+      const burger = BURGERS.find(b => b.id === l.burger);
+      const supplements = (l.supplements || []).map(id => SUPPLEMENTS.find(x => x.id === id)).filter(Boolean);
+      const item = { type:"burger", key:k++, burger, supplements, removals:[...(l.removals || [])], cuisson:l.cuisson || null };
+      items.push(item);
+      if(l.fries){ const fries = BURGER_FRIES.find(f => f.id === l.fries); const fi = { type:"fries-menu", key:k++, fries }; items.push(fi); pairing[item.key] = fi.key; }
+      else pairing[item.key] = null;
+    } else if(l.type === "fries") items.push({ type:"fries", key:k++, fries:SOLO_FRIES.find(f => f.id === l.fries) });
+    else if(l.type === "drink") items.push({ type:"drink", key:k++, drink:DRINKS.find(d => d.id === l.drink) });
+    else if(l.type === "steakfrites") items.push({ type:"steakfrites", key:k++ });
+  }
+  return { items, pairing };
+}
+// L'inverse : le ticket en cours devient le contenu d'une VIP
+function ticketToVipLines(){
+  const lines = [], pairing = state.friteMenuPairing || {};
+  const paired = new Set(Object.values(pairing).filter(Boolean));
+  for(const i of state.currentItems){
+    if(!itemValide(i)) continue;
+    if(i.type === "burger"){
+      const fk = pairing[i.key]; const fi = fk ? state.currentItems.find(x => x.key === fk) : null;
+      lines.push({ type:"burger", burger:i.burger.id, supplements:(i.supplements || []).map(x => x.id), removals:[...(i.removals || [])], cuisson:i.cuisson || null, fries:fi ? fi.fries.id : null });
+    } else if(i.type === "fries-menu"){
+      if(!paired.has(i.key)){ const sf = SOLO_FRIES.find(f => f.name.toLowerCase().includes(i.fries.name.toLowerCase())); lines.push({ type:"fries", fries:sf ? sf.id : "sfNature" }); }
+    } else if(i.type === "fries") lines.push({ type:"fries", fries:i.fries.id });
+    else if(i.type === "drink") lines.push({ type:"drink", drink:i.drink.id });
+    else if(i.type === "steakfrites") lines.push({ type:"steakfrites" });
+  }
+  return lines;
+}
+// Description lisible : « 2× Le Montagnard + double · frites cheddar bacon · 1× Le Poulet · 2× Soft »
+function vipDescription(v){
+  const counts = new Map();
+  for(const l of v.lines || []){
+    let lib = "";
+    if(l.type === "burger"){
+      const b = BURGERS.find(x => x.id === l.burger); if(!b){ lib = "burger retiré de la carte"; }
+      else {
+        const supps = (l.supplements || []).map(id => (SUPPLEMENTS.find(x => x.id === id) || {}).name).filter(Boolean);
+        const fr = l.fries ? BURGER_FRIES.find(f => f.id === l.fries) : null;
+        lib = b.name + supps.map(n => " + " + n.toLowerCase()).join("") + (l.removals || []).map(r => " sans " + r.toLowerCase()).join("") + (fr ? " · frites " + fr.name.toLowerCase() : " · sans frites");
+      }
+    } else if(l.type === "fries"){ const f = SOLO_FRIES.find(x => x.id === l.fries); lib = f ? f.name : "frites"; }
+    else if(l.type === "drink"){ const d = DRINKS.find(x => x.id === l.drink); lib = d ? d.name : "boisson"; }
+    else if(l.type === "steakfrites") lib = "Steak + Frites";
+    counts.set(lib, (counts.get(lib) || 0) + 1);
+  }
+  return [...counts.entries()].map(([lib, n]) => `${n}× ${lib}`).join(" · ") || "vide";
+}
 function loadVipOrder(vipId){
   if(state.currentItems.length > 0){
     if(!confirm("Un ticket est déjà en cours. Remplacer par la commande VIP ?")) return;
   }
-  const vip = VIP_ORDERS.find(v => v.id === vipId);
+  const vip = VIPS.find(v => v.id === vipId);
   if(!vip) return;
-  const { items, pairing } = vip.build();
-  if(!items.every(itemValide)){ alert("Un produit de cette commande VIP n'est plus à la carte."); return; }
+  const { items, pairing } = buildVip(vip);
+  if(!items.every(itemValide)){ alert("Un produit de cette commande VIP n'est plus à la carte : modifie-la (✎)."); return; }
   state.currentItems = items;
   state.friteMenuPairing = pairing;
+  state._vipEdit = null;
   state.friteStepIndex = 0;
   state.step = "boissons";
   switchTab("caisse");
-  // Ouvrir modal horaire
   requestAnimationFrame(() => openSlotModal());
 }
+// Fiche d'une VIP : nom, emoji, suppression, ou modification des articles via le ticket
+let _vipModalId = null;
+function openVipModal(id){
+  const v = VIPS.find(x => x.id === id); if(!v) return;
+  _vipModalId = id;
+  document.getElementById("vip-name").value = v.name; document.getElementById("vip-emoji").value = v.emoji || "⭐";
+  document.getElementById("vip-desc").textContent = vipDescription(v);
+  document.getElementById("modal-vip").style.display = "flex";
+}
+function closeVipModal(e){ if(e && e.target !== e.currentTarget) return; document.getElementById("modal-vip").style.display = "none"; }
+function saveVipInfos(){
+  const v = VIPS.find(x => x.id === _vipModalId); if(!v) return;
+  const name = document.getElementById("vip-name").value.trim(); if(!name){ alert("Donne un nom à cette commande."); return; }
+  v.name = name; v.emoji = (document.getElementById("vip-emoji").value.trim() || "⭐").slice(0, 4);
+  saveVips(); closeVipModal(); render();
+}
+function deleteVip(){
+  const v = VIPS.find(x => x.id === _vipModalId); if(!v) return;
+  if(!confirm(`Supprimer la commande VIP « ${v.name} » ?`)) return;
+  VIPS = VIPS.filter(x => x.id !== v.id); saveVips(); closeVipModal(); render();
+}
+function editVipItems(){
+  const v = VIPS.find(x => x.id === _vipModalId); if(!v) return;
+  if(state.currentItems.length && !confirm("Un ticket est déjà en cours. L'abandonner pour modifier cette commande VIP ?")) return;
+  const { items, pairing } = buildVip(v);
+  state.currentItems = items.filter(itemValide);
+  state.friteMenuPairing = pairing;
+  state._vipEdit = v.id; state._editingOrderId = null; state._editingInfos = null;
+  state.friteStepIndex = 0; state.step = "boissons";
+  closeVipModal(); switchTab("caisse");
+}
+// Depuis le récapitulatif : le ticket devient (ou met à jour) une commande VIP
+function saveVipFromTicket(){
+  if(!state.currentItems.length){ alert("Le ticket est vide."); return; }
+  const lines = ticketToVipLines();
+  if(state._vipEdit){
+    const v = VIPS.find(x => x.id === state._vipEdit); if(v) v.lines = lines;
+  } else {
+    const name = prompt("Nom de cette commande VIP (le client, par exemple) :"); if(!name || !name.trim()) return;
+    const emoji = (prompt("Un emoji pour la reconnaître (facultatif) :", "⭐") || "⭐").trim().slice(0, 4) || "⭐";
+    let id = slugify(name); while(VIPS.some(v => v.id === id)) id += "2";
+    VIPS.push({ id, name:name.trim(), emoji, lines });
+  }
+  saveVips();
+  state.currentItems = []; state.friteMenuPairing = {}; state._vipEdit = null; state.step = "burger";
+  switchTab("vip");
+}
+function cancelVipEdit(){ state.currentItems = []; state.friteMenuPairing = {}; state._vipEdit = null; state.step = "burger"; switchTab("vip"); }
 
 function renderVIP(){
   let html = '<div class="pad">';
-  html += '<div class="section-title">Commandes VIP</div><div class="help" style="margin-bottom:12px">Touche une commande pour la charger directement sur le choix du créneau.</div>';
-  for(const vip of VIP_ORDERS){
-    const built = vip.build();
-    const complet = built.items.every(itemValide);
-    const rawTotal = built.items.reduce((s,i) => s + itemTotal(i), 0);
-    html += `<button class="vip-card${complet ? '' : ' off'}" onclick="${complet ? `loadVipOrder('${vip.id}')` : ''}" ${complet ? '' : 'title="Un produit de cette commande n\'est plus à la carte"'}>
-      <div class="vip-emoji">${vip.emoji}</div>
-      <div style="flex:1;min-width:0"><div class="vip-name">${vip.name}</div><div class="vip-desc">${vip.description}</div></div>
+  html += '<div class="section-title">⭐ Commandes VIP</div><div class="help" style="margin-bottom:12px">Touche une commande pour la charger sur le choix du créneau ; ✎ pour la renommer, la supprimer ou changer ses articles.</div>';
+  for(const vip of VIPS){
+    const built = buildVip(vip);
+    const complet = built.items.length > 0 && built.items.every(itemValide);
+    const rawTotal = built.items.filter(itemValide).reduce((sum, i) => sum + itemTotal(i), 0);
+    html += `<div class="vip-card${complet ? '' : ' off'}" onclick="${complet ? `loadVipOrder('${vip.id}')` : `openVipModal('${vip.id}')`}">
+      <div class="vip-emoji">${vip.emoji || '⭐'}</div>
+      <div style="flex:1;min-width:0"><div class="vip-name">${vip.name}</div><div class="vip-desc">${vipDescription(vip)}${complet ? '' : ' — <b>à mettre à jour</b>'}</div></div>
       <div class="vip-price">${fmt(rawTotal)}</div>
-    </button>`;
+      <button class="carte-edit-btn" style="margin:0" onclick="event.stopPropagation();openVipModal('${vip.id}')" title="Modifier ${vip.name}">✎</button>
+    </div>`;
   }
+  if(!VIPS.length) html += '<div class="empty"><div class="empty-icon">⭐</div><div>Aucune commande VIP</div></div>';
+  html += `<div class="help" style="margin-top:14px">Pour en créer une : compose le ticket dans Caisse, puis « ⭐ Enregistrer en VIP » dans le récapitulatif.</div>`;
   html += '</div>';
   return html;
 }
+
 function renderCaisse(){
   let html = '<div class="pad">';
-  html += '<div class="section-title">Burgers</div><div class="grid-2">';
+  if(state.currentItems.length) html += `<button class="btn btn-primary btn-block" style="margin-bottom:12px" onclick="goToFritesStep()">Passer aux frites →</button>`;
+  html += '<div class="section-title">🍔 Burgers</div><div class="grid-2">';
   for(const b of BURGERS){
     if(!isBurgerActive(b.id)) continue;
     const avail = burgerAvailable(b);
@@ -2488,7 +2556,7 @@ function renderCaisse(){
   }
   html += '</div>';
 
-  html += '<div class="section-title">Frites seules</div><div class="grid-2">';
+  html += '<div class="section-title">🍟 Frites seules</div><div class="grid-2">';
   for(const f of SOLO_FRIES){
     const avail = optionAvailable(f);
     html += `<button class="mini-card${avail ? '' : ' unavailable'}" onclick="${avail ? `addSoloFries('${f.id}')` : ''}">
@@ -2499,7 +2567,7 @@ function renderCaisse(){
   }
   html += '</div>';
 
-  html += '<div class="section-title">Boissons</div><div class="grid-2">';
+  html += '<div class="section-title">🥤 Boissons</div><div class="grid-2">';
   for(const d of DRINKS){
     html += `<button class="mini-card" onclick="addDrink('${d.id}')">
       <div class="mini-name">${d.name}</div>
@@ -2510,7 +2578,7 @@ function renderCaisse(){
 
   if(state.currentItems.length > 0){
     const editingLabel = state._editingOrderId ? `<span class="editing-tag">Modification de la commande #${state._editingOrderId}</span>` : '';
-    html += `<div class="ticket"><div class="ticket-title"><span>Ticket en cours</span>${editingLabel}</div>`;
+    html += `<div class="ticket"><div class="ticket-title"><span>🧾 Ticket en cours</span>${editingLabel}</div>`;
     for(const item of state.currentItems){
       if(item.type === "fries" || item.type === "fries-menu"){
         html += `<div class="ticket-item">
@@ -2558,7 +2626,8 @@ function renderOptions(){
     <div class="options-title">${b.name} <span class="muted" style="font-weight:600">${fmt(b.price)}</span></div>
   </div>`;
 
-  html += '<div class="section-title">Cuisson</div><div class="grid-4">';
+  html += `<button class="btn btn-primary btn-block" style="margin-bottom:12px" onclick="addBurgerItem()">${state.editingItemKey ? "✓ Mettre à jour" : "+ Ajouter au ticket"}</button>`;
+  html += '<div class="section-title">🔥 Cuisson</div><div class="grid-4">';
   for(const c of CUISSONS){
     const sel = state.pendingCuisson === c.id;
     html += `<button class="option-card ${c.cssClass}${sel ? ' selected' : ''}" onclick="selectCuisson('${c.id}')">
@@ -2567,7 +2636,7 @@ function renderOptions(){
   }
   html += '</div>';
 
-  html += '<div class="section-title">Suppléments</div><div class="grid-3">';
+  html += '<div class="section-title">➕ Suppléments</div><div class="grid-3">';
   for(const s of SUPPLEMENTS){
     const sel = state.pendingSupps.some(x => x.id === s.id);
     const avail = optionAvailable(s);
@@ -2679,7 +2748,7 @@ function renderEnCours(){
       </div></div>`;
   }
   if(payes.length > 0){
-    html += '<div class="history-label">Commandes réglées</div>';
+    html += '<div class="history-label">✅ Commandes réglées</div>';
     for(const order of payes){
       html += `<div class="order-card paid" id="order-card-${order.id}">
         <div class="order-header">
@@ -2699,7 +2768,7 @@ function renderEnCours(){
     html += `<div class="summary-card"><div class="summary-label">CA du jour</div><div class="summary-value">${fmt(state.dailyRevenue)}</div></div>`;
   }
   if(annules.length > 0){
-    html += '<div class="history-label">Commandes annulées</div>';
+    html += '<div class="history-label">❌ Commandes annulées</div>';
     for(const order of annules){
       html += `<div class="order-card cancelled" id="order-card-${order.id}">
         <div class="order-header">
@@ -2747,7 +2816,17 @@ function renderStocks(){
   const categories = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
   const low = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty <= 5 && i.qty > 0).length;
   const out = Object.entries(state.ingredients).filter(([k, i]) => ingredientVisible(k) && i.qty === 0).length;
+  const reserve = availableStock(); // ce que le ticket en cours réserve déjà
   let html = '<div class="pad">';
+
+  // Numéro de commande
+  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>🔢 Prochain numéro de commande</span></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="stock-step" onclick="adjustOrderNum(-1)">−</button>
+      <input id="order-num-input" class="edit-input" type="number" min="1" max="100" value="${state.orderNum}" onchange="setOrderNum(this.value)">
+      <button class="stock-step" onclick="adjustOrderNum(1)">+</button>
+      <span class="help">de 1 à 100 ; un numéro encore présent ce soir est sauté</span>
+    </div></div>`;
 
   if(low > 0 || out > 0){
     html += '<div class="alert-box">';
@@ -2759,15 +2838,15 @@ function renderStocks(){
   for(const cat of categories){
     const entries = Object.entries(state.ingredients).filter(([key, ing]) => ing.category === cat && ingredientVisible(key));
     if(entries.length === 0) continue;
-    html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>${cat}</span><button class="btn-chip" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}')">+ composant</button></div>`;
+    html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>📦 ${cat}</span><button class="btn-chip" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}')">+ composant</button></div>`;
     for(const [key, ing] of entries){
       const isOut = ing.qty === 0, isLow = ing.qty > 0 && ing.qty <= 5;
-      html += `<div class="stock-item"><div class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}">${ing.name}</div>
+      const auTicket = ing.qty - (reserve[key] ?? ing.qty);
+      html += `<div class="stock-item"><div class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}">${ing.name}${auTicket > 0 ? `<div class="help">dont ${auTicket} dans le ticket en cours</div>` : ''}</div>
         <div class="stock-inline">
           <button class="stock-step" onclick="adjustStock('${key}', -1)">−</button>
-          <input class="edit-input" type="number" min="0" value="${ing.qty}" onchange="updateStock('${key}', this.value)">
+          <input class="edit-input" type="number" min="0" inputmode="numeric" value="${ing.qty}" onchange="updateStock('${key}', this.value)">
           <button class="stock-step" onclick="adjustStock('${key}', 1)">+</button>
-          <button class="stock-save" onclick="updateStock('${key}', this.previousElementSibling.previousElementSibling.value)">OK</button>
         </div></div>`;
     }
     html += '</div>';
@@ -2788,38 +2867,29 @@ function renderStocks(){
     }
     return g + `</div>`;
   }
-  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>Ma carte du jour</span><span class="chip">${nbActive}/${BURGERS.length} actifs</span></div>
-    <div class="help" style="margin-bottom:12px">Seuls les burgers actifs apparaissent en caisse.</div>
+  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>🍔 Ma carte du jour</span><span class="chip">${nbActive}/${BURGERS.length} actifs</span></div>
+    <div class="help" style="margin-bottom:12px">Seuls les burgers actifs apparaissent en caisse. ✎ pour changer prix, composants et garnitures retirables.</div>
     ${carteGroup('Burgers fixes', 'Toujours à la carte', 'fixe')}
     <div style="height:14px"></div>
     ${carteGroup('Burgers du moment', 'À activer selon la saison', 'moment')}
     <button class="btn btn-primary btn-block" style="margin-top:14px" onclick="openBurgerModal('')">+ Ajouter un burger</button>
   </div>`;
 
-  // Ratés
+  // Clients non servis (rupture de stock)
   const actifs = BURGERS.filter(b => isBurgerActive(b.id));
-  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>Ratés</span><span class="chip${state.rates ? ' chip-danger' : ''}">${state.rates || 0} ce soir</span></div>
-    <div class="help" style="margin-bottom:10px">Un burger raté et refait : ses composants sortent du stock et le raté est compté dans la synthèse du soir.</div>
+  html += `<div class="stock-card"><div class="section-title between" style="margin-top:0"><span>🚫 Clients non servis</span><span class="chip${state.rates ? ' chip-danger' : ''}">${state.rates || 0} ce soir</span></div>
+    <div class="help" style="margin-bottom:10px">Un client reparti sans commander faute de stock. Compté dans la synthèse du soir, sans toucher au stock.</div>
     <div style="display:flex;gap:8px;align-items:center">
-      <select id="rate-burger" class="edit-input" style="flex:1;width:auto;text-align:left;font-weight:600;padding:0 8px">${actifs.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}</select>
-      <button class="btn btn-ghost btn-sm" onclick="compterRate()">Compter</button>
-      ${state.rates ? `<button class="btn btn-ghost btn-sm" title="Annuler le dernier raté" onclick="annulerRate()">↶</button>` : ''}
+      <select id="rate-burger" class="edit-input" style="flex:1;width:auto;text-align:left;font-weight:600;padding:0 8px"><option value="">Burger demandé (facultatif)</option>${actifs.map(b => `<option value="${b.id}">${b.name}</option>`).join('')}</select>
+      <button class="btn btn-ghost btn-sm" onclick="compterRate()">+1</button>
+      ${state.rates ? `<button class="btn btn-ghost btn-sm" title="Retirer le dernier" onclick="annulerRate()">↶</button>` : ''}
     </div>
     ${state.ratesDetail && state.ratesDetail.length ? `<div class="help" style="margin-top:8px">${state.ratesDetail.join(' · ')}</div>` : ''}
   </div>`;
 
-  // Numéro de commande
-  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Prochain numéro de commande</div>
-    <div class="help" style="margin-bottom:10px">Les numéros tournent de 1 à 100 ; un numéro encore présent ce soir est sauté automatiquement.</div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button class="stock-step" onclick="adjustOrderNum(-1)">−</button>
-      <input id="order-num-input" class="edit-input" type="number" min="1" max="100" value="${state.orderNum}" onchange="setOrderNum(this.value)">
-      <button class="stock-step" onclick="adjustOrderNum(1)">+</button>
-    </div></div>`;
-
   // Envoi au site
   const siteKey = getSiteKey(), syncL = siteSyncLabel();
-  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Envoi au site L'Arrêt Gourmand</div>
+  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">🌐 Envoi au site L'Arrêt Gourmand</div>
     <div class="help" style="margin-bottom:10px">${window.APERCU ? `<b style="color:var(--accent)">Version d'aperçu :</b> données de test séparées de la vraie caisse, envoi au site désactivé.` : siteKey
       ? `<b style="color:var(--ok)">Clé enregistrée.</b> En fin de service, envoie la synthèse avec « Envoyer au site » (ici ou dans le détail du CA). État : ${syncL.txt}.`
       : `Colle la clé affichée dans l'admin du site (Réglages → Caisse) pour envoyer les chiffres de chaque service.`}</div>
@@ -2834,13 +2904,14 @@ function renderStocks(){
 
   // Affichage
   const th = currentTheme();
-  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">Affichage</div>
+  html += `<div class="stock-card"><div class="section-title" style="margin-top:0">🎨 Affichage</div>
     <div class="theme-seg"><button class="${th === 'dark' ? 'on' : ''}" onclick="setTheme('dark')">Sombre</button><button class="${th === 'light' ? 'on' : ''}" onclick="setTheme('light')">Clair</button></div>
     <div class="help" style="margin-top:8px">Sombre pour le soir, clair en plein jour.</div></div>`;
 
   html += '</div>';
   return html;
 }
+
 if('serviceWorker' in navigator){
   // Désactive tous les anciens service workers pour forcer le rechargement
   navigator.serviceWorker.getRegistrations().then(regs => {
@@ -2848,18 +2919,16 @@ if('serviceWorker' in navigator){
   });
 }
 
-// ---- RATÉS ----
+// ---- CLIENTS NON SERVIS (rupture de stock) ----
 function compterRate(){
   const id = document.getElementById("rate-burger")?.value;
-  const b = BURGERS.find(x => x.id === id); if(!b) return;
-  for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty); }
-  state.rates = (state.rates || 0) + 1; state.ratesDetail = state.ratesDetail || []; state.ratesDetail.push(b.name);
+  const b = BURGERS.find(x => x.id === id);
+  state.rates = (state.rates || 0) + 1; state.ratesDetail = state.ratesDetail || []; state.ratesDetail.push(b ? b.name : "sans précision");
   saveState(); marquerAEnvoyer(); render();
 }
 function annulerRate(){
-  if(!state.ratesDetail || !state.ratesDetail.length) return;
-  const name = state.ratesDetail.pop(); const b = BURGERS.find(x => x.name === name);
-  if(b) for(const [k, qty] of Object.entries(countNeeded(b.ing || []))){ if(state.ingredients[k]) state.ingredients[k].qty += qty; }
+  if(!state.rates) return;
+  if(state.ratesDetail && state.ratesDetail.length) state.ratesDetail.pop();
   state.rates = Math.max(0, (state.rates || 0) - 1);
   saveState(); marquerAEnvoyer(); render();
 }
@@ -2871,7 +2940,7 @@ function openBurgerModal(id){
   const counts = {}; for(const k of (b ? b.ing : ["bun","boeuf","cheddar"])) counts[k] = (counts[k] || 0) + 1;
   const c = (b && BURGER_CUSTOMS[b.id]) || { fromage:[], sauces:[], garnitures:[] };
   _editBurger = { id: b ? b.id : "", name: b ? b.name : "", price: b ? b.price : 12, group: b ? b.group : "moment", counts, customs:{ fromage:[...(c.fromage||[])], sauces:[...(c.sauces||[])], garnitures:[...(c.garnitures||[])] } };
-  document.getElementById("burger-modal-title").textContent = b ? b.name : "Nouveau burger";
+  document.getElementById("burger-modal-title").textContent = b ? "✎ " + b.name : "🍔 Nouveau burger";
   renderBurgerModal();
   document.getElementById("modal-burger").style.display = "flex";
 }
