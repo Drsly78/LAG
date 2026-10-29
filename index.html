@@ -30,7 +30,9 @@
     --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   }
   html{background:#0a0c10} /* ce qui dépasse de la page (zones d'encoche / barre d'accueil) reste sombre */
-  html,body{height:100%;overflow:hidden}
+  /* pas d'overflow:hidden ici : sur iPhone (app installée, iOS 26) il fait rogner l'affichage à la hauteur annoncée,
+     plus courte que l'écran ; overscroll-behavior empêche à la place le rebond de la page entière */
+  html,body{height:100%;overscroll-behavior:none}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   body{
     height:100%;
@@ -629,7 +631,7 @@
   <div class="header">
     <div class="header-center">
       <div class="header-title">🍔 L'ARRÊT GOURMAND</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.2"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.3"></div>
     </div>
     <button class="header-agenda-btn" onclick="openAgendaModal()" title="Voir l'agenda des créneaux">
       🕐<span class="header-agenda-label">AGENDA</span>
@@ -2417,7 +2419,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === false) return { txt:"site : en attente (" + (_siteSyncEtat.msg || "hors ligne") + ")", cls:"warn" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.2";
+const APP_VERSION = "3.3";
 let iosCorrige = false;
 // Contournement du bug iOS 26 (app installée) : la hauteur annoncée (innerHeight) est amputée de la barre d'état
 // alors que l'écran est bien complet. On donne à l'app la hauteur réelle de l'écran quand l'écart est celui d'une barre d'état.
