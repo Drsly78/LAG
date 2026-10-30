@@ -10,7 +10,7 @@ async function scenario(browser, name, fn, opts = {}) {
   const errors = [], dialogs = [];
   page.on('pageerror', e => errors.push('pageerror: ' + e.message));
   page.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
-  page.on('dialog', async d => { dialogs.push(d.type() + ': ' + d.message()); await d.accept(); });
+  page.on('dialog', async d => { dialogs.push(d.type() + ': ' + d.message()); await d.accept(d.type() === 'prompt' ? (d.defaultValue() || 'Client test') : undefined); });
   // serveur du site simulé
   const envois = [];
   await page.route('**/api/caisse', async route => {
@@ -136,7 +136,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tab('encours'); await t.tap('Modifier');
     let s = await t.state();
     t.check(s.tab === 'caisse' && s.step === 'boissons' && s.editing === 1 && s.orders.length === 0, 'commande #1 ouverte en modification', { tab: s.tab, step: s.step, editing: s.editing });
-    t.check(s.stock.boeuf === 100 && s.stock.chevre === 20, 'stock restitué pendant la modification', { boeuf: s.stock.boeuf, chevre: s.stock.chevre });
+    t.check(s.stock.boeuf === 99 && s.stock.chevre === 19, 'stock toujours débité pendant la modification (les articles sont au ticket)', { boeuf: s.stock.boeuf, chevre: s.stock.chevre });
     await t.tapCard('Desperados'); await t.tap('Envoyer en cuisine'); await t.slot('19h20');
     s = await t.state();
     t.check(s.orders.length === 1 && s.orders[0].id === 1 && s.orders[0].items.length === 3 && s.orders[0].slot === '19h20', 'même numéro #1, 3 articles, nouveau créneau', s.orders[0] && { id: s.orders[0].id, n: s.orders[0].items.length, slot: s.orders[0].slot });
@@ -239,7 +239,7 @@ async function scenario(browser, name, fn, opts = {}) {
   // ───────── S11 : VIP ─────────
   await scenario(browser, 'S11 commande VIP « Le G »', async (t) => {
     await t.goto();
-    await t.tab('vip'); await t.tap('Le G');
+    await t.tab('vip'); await t.page.locator('.vip-card, button', { hasText: 'Le G' }).first().click(); await t.page.waitForTimeout(80);
     await t.page.waitForTimeout(150);
     t.check(await t.page.locator('#modal-slot').isVisible(), 'modale créneau ouverte directement');
     await t.slot('20h30');
@@ -251,11 +251,11 @@ async function scenario(browser, name, fn, opts = {}) {
   });
 
   // ───────── S12 : ratés ─────────
-  await scenario(browser, 'S12 ratés', async (t) => {
+  await scenario(browser, 'S12 clients non servis', async (t) => {
     await t.goto(); await t.tab('stocks');
-    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('Compter');
-    let s = await t.state(); t.check(s.rates === 1 && s.stock.boeuf === 99 && s.stock.reblochon === 19 && s.stock.bun === 69, 'raté Montagnard : −1 bœuf, −1 reblochon, −1 bun', { r: s.rates, boeuf: s.stock.boeuf, rebl: s.stock.reblochon });
-    await t.tap('↶'); s = await t.state(); t.check(s.rates === 0 && s.stock.boeuf === 100 && s.stock.reblochon === 20, 'raté annulé, stock restitué');
+    await t.page.locator('#rate-burger').selectOption('montagnard'); await t.tap('+1');
+    let s = await t.state(); t.check(s.rates === 1 && s.stock.boeuf === 100 && s.stock.reblochon === 20 && s.ratesDetail[0] === 'Le Montagnard', 'non servi compté, stock intact', { r: s.rates, boeuf: s.stock.boeuf, d: s.ratesDetail });
+    await t.tap('↶'); s = await t.state(); t.check(s.rates === 0, 'retiré');
   });
 
   // ───────── S13 : nouveau burger + nouveau composant ─────────
@@ -455,6 +455,109 @@ async function scenario(browser, name, fn, opts = {}) {
     t.check(t.envois.filter(e => !e.ping).length === 1, 'l\'envoi manuel part', t.envois.length);
     badge = await t.page.locator('#site-sync-badge').innerText(); t.check(badge.includes('envoyé'), 'badge « envoyé »', badge);
     s = await t.state(); t.check(s.orders.length === 1, 'les données restent après l\'envoi');
+  });
+
+  // ───────── S25 : VIP modifiables ─────────
+  await scenario(browser, 'S25 commandes VIP : modifier, créer, supprimer', async (t) => {
+    await t.goto(); await t.tab('vip');
+    // modifier les articles de « Nephis » : ajouter un Soft
+    await t.page.locator('.vip-card', { hasText: 'Nephis' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    t.check(await t.page.locator('#modal-vip').isVisible(), 'fiche VIP ouverte');
+    await t.page.locator('#modal-vip button', { hasText: 'Modifier les articles' }).click(); await t.page.waitForTimeout(100);
+    let s = await t.state(); t.check(s.tab === 'caisse' && s.step === 'boissons' && s.items.length === 2, 'ticket chargé pour modification', { tab: s.tab, step: s.step, n: s.items.length });
+    await t.tapCard('Soft'); await t.tap('Enregistrer la VIP');
+    s = await t.state(); t.check(s.tab === 'vip' && s.items.length === 0, 'retour à l\'onglet VIP, ticket vidé', { tab: s.tab, n: s.items.length });
+    t.check(s.text.includes('Soft') && s.text.includes('Nephis'), 'la description de Nephis inclut le Soft');
+    await t.goto(); await t.tab('vip'); s = await t.state(); t.check(s.text.includes('1× Soft'), 'modification conservée après rechargement');
+    // la charger : la commande a bien 3 articles
+    await t.page.locator('.vip-card', { hasText: 'Nephis' }).click(); await t.page.waitForTimeout(150); await t.slot('19h00');
+    s = await t.state(); t.check(s.orders.length === 1 && s.orders[0].items.length === 3 && Math.abs(s.orders[0].total - (12 + 2 + 2.5 + 2)) < 0.001, 'commande VIP 3 articles 18,50 €', s.orders[0] && { n: s.orders[0].items.length, total: s.orders[0].total });
+    // créer une VIP depuis un ticket
+    await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Truffées');
+    await t.page.locator('.btn-chip', { hasText: 'VIP' }).click(); await t.page.waitForTimeout(150);
+    s = await t.state(); t.check(s.tab === 'vip' && s.text.includes('Client test') && s.text.includes('Le BBQ'), 'nouvelle VIP « Client test » créée', s.text.slice(0, 120));
+    // renommer puis supprimer
+    await t.page.locator('.vip-card', { hasText: 'Client test' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#vip-name').fill('Jean'); await t.page.locator('#modal-vip button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.text.includes('Jean') && !s.text.includes('Client test'), 'renommée');
+    await t.page.locator('.vip-card', { hasText: 'Jean' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-vip button', { hasText: '🗑' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(!s.text.includes('Jean'), 'supprimée');
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
+  });
+
+  // ───────── S26 : recette modifiée alors que le burger est déjà au ticket (avec relance de l'app) ─────────
+  await scenario(browser, 'S26 composant ajouté à un burger déjà au ticket', async (t) => {
+    await t.goto();
+    await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket');
+    await t.goto(); // relance de l'app : le ticket est restauré
+    await t.tab('stocks');
+    await t.page.locator('.stock-card', { hasText: 'Composants' }).locator('button', { hasText: '+ composant' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#ing-name').fill('Comté'); await t.page.locator('#ing-qty').fill('12'); await t.page.locator('#modal-ingredient button', { hasText: 'Créer' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.carte-row', { hasText: 'Le BBQ' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#burger-modal-content .cat-ing', { hasText: 'Comté' }).locator('.stock-step', { hasText: '+' }).click(); await t.page.waitForTimeout(50);
+    await t.page.locator('#bg-price').fill('13');
+    await t.page.locator('#modal-burger button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    await t.goto(); // encore une relance
+    let s = await t.state();
+    const total = await t.evaluate(() => state.currentItems.reduce((a, i) => a + itemTotal(i), 0));
+    t.check(Math.abs(total - 13) < 0.001, 'le ticket restauré prend le nouveau prix (13 €)', total);
+    await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.stock.comte === 11 && s.stock.boeuf === 99, 'le Comté ajouté à la recette est bien déduit', { comte: s.stock.comte, boeuf: s.stock.boeuf });
+    t.check(Math.abs(s.orders[0].total - 13) < 0.001, 'commande à 13 €', s.orders[0].total);
+    // annulation : rend exactement ce qui a été consommé, même si la recette change entre-temps
+    await t.tab('stocks'); await t.page.locator('.carte-row', { hasText: 'Le BBQ' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#burger-modal-content .cat-ing', { hasText: 'Comté' }).locator('.stock-step', { hasText: '−' }).click(); await t.page.waitForTimeout(50);
+    await t.page.locator('#modal-burger button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    await t.tab('encours'); await t.tap('Annuler');
+    s = await t.state(); t.check(s.stock.comte === 12 && s.stock.boeuf === 100, 'annulation : Comté restitué (12)', { comte: s.stock.comte, boeuf: s.stock.boeuf });
+  });
+
+  // ───────── S27 : modifier et supprimer un composant ─────────
+  await scenario(browser, 'S27 modifier / supprimer un composant', async (t) => {
+    await t.goto(); await t.tab('stocks');
+    await t.page.locator('.stock-name', { hasText: 'Chèvre' }).click(); await t.page.waitForTimeout(80);
+    t.check(await t.page.locator('#modal-ingredient').isVisible() && (await t.page.locator('#ing-usage').innerText()).includes('Le Myko'), 'fiche du Chèvre : utilisé par Le Myko');
+    await t.page.locator('#ing-name').fill('Chèvre frais'); await t.page.locator('#modal-ingredient button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);
+    let s = await t.state(); t.check(s.text.includes('Chèvre frais'), 'renommé');
+    await t.page.locator('.stock-name', { hasText: 'Chèvre frais' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-ingredient button', { hasText: '🗑' }).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(!s.text.includes('Chèvre frais') && !('chevre' in s.stock), 'composant supprimé', Object.keys(s.stock));
+    t.check(t.dialogs.some(d => d.includes('Le Myko')), 'la confirmation prévient pour Le Myko', t.dialogs);
+    const myko = await t.evaluate(() => BURGERS.find(b => b.id === 'myko').ing); t.check(!myko.includes('chevre'), 'retiré de la recette du Myko', myko);
+    await t.goto(); await t.tab('stocks'); s = await t.state(); t.check(!('chevre' in s.stock), 'ne revient pas après rechargement', Object.keys(s.stock));
+    await t.tab('caisse'); await t.tapCard('Le Myko'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.orders.length === 1 && s.stock.boeuf === 99, 'le Myko se commande toujours', { n: s.orders.length, boeuf: s.stock.boeuf });
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
+  });
+
+  // ───────── S28 : le stock est débité dès l'ajout au ticket ─────────
+  await scenario(browser, 'S28 débit du stock dès l\'ajout au ticket', async (t) => {
+    await t.goto();
+    await t.tapCard("L'Original"); await t.tap('+ Ajouter au ticket');
+    let s = await t.state(); t.check(s.stock.bun === 69 && s.stock.boeuf === 99 && s.stock.cheddar === 149, 'débité dès l\'ajout', { bun: s.stock.bun, boeuf: s.stock.boeuf, cheddar: s.stock.cheddar });
+    await t.page.locator('#content .remove-btn').first().click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.stock.bun === 70 && s.stock.boeuf === 100 && s.stock.cheddar === 150, 'rendu au retrait', { bun: s.stock.bun });
+    await t.tapCard("L'Original"); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Cheddar bacon');
+    s = await t.state(); t.check(s.stock.cheddar === 147, 'frites cheddar : −2 cheddar dès le choix', s.stock.cheddar);
+    await t.page.locator('#content button', { hasText: 'Changer' }).first().click(); await t.page.waitForTimeout(80);
+    const orig = s.items.find(i => i.type === 'burger');
+    await t.page.locator(`button[onclick="changeFriteForBurger(${orig.key},'bfNature')"]`).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.stock.cheddar === 149, 'changement pour nature : cheddar rendu', s.stock.cheddar);
+    await t.goto(); s = await t.state(); t.check(s.stock.bun === 69 && s.items.length === 2, 'après relance : ticket et stock cohérents', { bun: s.stock.bun, n: s.items.length });
+    await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.stock.bun === 69 && s.stock.boeuf === 99 && s.stock.cheddar === 149, 'l\'envoi en cuisine ne débite pas une 2e fois', { bun: s.stock.bun, cheddar: s.stock.cheddar });
+    await t.tab('encours'); await t.tap('Annuler'); s = await t.state(); t.check(s.stock.bun === 70 && s.stock.cheddar === 150, 'annulation : tout rendu');
+    // modification d'une VIP : rien ne sort du stock
+    await t.tab('vip'); await t.page.locator('.vip-card', { hasText: 'Nephis' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-vip button', { hasText: 'Modifier les articles' }).click(); await t.page.waitForTimeout(100);
+    s = await t.state(); t.check(s.stock.poulet === 6, 'modification de VIP : stock intact', s.stock.poulet);
+    await t.tap('Annuler'); s = await t.state(); t.check(s.stock.poulet === 6 && s.items.length === 0, 'annulation de la modification VIP : stock intact');
+    // un ticket abandonné pour une VIP est rendu
+    await t.tab('caisse'); await t.tapCard('Le Poulet'); await t.tap('+ Ajouter au ticket'); s = await t.state(); t.check(s.stock.poulet === 5, 'poulet au ticket : 5');
+    await t.tab('vip'); await t.page.locator('.vip-card', { hasText: 'Poulet Myko Boy' }).click(); await t.page.waitForTimeout(150);
+    s = await t.state(); t.check(s.stock.poulet === 5 && s.stock.chevre === 19 && s.items.length === 2, 'ticket remplacé par la VIP : ancien rendu, nouveau débité', { poulet: s.stock.poulet, chevre: s.stock.chevre });
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
   });
 
   await browser.close();

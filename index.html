@@ -1001,6 +1001,7 @@ function loadTicket(){
     const t = JSON.parse(localStorage.getItem(STORAGE_KEYS.ticket) || "null");
     if(!t || !Array.isArray(t.items)) return;
     state.currentItems = t.items.filter(itemValide).map(rafraichirArticle);
+    reconcilierTicket();
     state.friteMenuPairing = t.pairing && typeof t.pairing === "object" ? t.pairing : {};
     state._editingOrderId = t.editing || null;
     state._editingInfos = t.infos || null;
@@ -1204,18 +1205,40 @@ function getItemIngredients(item){
     ...(item.drink?.ing || [])
   ];
 }
-// Stock réel = stock actuel − ce qui est déjà dans le ticket en cours (non encore confirmé)
-function availableStock(excludeKey){
-  const reserved = {};
-  for(const item of state.currentItems){
-    if(excludeKey && item.key === excludeKey) continue; // ne pas compter l'item qu'on est en train d'éditer
-    for(const [k, qty] of Object.entries(countNeeded(getItemIngredients(item)))){
-      reserved[k] = (reserved[k] || 0) + qty;
+// ---- STOCK : débité dès l'ajout au ticket, rendu si l'article est retiré ----
+// item.ingUsed = ce qui a réellement été sorti du stock pour cet article (sert à le rendre à l'identique).
+function appliquerStock(liste, signe){
+  for(const [k, q] of Object.entries(countNeeded(liste || []))){ if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty + signe * q); }
+}
+function deduireArticle(item){
+  if(!item || item.ingUsed || state._vipEdit) return; // en modification d'une VIP, rien ne sort du stock
+  item.ingUsed = getItemIngredients(item); appliquerStock(item.ingUsed, -1); saveState();
+}
+function restituerArticle(item){ if(!item || !item.ingUsed) return; appliquerStock(item.ingUsed, +1); delete item.ingUsed; saveState(); }
+function restituerTicket(){ for(const it of state.currentItems) restituerArticle(it); }
+// La recette d'un burger du ticket a changé (composant ajouté ou retiré) : on ajuste la différence
+function reconcilierTicket(){
+  for(const it of state.currentItems){
+    if(!it.ingUsed) continue;
+    const avant = countNeeded(it.ingUsed), maintenant = getItemIngredients(it), apres = countNeeded(maintenant);
+    for(const k of new Set([...Object.keys(avant), ...Object.keys(apres)])){
+      const d = (apres[k] || 0) - (avant[k] || 0);
+      if(d && state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - d);
     }
+    it.ingUsed = maintenant;
   }
+  saveState();
+}
+// Stock disponible pour un nouvel ajout : le stock affiché (déjà net du ticket), plus ce que rendrait l'article en cours de modification
+function availableStock(excludeKey){
   const avail = {};
-  for(const [k, ing] of Object.entries(state.ingredients)){
-    avail[k] = Math.max(0, ing.qty - (reserved[k] || 0));
+  for(const [k, ing] of Object.entries(state.ingredients)) avail[k] = ing.qty;
+  for(const item of state.currentItems){
+    if(excludeKey && item.key === excludeKey){
+      if(item.ingUsed) for(const [k, q] of Object.entries(countNeeded(item.ingUsed))) avail[k] = (avail[k] || 0) + q;
+      continue;
+    }
+    if(!item.ingUsed) for(const [k, q] of Object.entries(countNeeded(getItemIngredients(item)))) avail[k] = Math.max(0, (avail[k] || 0) - q); // pas encore débité (mode VIP)
   }
   return avail;
 }
@@ -1324,10 +1347,13 @@ function addBurgerItem(){
   if(!ingredientsAvailable(getItemIngredients(item))) return;
 
   if(state.editingItemKey){
+    const ancien = state.currentItems.find(i => i.key === state.editingItemKey);
+    if(ancien) restituerArticle(ancien);
     state.currentItems = state.currentItems.map(i => i.key === state.editingItemKey ? item : i);
   } else {
     state.currentItems.push(item);
   }
+  deduireArticle(item);
 
   state.pendingBurger = null;
   state.pendingSupps = [];
@@ -1352,23 +1378,27 @@ function addBurgerItem(){
 function addSoloFries(id){
   const fries = SOLO_FRIES.find(x => x.id === id);
   if(!fries || !optionAvailable(fries)) return;
-  state.currentItems.push({ type:"fries", fries, key:Date.now() + Math.random() });
+  const item = { type:"fries", fries, key:Date.now() + Math.random() };
+  state.currentItems.push(item); deduireArticle(item);
   render();
 }
 function addSteakFrites(){
   if(!ingredientsAvailable(["boeuf"])) return;
-  state.currentItems.push({ type:"steakfrites", key:Date.now() + Math.random() });
+  const item = { type:"steakfrites", key:Date.now() + Math.random() };
+  state.currentItems.push(item); deduireArticle(item);
   render();
 }
 function addDrink(id){
   const drink = DRINKS.find(x => x.id === id);
   if(!drink) return;
-  state.currentItems.push({ type:"drink", drink, key:Date.now() + Math.random() });
+  const item = { type:"drink", drink, key:Date.now() + Math.random() };
+  state.currentItems.push(item); deduireArticle(item);
   render();
 }
 function removeItem(key){
-  // Si c'est un burger, supprimer aussi sa frite pairée
+  // Si c'est un burger, supprimer aussi sa frite pairée ; le stock des deux est rendu
   const pairedFriteKey = state.friteMenuPairing[key];
+  for(const it of state.currentItems) if(it.key === key || (pairedFriteKey && it.key === pairedFriteKey)) restituerArticle(it);
   if(pairedFriteKey) state.currentItems = state.currentItems.filter(i => i.key !== pairedFriteKey);
   state.currentItems = state.currentItems.filter(i => i.key !== key);
   delete state.friteMenuPairing[key];
@@ -1420,12 +1450,9 @@ function confirmOrder(slot){
   const order = { id:orderId, items:[...state.currentItems], rawTotal, total:Math.max(0, rawTotal - cartes * 10), status:"encours", loyalty:cartes > 0, loyaltyCount:cartes, slot: slot || null,
     date: edit.date || _now.toLocaleDateString('fr-FR'), heure: edit.heure || _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
 
+  reconcilierTicket();
   for(const item of state.currentItems){
-    item.ingUsed = getItemIngredients(item);
-    const needed = countNeeded(item.ingUsed);
-    for(const [k, qty] of Object.entries(needed)){
-      if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty);
-    }
+    if(!item.ingUsed){ item.ingUsed = getItemIngredients(item); appliquerStock(item.ingUsed, -1); }
   }
   state.orders.push(order);
   if(!state._editingOrderId){
@@ -1491,7 +1518,7 @@ function goToFritesStep(){
       if(premierNouveau < 0) premierNouveau = idx;
       if(nature && optionAvailable(nature)){
         const newItem = { type:"fries-menu", fries:nature, key:Date.now() + Math.random(), auto:true };
-        state.currentItems.push(newItem);
+        state.currentItems.push(newItem); deduireArticle(newItem);
         state.friteMenuPairing[b.key] = newItem.key;
       } else {
         state.friteMenuPairing[b.key] = null;
@@ -1570,6 +1597,7 @@ function selectFriteForBurger(burgerKey, friteId){
   burgerKey = Number(burgerKey);
   const oldFriteKey = state.friteMenuPairing[burgerKey];
   if(oldFriteKey){
+    restituerArticle(state.currentItems.find(i => i.key === oldFriteKey));
     state.currentItems = state.currentItems.filter(i => i.key !== oldFriteKey);
     state.friteMenuPairing[burgerKey] = null;
   }
@@ -1577,7 +1605,7 @@ function selectFriteForBurger(burgerKey, friteId){
     const frites = BURGER_FRIES.find(x => x.id === friteId);
     if(frites && optionAvailable(frites)){
       const newItem = { type:"fries-menu", fries:frites, key:Date.now() + Math.random() };
-      state.currentItems.push(newItem);
+      state.currentItems.push(newItem); deduireArticle(newItem);
       state.friteMenuPairing[burgerKey] = newItem.key;
     }
   }
@@ -1600,6 +1628,7 @@ function backToBurgerFromFrites(){
   // Retirer les frites pré-remplies automatiquement et jamais confirmées
   const autoKeys = state.currentItems.filter(i => i.type === "fries-menu" && i.auto).map(i => i.key);
   if(autoKeys.length){
+    for(const it of state.currentItems) if(autoKeys.includes(it.key)) restituerArticle(it);
     state.currentItems = state.currentItems.filter(i => !autoKeys.includes(i.key));
     for(const bk of Object.keys(state.friteMenuPairing)){
       if(autoKeys.includes(state.friteMenuPairing[bk])) delete state.friteMenuPairing[bk];
@@ -1613,7 +1642,7 @@ function addBurgerFriesV2(id){
   const fries = BURGER_FRIES.find(x => x.id === id);
   if(!fries || !optionAvailable(fries)) return;
   const newItem = { type:"fries-menu", fries, key:Date.now() + Math.random() };
-  state.currentItems.push(newItem);
+  state.currentItems.push(newItem); deduireArticle(newItem);
   // Auto-pair avec le premier burger non pairé
   const pairedFriteKeys = new Set(Object.values(state.friteMenuPairing));
   const burgers = state.currentItems.filter(i => i.type === 'burger');
@@ -1707,7 +1736,8 @@ document.addEventListener('touchend',  onFriteTouchEnd,  {passive:false});
 function addSoloFriesV2(id){
   const fries = SOLO_FRIES.find(x => x.id === id);
   if(!fries || !optionAvailable(fries)) return;
-  state.currentItems.push({ type:"fries", fries, key:Date.now() + Math.random() });
+  const item = { type:"fries", fries, key:Date.now() + Math.random() };
+  state.currentItems.push(item); deduireArticle(item);
   render();
 }
 
@@ -1884,15 +1914,17 @@ function changeFriteForBurger(burgerKey, friteId){
   // Supprimer l'ancienne frite pairée si elle existe
   const oldFriteKey = state.friteMenuPairing[burgerKey];
   if(oldFriteKey){
+    restituerArticle(state.currentItems.find(i => i.key === oldFriteKey));
     state.currentItems = state.currentItems.filter(i => i.key !== oldFriteKey);
   }
   if(friteId){
     const frite = BURGER_FRIES.find(f => f.id === friteId);
-    if(frite){
+    if(frite && optionAvailable(frite)){
       const newKey = Date.now() + Math.random();
-      state.currentItems.push({ type:"fries-menu", key:newKey, fries:frite });
+      const item = { type:"fries-menu", key:newKey, fries:frite };
+      state.currentItems.push(item); deduireArticle(item);
       state.friteMenuPairing[burgerKey] = newKey;
-    }
+    } else if(frite){ alert("Plus assez de stock pour ces frites."); state.friteMenuPairing[burgerKey] = null; }
   } else {
     state.friteMenuPairing[burgerKey] = null;
   }
@@ -1903,7 +1935,8 @@ function changeFriteForBurger(burgerKey, friteId){
 function addDrinkV2(id){
   const drink = DRINKS.find(x => x.id === id);
   if(!drink) return;
-  state.currentItems.push({ type:"drink", drink, key:Date.now() + Math.random() });
+  const item = { type:"drink", drink, key:Date.now() + Math.random() };
+  state.currentItems.push(item); deduireArticle(item);
   render();
 }
 
@@ -1996,15 +2029,12 @@ function editOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   if(state.currentItems.length && !confirm("Un ticket est déjà en cours. L'abandonner pour modifier la commande #" + id + " ?")) return;
-  // Une commande annulée a déjà rendu son stock et ses cartes : on ne les restitue pas une deuxième fois
+  restituerTicket();
+  // Les articles reviennent dans le ticket avec leur stock déjà débité ; une commande annulée (stock déjà rendu) sera redébitée à la confirmation
   if(order.status !== "annule"){
-    for(const item of order.items){
-      const needed = countNeeded(ingredientsConsommes(item));
-      for(const [k, qty] of Object.entries(needed)){
-        if(state.ingredients[k]) state.ingredients[k].qty += qty;
-      }
-    }
     state.loyaltyCount = Math.max(0, state.loyaltyCount - (order.loyaltyCount || (order.loyalty ? 1 : 0)));
+  } else {
+    for(const item of order.items) delete item.ingUsed;
   }
   if(order.status === "paye"){ state.dailyRevenue = Math.max(0, state.dailyRevenue - order.total); marquerAEnvoyer(); }
   // cartes fidélité, date et heure d'origine : reprises telles quelles à la re-confirmation
@@ -2518,7 +2548,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé " + _siteSyncEtat.quand, cls:"ok" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.5.2";
+const APP_VERSION = "3.5.3";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
@@ -2841,8 +2871,10 @@ function loadVipOrder(vipId){
   if(!vip) return;
   const { items, pairing } = vip.build();
   if(!items.every(itemValide)){ alert("Un produit de cette commande VIP n'est plus à la carte."); return; }
+  restituerTicket();
   state.currentItems = items;
   state.friteMenuPairing = pairing;
+  for(const it of items) deduireArticle(it);
   state.friteStepIndex = 0;
   state.step = "boissons";
   switchTab("caisse");
@@ -3477,7 +3509,7 @@ function saveBurger(){
     state.activeBurgers[id] = true; e.id = id;
   }
   BURGER_CUSTOMS[e.id] = { fromage:e.customs.fromage, sauces:e.customs.sauces, garnitures:e.customs.garnitures };
-  saveCatalog(); saveState(); closeBurgerModal(); render();
+  saveCatalog(); reconcilierTicket(); saveState(); closeBurgerModal(); render();
 }
 function deleteBurger(){
   const e = _editBurger; if(!e || !e.id) return;
