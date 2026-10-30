@@ -287,7 +287,7 @@
   .alert-low{color:var(--accent);font-size:13px;margin-top:4px;font-weight:600}
   .stock-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
   .stock-item:last-child{border-bottom:none}
-  .stock-name{flex:1;font-size:15px;color:var(--text);font-weight:600}
+  .stock-name{flex:1;font-size:15px;color:var(--text);font-weight:600;background:none;border:0;text-align:left;padding:0;min-width:0}
   .stock-name.low{color:var(--accent)}
   .stock-name.out{color:var(--danger)}
   .stock-inline{display:flex;align-items:center;gap:6px}
@@ -422,7 +422,7 @@
   <div class="header">
     <div class="brand">
       <div class="brand-name">L'Arrêt Gourmand</div>
-      <div class="site-sync" id="site-sync-badge" title="version 3.6.2"></div>
+      <div class="site-sync" id="site-sync-badge" title="version 3.6.3"></div>
     </div>
     <button class="hdr-btn" onclick="openAgendaModal()" title="Agenda des créneaux"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Agenda</button>
     <button class="ca-chip" onclick="openCAModal()" title="Détail du CA"><span class="ca-label">CA du jour</span><span class="ca-amount" id="header-ca">0,00 €</span></button>
@@ -455,10 +455,10 @@
       <div id="burger-modal-content"></div>
     </div>
   </div>
-  <!-- Modal Composant (création) -->
+  <!-- Modal Composant (création / modification) -->
   <div class="modal-overlay" id="modal-ingredient" style="display:none" onclick="closeIngredientModal(event)">
     <div class="modal modal-wide" onclick="event.stopPropagation()" style="max-width:420px">
-      <div class="modal-title">🧀 Nouveau composant</div>
+      <div class="modal-title" id="ing-modal-title">🧀 Nouveau composant</div>
       <div class="cat-edit">
         <label>Nom<input id="ing-name" type="text" placeholder="Ex. Comté, Sauce truffe…"></label>
         <label>Catégorie<select id="ing-cat"></select></label>
@@ -467,9 +467,11 @@
         <select id="ing-link-burger" style="display:none"></select>
         <div class="help">Catégorie « Production » = viandes (comptées comme steak pour l'option double) ; « Composants » = fromages (comptés comme fromage pour l'option double).</div>
       </div>
+      <div class="help" id="ing-usage" style="margin-top:8px"></div>
       <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-cancel" id="ing-delete-btn" style="flex:0 0 auto;padding:0 14px;display:none" title="Supprimer ce composant" onclick="deleteIngredient()">🗑</button>
         <button class="btn btn-ghost" style="flex:1" onclick="closeIngredientModal()">Annuler</button>
-        <button class="btn btn-green" style="flex:2" onclick="saveIngredient()">Créer</button>
+        <button class="btn btn-green" style="flex:2" id="ing-save-btn" onclick="saveIngredient()">Créer</button>
       </div>
     </div>
   </div>
@@ -727,6 +729,7 @@ let BURGERS = JSON.parse(JSON.stringify(BURGERS_BASE));
 let BURGER_CUSTOMS = JSON.parse(JSON.stringify(BURGER_CUSTOMS_BASE));
 let INGREDIENT_BURGER_LINK = JSON.parse(JSON.stringify(INGREDIENT_BURGER_LINK_BASE));
 const CATALOG_KEY = "ft7_catalog";
+let CATALOG_SUPPRIMES = new Set(); // composants de base supprimés par l'utilisateur (pour ne pas les recréer)
 function loadCatalog(){
   try{
     const c = JSON.parse(localStorage.getItem(CATALOG_KEY) || "null");
@@ -735,12 +738,13 @@ function loadCatalog(){
     BURGERS = c.burgers;
     BURGER_CUSTOMS = c.customs || {};
     INGREDIENT_BURGER_LINK = c.links || {};
-    // les ingrédients ajoutés dans le code après la sauvegarde restent disponibles
-    for(const [k, v] of Object.entries(INGREDIENTS_BASE)) if(!INGREDIENTS_DEFAULT[k]) INGREDIENTS_DEFAULT[k] = JSON.parse(JSON.stringify(v));
+    CATALOG_SUPPRIMES = new Set(Array.isArray(c.supprimes) ? c.supprimes : []);
+    // les ingrédients ajoutés dans le code après la sauvegarde restent disponibles (sauf ceux supprimés exprès)
+    for(const [k, v] of Object.entries(INGREDIENTS_BASE)) if(!INGREDIENTS_DEFAULT[k] && !CATALOG_SUPPRIMES.has(k)) INGREDIENTS_DEFAULT[k] = JSON.parse(JSON.stringify(v));
   }catch(e){}
 }
 function saveCatalog(){
-  try{ localStorage.setItem(CATALOG_KEY, JSON.stringify({ v:1, ingredients:INGREDIENTS_DEFAULT, burgers:BURGERS, customs:BURGER_CUSTOMS, links:INGREDIENT_BURGER_LINK })); }catch(e){}
+  try{ localStorage.setItem(CATALOG_KEY, JSON.stringify({ v:1, ingredients:INGREDIENTS_DEFAULT, burgers:BURGERS, customs:BURGER_CUSTOMS, links:INGREDIENT_BURGER_LINK, supprimes:[...CATALOG_SUPPRIMES] })); }catch(e){}
 }
 loadCatalog();
 const MEAT_KEYS = () => Object.keys(INGREDIENTS_DEFAULT).filter(k => INGREDIENTS_DEFAULT[k].category === "Production" && k !== "bun");
@@ -755,6 +759,18 @@ function doubleIngredients(burger){
 }
 // « Frites cheddar bacon » → « Cheddar bacon » sur les cartes de la section Frites seules
 function friesShort(name){ const n = String(name || '').replace(/^Frites\s+/i, ''); return n.charAt(0).toUpperCase() + n.slice(1); }
+// Un article du ticket garde une copie du produit ; on relit la carte actuelle (recette et prix modifiés depuis)
+function liveBurger(b){ if(!b) return b; return BURGERS.find(x => x.id === b.id) || b; }
+function rafraichirArticle(item){
+  if(!item || typeof item !== "object") return item;
+  if(item.type === "burger" && item.burger){
+    item.burger = liveBurger(item.burger);
+    item.supplements = (item.supplements || []).map(sp => SUPPLEMENTS.find(x => x.id === sp.id) || sp);
+  } else if(item.type === "fries-menu" && item.fries){ item.fries = BURGER_FRIES.find(f => f.id === item.fries.id) || item.fries; }
+  else if(item.type === "fries" && item.fries){ item.fries = SOLO_FRIES.find(f => f.id === item.fries.id) || item.fries; }
+  else if(item.type === "drink" && item.drink){ item.drink = DRINKS.find(d => d.id === item.drink.id) || item.drink; }
+  return item;
+}
 function slugify(str){ return String(str || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "").slice(0, 24) || ("x" + Date.now().toString(36)); }
 
 let state = {
@@ -810,7 +826,7 @@ function loadTicket(){
   try{
     const t = JSON.parse(localStorage.getItem(STORAGE_KEYS.ticket) || "null");
     if(!t || !Array.isArray(t.items)) return;
-    state.currentItems = t.items.filter(itemValide);
+    state.currentItems = t.items.filter(itemValide).map(rafraichirArticle);
     state.friteMenuPairing = t.pairing && typeof t.pairing === "object" ? t.pairing : {};
     state._editingOrderId = t.editing || null;
     state._editingInfos = t.infos || null;
@@ -1009,7 +1025,7 @@ function getItemIngredients(item){
   if(item.type === "drink") return [...(item.drink.ing || [])];
   if(item.type === "steakfrites") return ["boeuf"];
   return [
-    ...(item.burger.ing || []),
+    ...(liveBurger(item.burger).ing || []),
     ...(item.supplements || []).flatMap(s => s.id === "double" ? doubleIngredients(item.burger) : (s.ing || [])),
     ...(item.frite?.ing || []),
     ...(item.drink?.ing || [])
@@ -1232,7 +1248,8 @@ function confirmOrder(slot){
     date: edit.date || _now.toLocaleDateString('fr-FR'), heure: edit.heure || _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
 
   for(const item of state.currentItems){
-    const needed = countNeeded(getItemIngredients(item));
+    item.ingUsed = getItemIngredients(item);
+    const needed = countNeeded(item.ingUsed);
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty);
     }
@@ -1672,11 +1689,12 @@ function payOrder(id){
   playCashSound();
   render();
 }
+const ingredientsConsommes = (item) => Array.isArray(item.ingUsed) ? item.ingUsed : getItemIngredients(item);
 function cancelOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   for(const item of order.items){
-    const needed = countNeeded(getItemIngredients(item));
+    const needed = countNeeded(ingredientsConsommes(item));
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
@@ -1696,7 +1714,7 @@ function deleteOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   for(const item of order.items){
-    const needed = countNeeded(getItemIngredients(item));
+    const needed = countNeeded(ingredientsConsommes(item));
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
@@ -1712,7 +1730,7 @@ function editOrder(id){
   // Une commande annulée a déjà rendu son stock et ses cartes : on ne les restitue pas une deuxième fois
   if(order.status !== "annule"){
     for(const item of order.items){
-      const needed = countNeeded(getItemIngredients(item));
+      const needed = countNeeded(ingredientsConsommes(item));
       for(const [k, qty] of Object.entries(needed)){
         if(state.ingredients[k]) state.ingredients[k].qty += qty;
       }
@@ -1723,7 +1741,7 @@ function editOrder(id){
   // cartes fidélité, date et heure d'origine : reprises telles quelles à la re-confirmation
   state._editingInfos = { loyaltyCount: order.loyaltyCount || (order.loyalty ? 1 : 0), date: order.date || "", heure: order.heure || "" };
   // Restore items with stable keys
-  state.currentItems = order.items.map(i => ({...i, key: i.key || (Date.now() + Math.random())}));
+  state.currentItems = order.items.map(i => rafraichirArticle({...i, key: i.key || (Date.now() + Math.random())}));
   // Restore frite pairing
   state.friteMenuPairing = order.friteMenuPairing ? {...order.friteMenuPairing} : {};
   state._editingOrderId = order.id;
@@ -2143,7 +2161,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé à " + _siteSyncEtat.quand, cls:"ok" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.6.2";
+const APP_VERSION = "3.6.3";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " — " + l.txt.replace(/^site : /, ""); el.className = "site-sync " + l.cls;
@@ -2852,7 +2870,7 @@ function renderStocks(){
     for(const [key, ing] of entries){
       const isOut = ing.qty === 0, isLow = ing.qty > 0 && ing.qty <= 5;
       const auTicket = ing.qty - (reserve[key] ?? ing.qty);
-      html += `<div class="stock-item"><div class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}">${ing.name}${auTicket > 0 ? `<div class="help">dont ${auTicket} dans le ticket en cours</div>` : ''}</div>
+      html += `<div class="stock-item"><button class="stock-name${isOut ? ' out' : isLow ? ' low' : ''}" onclick="openIngredientModal('${cat.replace(/'/g, "\\'")}', false, '${key}')" title="Modifier ou supprimer">${ing.name} <span class="muted" style="font-size:12px">✎</span>${auTicket > 0 ? `<div class="help">dont ${auTicket} dans le ticket en cours</div>` : ''}</button>
         <div class="stock-inline">
           <button class="stock-step" onclick="adjustStock('${key}', -1)">−</button>
           <input class="edit-input" type="number" min="0" inputmode="numeric" value="${ing.qty}" onchange="updateStock('${key}', this.value)">
@@ -3015,31 +3033,60 @@ function deleteBurger(){
   saveCatalog(); saveState(); closeBurgerModal(); render();
 }
 
-// ---- ÉDITEUR DE COMPOSANT ----
-let _ingFromBurger = false;
-function openIngredientModal(cat, fromBurger){
-  _ingFromBurger = !!fromBurger;
+// ---- ÉDITEUR DE COMPOSANT (création, modification, suppression) ----
+let _ingFromBurger = false, _ingEditKey = null;
+function burgersUtilisant(key){ return BURGERS.filter(b => (b.ing || []).includes(key)); }
+function openIngredientModal(cat, fromBurger, key){
+  _ingFromBurger = !!fromBurger; _ingEditKey = key || null;
+  const ing = key ? INGREDIENTS_DEFAULT[key] : null;
   const cats = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
-  document.getElementById("ing-cat").innerHTML = cats.map(c => `<option value="${c}"${c===cat?' selected':''}>${c}</option>`).join('') + `<option value="__new">Autre catégorie…</option>`;
-  document.getElementById("ing-link-burger").innerHTML = BURGERS.filter(b => b.group === "moment").map(b => `<option value="${b.id}">${b.name}</option>`).join('');
-  document.getElementById("ing-name").value = ""; document.getElementById("ing-qty").value = 20; document.getElementById("ing-link").checked = false; document.getElementById("ing-link-burger").style.display = "none";
+  const catSel = ing ? ing.category : cat;
+  document.getElementById("ing-cat").innerHTML = cats.map(c => `<option value="${c}"${c===catSel?' selected':''}>${c}</option>`).join('') + `<option value="__new">Autre catégorie…</option>`;
+  document.getElementById("ing-link-burger").innerHTML = BURGERS.filter(b => b.group === "moment").map(b => `<option value="${b.id}"${INGREDIENT_BURGER_LINK[key] === b.id ? ' selected' : ''}>${b.name}</option>`).join('');
+  document.getElementById("ing-name").value = ing ? ing.name : "";
+  document.getElementById("ing-qty").value = ing ? ing.qty : 20;
+  const lie = !!(key && INGREDIENT_BURGER_LINK[key]);
+  document.getElementById("ing-link").checked = lie; document.getElementById("ing-link-burger").style.display = lie ? "" : "none";
+  document.getElementById("ing-modal-title").textContent = ing ? "✎ " + ing.name : "🧀 Nouveau composant";
+  document.getElementById("ing-save-btn").textContent = ing ? "Enregistrer" : "Créer";
+  document.getElementById("ing-delete-btn").style.display = ing ? "" : "none";
+  const usage = ing ? burgersUtilisant(key) : [];
+  document.getElementById("ing-usage").textContent = ing ? (usage.length ? "Utilisé par : " + usage.map(b => b.name).join(", ") + "." : "Utilisé par aucun burger.") + (ing ? " Le stock du jour se règle dans la liste." : "") : "";
   document.getElementById("ing-link").onchange = function(){ document.getElementById("ing-link-burger").style.display = this.checked ? "" : "none"; };
   document.getElementById("ing-cat").onchange = function(){ if(this.value === "__new"){ const c = prompt("Nom de la nouvelle catégorie :"); if(c && c.trim()){ const o = document.createElement("option"); o.value = o.textContent = c.trim(); o.selected = true; this.insertBefore(o, this.lastElementChild); } else this.selectedIndex = 0; } };
   document.getElementById("modal-ingredient").style.display = "flex";
-  setTimeout(() => document.getElementById("ing-name").focus(), 50);
+  if(!ing) setTimeout(() => document.getElementById("ing-name").focus(), 50);
 }
 function closeIngredientModal(e){ if(e && e.target !== e.currentTarget) return; document.getElementById("modal-ingredient").style.display = "none"; }
 function saveIngredient(){
   const name = document.getElementById("ing-name").value.trim(); if(!name){ alert("Donne un nom au composant."); return; }
   const cat = document.getElementById("ing-cat").value; if(!cat || cat === "__new"){ alert("Choisis une catégorie."); return; }
   const qty = Math.max(0, parseInt(document.getElementById("ing-qty").value, 10) || 0);
-  if(Object.values(INGREDIENTS_DEFAULT).some(i => i.name.toLowerCase() === name.toLowerCase())){ alert("Ce composant existe déjà."); return; }
-  let key = slugify(name); while(INGREDIENTS_DEFAULT[key]) key += "2";
-  INGREDIENTS_DEFAULT[key] = { name, qty, category:cat };
-  state.ingredients[key] = { name, qty, category:cat };
-  if(document.getElementById("ing-link").checked){ const b = document.getElementById("ing-link-burger").value; if(b) INGREDIENT_BURGER_LINK[key] = b; }
+  if(Object.entries(INGREDIENTS_DEFAULT).some(([k, i]) => k !== _ingEditKey && i.name.toLowerCase() === name.toLowerCase())){ alert("Un composant porte déjà ce nom."); return; }
+  const lie = document.getElementById("ing-link").checked ? document.getElementById("ing-link-burger").value : "";
+  let key = _ingEditKey;
+  if(key){
+    INGREDIENTS_DEFAULT[key].name = name; INGREDIENTS_DEFAULT[key].category = cat; INGREDIENTS_DEFAULT[key].qty = qty;
+    if(state.ingredients[key]){ state.ingredients[key].name = name; state.ingredients[key].category = cat; }
+    else state.ingredients[key] = { name, qty, category:cat };
+  } else {
+    key = slugify(name); while(INGREDIENTS_DEFAULT[key]) key += "2";
+    INGREDIENTS_DEFAULT[key] = { name, qty, category:cat };
+    state.ingredients[key] = { name, qty, category:cat };
+  }
+  if(lie) INGREDIENT_BURGER_LINK[key] = lie; else delete INGREDIENT_BURGER_LINK[key];
   saveCatalog(); saveState(); closeIngredientModal();
-  if(_ingFromBurger && _editBurger){ _editBurger.counts[key] = 1; renderBurgerModal(); } else render();
+  if(_ingFromBurger && _editBurger){ if(!_editBurger.counts[key]) _editBurger.counts[key] = 1; renderBurgerModal(); } else render();
+}
+function deleteIngredient(){
+  const key = _ingEditKey; const ing = INGREDIENTS_DEFAULT[key]; if(!ing) return;
+  const usage = burgersUtilisant(key);
+  const msg = `Supprimer « ${ing.name} » ?` + (usage.length ? `\nIl sera retiré de la recette de : ${usage.map(b => b.name).join(", ")}.` : "");
+  if(!confirm(msg)) return;
+  for(const b of BURGERS) b.ing = (b.ing || []).filter(k => k !== key);
+  delete INGREDIENTS_DEFAULT[key]; delete state.ingredients[key]; delete INGREDIENT_BURGER_LINK[key];
+  CATALOG_SUPPRIMES.add(key);
+  saveCatalog(); saveState(); closeIngredientModal(); render();
 }
 
 function setOrderNum(val){

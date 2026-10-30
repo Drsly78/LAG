@@ -933,6 +933,18 @@ function doubleIngredients(burger){
   const cheeses = [...new Set((burger.ing || []).filter(k => CHEESE_KEYS().includes(k)))];
   return [...(meats.length ? meats : ["boeuf"]), ...(cheeses.length ? cheeses : ["cheddar"])];
 }
+// Un article du ticket garde une copie du produit ; on relit la carte actuelle (recette et prix modifiés depuis)
+function liveBurger(b){ if(!b) return b; return BURGERS.find(x => x.id === b.id) || b; }
+function rafraichirArticle(item){
+  if(!item || typeof item !== "object") return item;
+  if(item.type === "burger" && item.burger){
+    item.burger = liveBurger(item.burger);
+    item.supplements = (item.supplements || []).map(sp => SUPPLEMENTS.find(x => x.id === sp.id) || sp);
+  } else if(item.type === "fries-menu" && item.fries){ item.fries = BURGER_FRIES.find(f => f.id === item.fries.id) || item.fries; }
+  else if(item.type === "fries" && item.fries){ item.fries = SOLO_FRIES.find(f => f.id === item.fries.id) || item.fries; }
+  else if(item.type === "drink" && item.drink){ item.drink = DRINKS.find(d => d.id === item.drink.id) || item.drink; }
+  return item;
+}
 function slugify(str){ return String(str || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "").slice(0, 24) || ("x" + Date.now().toString(36)); }
 
 let state = {
@@ -988,7 +1000,7 @@ function loadTicket(){
   try{
     const t = JSON.parse(localStorage.getItem(STORAGE_KEYS.ticket) || "null");
     if(!t || !Array.isArray(t.items)) return;
-    state.currentItems = t.items.filter(itemValide);
+    state.currentItems = t.items.filter(itemValide).map(rafraichirArticle);
     state.friteMenuPairing = t.pairing && typeof t.pairing === "object" ? t.pairing : {};
     state._editingOrderId = t.editing || null;
     state._editingInfos = t.infos || null;
@@ -1186,7 +1198,7 @@ function getItemIngredients(item){
   if(item.type === "drink") return [...(item.drink.ing || [])];
   if(item.type === "steakfrites") return ["boeuf"];
   return [
-    ...(item.burger.ing || []),
+    ...(liveBurger(item.burger).ing || []),
     ...(item.supplements || []).flatMap(s => s.id === "double" ? doubleIngredients(item.burger) : (s.ing || [])),
     ...(item.frite?.ing || []),
     ...(item.drink?.ing || [])
@@ -1409,7 +1421,8 @@ function confirmOrder(slot){
     date: edit.date || _now.toLocaleDateString('fr-FR'), heure: edit.heure || _now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'}), friteMenuPairing:{...state.friteMenuPairing} };
 
   for(const item of state.currentItems){
-    const needed = countNeeded(getItemIngredients(item));
+    item.ingUsed = getItemIngredients(item);
+    const needed = countNeeded(item.ingUsed);
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty = Math.max(0, state.ingredients[k].qty - qty);
     }
@@ -1945,11 +1958,12 @@ function payOrder(id){
   playCashSound();
   render();
 }
+const ingredientsConsommes = (item) => Array.isArray(item.ingUsed) ? item.ingUsed : getItemIngredients(item);
 function cancelOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   for(const item of order.items){
-    const needed = countNeeded(getItemIngredients(item));
+    const needed = countNeeded(ingredientsConsommes(item));
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
@@ -1969,7 +1983,7 @@ function deleteOrder(id){
   const order = state.orders.find(o => o.id === id);
   if(!order) return;
   for(const item of order.items){
-    const needed = countNeeded(getItemIngredients(item));
+    const needed = countNeeded(ingredientsConsommes(item));
     for(const [k, qty] of Object.entries(needed)){
       if(state.ingredients[k]) state.ingredients[k].qty += qty;
     }
@@ -1985,7 +1999,7 @@ function editOrder(id){
   // Une commande annulée a déjà rendu son stock et ses cartes : on ne les restitue pas une deuxième fois
   if(order.status !== "annule"){
     for(const item of order.items){
-      const needed = countNeeded(getItemIngredients(item));
+      const needed = countNeeded(ingredientsConsommes(item));
       for(const [k, qty] of Object.entries(needed)){
         if(state.ingredients[k]) state.ingredients[k].qty += qty;
       }
@@ -1996,7 +2010,7 @@ function editOrder(id){
   // cartes fidélité, date et heure d'origine : reprises telles quelles à la re-confirmation
   state._editingInfos = { loyaltyCount: order.loyaltyCount || (order.loyalty ? 1 : 0), date: order.date || "", heure: order.heure || "" };
   // Restore items with stable keys
-  state.currentItems = order.items.map(i => ({...i, key: i.key || (Date.now() + Math.random())}));
+  state.currentItems = order.items.map(i => rafraichirArticle({...i, key: i.key || (Date.now() + Math.random())}));
   // Restore frite pairing
   state.friteMenuPairing = order.friteMenuPairing ? {...order.friteMenuPairing} : {};
   state._editingOrderId = order.id;
@@ -2504,7 +2518,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé " + _siteSyncEtat.quand, cls:"ok" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "3.5.1";
+const APP_VERSION = "3.5.2";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "v" + APP_VERSION + " · " + l.txt; el.className = "site-sync " + l.cls;
