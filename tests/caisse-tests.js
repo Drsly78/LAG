@@ -136,7 +136,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tab('encours'); await t.tap('Modifier');
     let s = await t.state();
     t.check(s.tab === 'caisse' && s.step === 'boissons' && s.editing === 1 && s.orders.length === 0, 'commande #1 ouverte en modification', { tab: s.tab, step: s.step, editing: s.editing });
-    t.check(s.stock.boeuf === 100 && s.stock.chevre === 20, 'stock restitué pendant la modification', { boeuf: s.stock.boeuf, chevre: s.stock.chevre });
+    t.check(s.stock.boeuf === 99 && s.stock.chevre === 19, 'stock toujours débité pendant la modification (les articles sont au ticket)', { boeuf: s.stock.boeuf, chevre: s.stock.chevre });
     await t.tapCard('Desperados'); await t.tap('Envoyer en cuisine'); await t.slot('19h20');
     s = await t.state();
     t.check(s.orders.length === 1 && s.orders[0].id === 1 && s.orders[0].items.length === 3 && s.orders[0].slot === '19h20', 'même numéro #1, 3 articles, nouveau créneau', s.orders[0] && { id: s.orders[0].id, n: s.orders[0].items.length, slot: s.orders[0].slot });
@@ -492,7 +492,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket');
     await t.goto(); // relance de l'app : le ticket est restauré
     await t.tab('stocks');
-    await t.page.locator('.stock-card', { hasText: 'Composants' }).locator('.btn-chip', { hasText: '+ composant' }).click(); await t.page.waitForTimeout(80);
+    await t.page.locator('.stock-card', { hasText: 'Composants' }).locator('button', { hasText: '+ composant' }).first().click(); await t.page.waitForTimeout(80);
     await t.page.locator('#ing-name').fill('Comté'); await t.page.locator('#ing-qty').fill('12'); await t.page.locator('#modal-ingredient button', { hasText: 'Créer' }).click(); await t.page.waitForTimeout(80);
     await t.page.locator('.carte-row', { hasText: 'Le BBQ' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
     await t.page.locator('#burger-modal-content .cat-ing', { hasText: 'Comté' }).locator('.stock-step', { hasText: '+' }).click(); await t.page.waitForTimeout(50);
@@ -528,6 +528,35 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.goto(); await t.tab('stocks'); s = await t.state(); t.check(!('chevre' in s.stock), 'ne revient pas après rechargement', Object.keys(s.stock));
     await t.tab('caisse'); await t.tapCard('Le Myko'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Sans frites'); await t.tap('Envoyer en cuisine'); await t.slot('19h00');
     s = await t.state(); t.check(s.orders.length === 1 && s.stock.boeuf === 99, 'le Myko se commande toujours', { n: s.orders.length, boeuf: s.stock.boeuf });
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
+  });
+
+  // ───────── S28 : le stock est débité dès l'ajout au ticket ─────────
+  await scenario(browser, 'S28 débit du stock dès l\'ajout au ticket', async (t) => {
+    await t.goto();
+    await t.tapCard("L'Original"); await t.tap('+ Ajouter au ticket');
+    let s = await t.state(); t.check(s.stock.bun === 69 && s.stock.boeuf === 99 && s.stock.cheddar === 149, 'débité dès l\'ajout', { bun: s.stock.bun, boeuf: s.stock.boeuf, cheddar: s.stock.cheddar });
+    await t.page.locator('#content .remove-btn').first().click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.stock.bun === 70 && s.stock.boeuf === 100 && s.stock.cheddar === 150, 'rendu au retrait', { bun: s.stock.bun });
+    await t.tapCard("L'Original"); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Cheddar bacon');
+    s = await t.state(); t.check(s.stock.cheddar === 147, 'frites cheddar : −2 cheddar dès le choix', s.stock.cheddar);
+    await t.page.locator('#content button', { hasText: 'Changer' }).first().click(); await t.page.waitForTimeout(80);
+    const orig = s.items.find(i => i.type === 'burger');
+    await t.page.locator(`button[onclick="changeFriteForBurger(${orig.key},'bfNature')"]`).click(); await t.page.waitForTimeout(80);
+    s = await t.state(); t.check(s.stock.cheddar === 149, 'changement pour nature : cheddar rendu', s.stock.cheddar);
+    await t.goto(); s = await t.state(); t.check(s.stock.bun === 69 && s.items.length === 2, 'après relance : ticket et stock cohérents', { bun: s.stock.bun, n: s.items.length });
+    await t.tap('Envoyer en cuisine'); await t.slot('19h00');
+    s = await t.state(); t.check(s.stock.bun === 69 && s.stock.boeuf === 99 && s.stock.cheddar === 149, 'l\'envoi en cuisine ne débite pas une 2e fois', { bun: s.stock.bun, cheddar: s.stock.cheddar });
+    await t.tab('encours'); await t.tap('Annuler'); s = await t.state(); t.check(s.stock.bun === 70 && s.stock.cheddar === 150, 'annulation : tout rendu');
+    // modification d'une VIP : rien ne sort du stock
+    await t.tab('vip'); await t.page.locator('.vip-card', { hasText: 'Nephis' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-vip button', { hasText: 'Modifier les articles' }).click(); await t.page.waitForTimeout(100);
+    s = await t.state(); t.check(s.stock.poulet === 6, 'modification de VIP : stock intact', s.stock.poulet);
+    await t.tap('Annuler'); s = await t.state(); t.check(s.stock.poulet === 6 && s.items.length === 0, 'annulation de la modification VIP : stock intact');
+    // un ticket abandonné pour une VIP est rendu
+    await t.tab('caisse'); await t.tapCard('Le Poulet'); await t.tap('+ Ajouter au ticket'); s = await t.state(); t.check(s.stock.poulet === 5, 'poulet au ticket : 5');
+    await t.tab('vip'); await t.page.locator('.vip-card', { hasText: 'Poulet Myko Boy' }).click(); await t.page.waitForTimeout(150);
+    s = await t.state(); t.check(s.stock.poulet === 5 && s.stock.chevre === 19 && s.items.length === 2, 'ticket remplacé par la VIP : ancien rendu, nouveau débité', { poulet: s.stock.poulet, chevre: s.stock.chevre });
     t.check(t.errors.length === 0, 'aucune erreur', t.errors);
   });
 
