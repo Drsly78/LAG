@@ -560,6 +560,48 @@ async function scenario(browser, name, fn, opts = {}) {
     t.check(t.errors.length === 0, 'aucune erreur', t.errors);
   });
 
+  // ───────── S29 : composant créé depuis un nouveau burger, lié à ce burger, jamais invisible ─────────
+  await scenario(browser, 'S29 composant propre à un burger : visible, masqué, retrouvé', async (t) => {
+    await t.goto(); await t.tab('stocks');
+    await t.tap('+ Ajouter un burger');
+    await t.page.fill('#bg-name', 'Le Test'); await t.page.locator('#modal-burger select').first().selectOption('moment');
+    await t.page.locator('#modal-burger button', { hasText: '+ Nouveau composant' }).click(); await t.page.waitForTimeout(80);
+    await t.page.fill('#ing-name', 'Reblochon fumé'); await t.page.check('#ing-link');
+    const opt = await t.page.locator('#ing-link-burger').inputValue(); t.check(opt === '__current', 'lien proposé vers le burger en cours de création', opt);
+    await t.page.locator('#ing-save-btn').click(); await t.page.waitForTimeout(80);
+    let txt = await t.page.locator('#modal-burger').innerText(); t.check(/Reblochon fumé/.test(txt), 'le composant apparaît dans la fiche du burger');
+    await t.page.locator('#modal-burger button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(120);
+    let link = await t.evaluate(() => INGREDIENT_BURGER_LINK[Object.keys(INGREDIENTS_DEFAULT).find(k => INGREDIENTS_DEFAULT[k].name === 'Reblochon fumé')]);
+    t.check(link === 'letest', 'lien résolu vers l\'identifiant du burger enregistré', link);
+    const nHidden = async () => t.page.locator('.stock-more .stock-name').count();
+    const base = await nHidden(); // composants des burgers de saison désactivés (raclette, mozzarella…)
+    let s = await t.state(); t.check(/Reblochon fumé/.test(s.text) && base === 6, 'composant visible dans les stocks ; 6 composants de saison masqués au départ', base);
+    // le burger est désactivé → le composant passe dans l'encart « masqués » mais reste accessible
+    await t.page.locator('.carte-row', { hasText: 'Le Test' }).locator('.carte-toggle').click(); await t.page.waitForTimeout(100);
+    s = await t.state(); t.check(new RegExp((base + 1) + ' composants masqués').test(s.text), 'burger désactivé : encart « 7 composants masqués »');
+    const nMain = await t.page.locator('.stock-card:not(.stock-more) .stock-name', { hasText: 'Reblochon fumé' }).count(); t.check(nMain === 0, 'plus dans la liste principale');
+    const nHid = await t.page.locator('.stock-more .stock-name', { hasText: 'Reblochon fumé' }).count(); t.check(nHid === 1, 'présent dans l\'encart des masqués');
+    // doublon : le message dit où le retrouver
+    await t.page.locator('.stock-card button', { hasText: '+ composant' }).first().click(); await t.page.waitForTimeout(80);
+    await t.page.fill('#ing-name', 'reblochon fumé'); await t.page.locator('#ing-save-btn').click(); await t.page.waitForTimeout(80);
+    t.check(t.dialogs.some(d => /existe déjà/.test(d) && /masqué/.test(d)), 'message de doublon qui indique l\'encart des masqués', t.dialogs);
+    await t.page.locator('#modal-ingredient button', { hasText: 'Annuler' }).click(); await t.page.waitForTimeout(60);
+    // un composant propre à un burger désactivé mais utilisé par un burger actif reste visible
+    await t.evaluate(() => { INGREDIENT_BURGER_LINK['cheddar'] = 'letest'; saveCatalog(); render(); });
+    s = await t.state(); t.check(/Cheddar/.test(s.text) && (await nHidden()) === base + 1, 'cheddar (utilisé par des burgers actifs) reste visible malgré le lien');
+    // réactivation : le composant revient dans la liste
+    await t.page.locator('.carte-row', { hasText: 'Le Test' }).locator('.carte-toggle').click(); await t.page.waitForTimeout(100);
+    s = await t.state(); t.check(/Reblochon fumé/.test(s.text) && (await nHidden()) === base, 'burger réactivé : composant de retour dans la liste');
+    // création annulée : le lien provisoire ne reste pas
+    await t.tap('+ Ajouter un burger'); await t.page.fill('#bg-name', 'Abandon'); await t.page.locator('#modal-burger select').first().selectOption('moment');
+    await t.page.locator('#modal-burger button', { hasText: '+ Nouveau composant' }).click(); await t.page.waitForTimeout(80);
+    await t.page.fill('#ing-name', 'Truffe'); await t.page.check('#ing-link'); await t.page.locator('#ing-save-btn').click(); await t.page.waitForTimeout(80);
+    await t.page.locator('#modal-burger button', { hasText: 'Annuler' }).click(); await t.page.waitForTimeout(100);
+    link = await t.evaluate(() => INGREDIENT_BURGER_LINK['truffe']); s = await t.state();
+    t.check(link === undefined && /Truffe/.test(s.text), 'burger abandonné : le composant reste, sans lien, visible', link);
+    t.check(t.errors.length === 0, 'aucune erreur', t.errors);
+  });
+
   await browser.close();
   // ───────── rapport ─────────
   let nOk = 0;

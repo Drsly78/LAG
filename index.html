@@ -283,6 +283,10 @@
 
   /* ── STOCKS ── */
   .stock-card{margin-bottom:12px}
+  .stock-more summary{display:flex;justify-content:space-between;align-items:center;gap:10px;cursor:pointer;list-style:none;font-weight:700}
+  .stock-more summary::-webkit-details-marker{display:none}
+  .stock-more summary::after{content:"▾";color:var(--muted);transition:transform .2s}
+  .stock-more[open] summary::after{transform:rotate(180deg)}
   .alert-box{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:var(--radius-s);padding:12px 14px;margin-bottom:12px}
   .alert-out{color:var(--danger);font-size:13px;font-weight:700}
   .alert-low{color:var(--accent);font-size:13px;margin-top:4px;font-weight:600}
@@ -917,8 +921,10 @@ function isBurgerActive(id){ return state.activeBurgers[id] !== false; }
 function ingredientVisible(key){
   const linkedBurger = INGREDIENT_BURGER_LINK[key];
   if(!linkedBurger) return true;          // ingrédient commun → toujours visible
-  return isBurgerActive(linkedBurger);     // ingrédient propre → visible si son burger est actif
+  if(isBurgerActive(linkedBurger)) return true; // ingrédient propre → visible si son burger est actif
+  return BURGERS.some(b => isBurgerActive(b.id) && (b.ing || []).includes(key)); // … ou si un burger actif l'utilise
 }
+function burgerNom(id){ const b = BURGERS.find(x => x.id === id); return b ? b.name : id; }
 function activeBurgerCount(){ return BURGERS.filter(b => isBurgerActive(b.id)).length; }
 function toggleBurgerActive(id){
   const turningOff = isBurgerActive(id);
@@ -1963,7 +1969,7 @@ function siteSyncLabel(){
   if(_siteSyncEtat.ok === true) return { txt:"site : envoyé à " + _siteSyncEtat.quand, cls:"ok" };
   return { txt:"site : rien à envoyer", cls:"" };
 }
-const APP_VERSION = "4.0";
+const APP_VERSION = "4.1";
 function majSiteBadge(){
   const el = document.getElementById("site-sync-badge"); if(!el) return;
   const l = siteSyncLabel(); el.textContent = "Data Addict " + APP_VERSION + " — " + l.txt.replace(/^site : /, ""); el.className = "site-sync " + l.cls;
@@ -2612,6 +2618,17 @@ function renderStocks(){
     html += '</div>';
   }
 
+  // Composants masqués (propres à un burger du moment désactivé) : toujours accessibles ici
+  const masques = Object.entries(state.ingredients).filter(([key]) => !ingredientVisible(key));
+  if(masques.length){
+    html += `<details class="stock-card stock-more"><summary><span>👻 ${masques.length} composant${masques.length > 1 ? 's' : ''} masqué${masques.length > 1 ? 's' : ''}<div class="help" style="font-weight:400">propres à un burger du moment désactivé</div></span></summary>
+      <div class="help" style="margin:6px 0 4px">Ils réapparaissent dans la liste dès que leur burger est activé. ✎ pour les modifier, les détacher du burger ou les supprimer.</div>`;
+    for(const [key, ing] of masques){
+      html += `<div class="stock-item"><button class="stock-name" onclick="openIngredientModal('${(ing.category || '').replace(/'/g, "\\'")}', false, '${key}')" title="Modifier ou supprimer">${ing.name} <span class="muted" style="font-size:12px">✎</span><div class="help">${ing.category || ''} · lié à « ${burgerNom(INGREDIENT_BURGER_LINK[key])} »</div></button><span class="help">${ing.qty} en stock</span></div>`;
+    }
+    html += `</details>`;
+  }
+
   // Ma carte du jour
   const nbActive = activeBurgerCount();
   function carteGroup(title, sub, group){
@@ -2704,7 +2721,12 @@ function openBurgerModal(id){
   renderBurgerModal();
   document.getElementById("modal-burger").style.display = "flex";
 }
-function closeBurgerModal(e){ if(e && e.target !== e.currentTarget) return; document.getElementById("modal-burger").style.display = "none"; }
+function closeBurgerModal(e){
+  if(e && e.target !== e.currentTarget) return;
+  document.getElementById("modal-burger").style.display = "none";
+  let nettoye = false; for(const k of Object.keys(INGREDIENT_BURGER_LINK)) if(INGREDIENT_BURGER_LINK[k] === "__current"){ delete INGREDIENT_BURGER_LINK[k]; nettoye = true; } // burger non enregistré : le composant reste, sans lien
+  if(nettoye){ saveCatalog(); render(); }
+}
 function renderBurgerModal(){
   const e = _editBurger; if(!e) return;
   const cats = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
@@ -2751,6 +2773,7 @@ function saveBurger(){
     let id = slugify(name); while(BURGERS.some(b => b.id === id)) id += "2";
     BURGERS.push({ id, name, price:Number(e.price) || 0, cat:"Burger", group:e.group, ing });
     state.activeBurgers[id] = true; e.id = id;
+    for(const k of Object.keys(INGREDIENT_BURGER_LINK)) if(INGREDIENT_BURGER_LINK[k] === "__current"){ if(e.group === "moment") INGREDIENT_BURGER_LINK[k] = id; else delete INGREDIENT_BURGER_LINK[k]; }
   }
   BURGER_CUSTOMS[e.id] = { fromage:e.customs.fromage, sauces:e.customs.sauces, garnitures:e.customs.garnitures };
   saveCatalog(); reconcilierTicket(); saveState(); closeBurgerModal(); render();
@@ -2774,7 +2797,9 @@ function openIngredientModal(cat, fromBurger, key){
   const cats = [...new Set(Object.values(INGREDIENTS_DEFAULT).map(i => i.category))];
   const catSel = ing ? ing.category : cat;
   document.getElementById("ing-cat").innerHTML = cats.map(c => `<option value="${c}"${c===catSel?' selected':''}>${c}</option>`).join('') + `<option value="__new">Autre catégorie…</option>`;
-  document.getElementById("ing-link-burger").innerHTML = BURGERS.filter(b => b.group === "moment").map(b => `<option value="${b.id}"${INGREDIENT_BURGER_LINK[key] === b.id ? ' selected' : ''}>${b.name}</option>`).join('');
+  const enCreation = fromBurger && _editBurger && !_editBurger.id && _editBurger.group === "moment"; // burger pas encore enregistré
+  document.getElementById("ing-link-burger").innerHTML = (enCreation ? `<option value="__current" selected>${(_editBurger.name || "Ce burger").replace(/</g, "&lt;")} (en cours de création)</option>` : '')
+    + BURGERS.filter(b => b.group === "moment").map(b => `<option value="${b.id}"${INGREDIENT_BURGER_LINK[key] === b.id ? ' selected' : ''}>${b.name}</option>`).join('');
   document.getElementById("ing-name").value = ing ? ing.name : "";
   document.getElementById("ing-qty").value = ing ? ing.qty : 20;
   const lie = !!(key && INGREDIENT_BURGER_LINK[key]);
@@ -2794,7 +2819,12 @@ function saveIngredient(){
   const name = document.getElementById("ing-name").value.trim(); if(!name){ alert("Donne un nom au composant."); return; }
   const cat = document.getElementById("ing-cat").value; if(!cat || cat === "__new"){ alert("Choisis une catégorie."); return; }
   const qty = Math.max(0, parseInt(document.getElementById("ing-qty").value, 10) || 0);
-  if(Object.entries(INGREDIENTS_DEFAULT).some(([k, i]) => k !== _ingEditKey && i.name.toLowerCase() === name.toLowerCase())){ alert("Un composant porte déjà ce nom."); return; }
+  const doublon = Object.entries(INGREDIENTS_DEFAULT).find(([k, i]) => k !== _ingEditKey && i.name.toLowerCase() === name.toLowerCase());
+  if(doublon){
+    const [dk, di] = doublon;
+    alert(`« ${di.name} » existe déjà (catégorie ${di.category}).` + (ingredientVisible(dk) ? "" : `\nIl est masqué car lié à « ${burgerNom(INGREDIENT_BURGER_LINK[dk])} », désactivé : retrouve-le dans « Composants masqués » en bas de la liste des stocks.`));
+    return;
+  }
   const lie = document.getElementById("ing-link").checked ? document.getElementById("ing-link-burger").value : "";
   let key = _ingEditKey;
   if(key){
