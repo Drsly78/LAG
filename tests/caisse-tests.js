@@ -476,6 +476,7 @@ async function scenario(browser, name, fn, opts = {}) {
     await t.tapCard('Le BBQ'); await t.tap('+ Ajouter au ticket'); await t.tap('Passer aux frites'); await t.tapCard('Truffées');
     await t.page.locator('.btn-chip', { hasText: 'VIP' }).click(); await t.page.waitForTimeout(150);
     s = await t.state(); t.check(s.tab === 'vip' && s.text.includes('Client test') && s.text.includes('Le BBQ'), 'nouvelle VIP « Client test » créée', s.text.slice(0, 120));
+    t.check(s.stock.bun === 69 && s.stock.boeuf === 100, 'ticket devenu VIP : le stock débité à l\'ajout est rendu (seule la commande Nephis reste engagée)', { bun: s.stock.bun, boeuf: s.stock.boeuf });
     // renommer puis supprimer
     await t.page.locator('.vip-card', { hasText: 'Client test' }).locator('.carte-edit-btn').click(); await t.page.waitForTimeout(80);
     await t.page.locator('#vip-name').fill('Jean'); await t.page.locator('#modal-vip button', { hasText: 'Enregistrer' }).click(); await t.page.waitForTimeout(80);

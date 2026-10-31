@@ -2282,10 +2282,11 @@ function saveVipFromTicket(){
     VIPS.push({ id, name:name.trim(), emoji, lines });
   }
   saveVips();
+  restituerTicket(); // le ticket est vidé : ce qui avait été débité à l'ajout revient en stock (rien à rendre en mode modification de VIP)
   state.currentItems = []; state.friteMenuPairing = {}; state._vipEdit = null; state.step = "burger";
-  switchTab("vip");
+  saveState(); switchTab("vip");
 }
-function cancelVipEdit(){ state.currentItems = []; state.friteMenuPairing = {}; state._vipEdit = null; state.step = "burger"; switchTab("vip"); }
+function cancelVipEdit(){ restituerTicket(); state.currentItems = []; state.friteMenuPairing = {}; state._vipEdit = null; state.step = "burger"; saveState(); switchTab("vip"); }
 
 function renderVIP(){
   let html = '<div class="pad">';
